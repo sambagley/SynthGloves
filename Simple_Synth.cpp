@@ -27,9 +27,9 @@ Hand * lefty;
 class SimpleSine: public JackCpp::AudioIO {
 
 private:
-
+    int numWaves;
+    vector<Sine> * sines;
     Sine *sin1;
-    Sine *sin2;
 
 public:
     /// Audio Callback Function:
@@ -41,49 +41,39 @@ public:
                               audioBufVector outBufs){
 
 
-      
+
      lefty->updateHand();
-     sin1->setFrequency(blues(440.0, 2, whatNote(lefty->getMiddle())));
-     sin2->setFrequency(440.0);
-        
-/*
-            bendvalue = (serialGetchar(fd) - '0') * 10 + (serialGetchar(fd)- '0');
-            sin1->setFrequency(((double)  bendvalue) * 50.0);
-            serialFlush(fd);
-  */             
-        
+     sines[0]->setFrequency(blues(440.0, 2, whatNote(lefty->getMiddle())));
 
 
 
         /// LOOP over all output buffers
         for(unsigned int i = 0; i < 1; i++)
         {
-
             for(int frameCNT = 0; frameCNT  < nframes; frameCNT++)
             {
-				//sin1->setFrequency( (double) bendvalue);
-                outBufs[0][frameCNT] = sin1->go() + sin2->go();
+                outBufs[0][frameCNT] = sines[0]->go();
             }
-             
-        }
 
+        }
         ///return 0 on success
         return 0;
     }
-
     /// Constructor
     SimpleSine(double f1) :
-        JackCpp::AudioIO("bob", 0,1){
-        
+        JackCpp::AudioIO("sineVectorTest", 0,1){
+
         reserveInPorts(2);
         reserveOutPorts(2);
-
-        sin1        = new Sine(f1,0.3,48000);
-        sin2        = new Sine(f1,0.3,48000);
-        
-
+        numwaves = 1;
+        sines.pushback(new Sine(f1,0.3,48000));
+      //  sin2        = new Sine(f1,0.3,48000);
     }
-
+    void addWaveForm(Sine * s)
+    {
+      sines.pushback(s);
+      numWaves++;
+    }
 };
 
 ///
@@ -92,12 +82,11 @@ public:
 int main(int argc, char *argv[]){
 
 lefty = new Hand("/dev/ttyACM0",9600);
-    
+
     double f1 = 300.0;
 
     /// initial ports from constructor created here.
     SimpleSine * t = new SimpleSine(f1);
-
 
 
     /// activate the client
@@ -113,7 +102,10 @@ lefty = new Hand("/dev/ttyACM0",9600);
         cout << "\t" << t->getOutputPortName(i) << endl;
 
     /// run for EVER
-    sleep(100);
+    while(1){
+
+
+    }
 
     /// never reached:!=
     t->disconnectInPort(0);	// Disconnecting ports.
@@ -128,7 +120,7 @@ lefty = new Hand("/dev/ttyACM0",9600);
 /*
 void serialComms()
 {
-/*	
+/*
 	if((fd=serialOpen("/dev/ttyACM0",9600))<0){
     fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
     return;
