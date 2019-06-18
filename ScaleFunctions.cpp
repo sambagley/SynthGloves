@@ -131,4 +131,4 @@ double wholeTone(double base_freq, int octave_offset, int note)
   adjusted_freq *= pow(pow( 2.0, ((double) mapping[index])), (1.0/12.0)); //compute relative pitch
   return adjusted_freq * pow( 2.0, ((double) offset)); //adjust octave
 }
-}
+

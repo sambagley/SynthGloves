@@ -11,7 +11,7 @@
 #include "ScaleFunctions.hpp"
 #include "Hand.h"
 #include <wiringSerial.h>
-
+#include <vector>
 using std::cout;
 using std::endl;
 
@@ -28,8 +28,8 @@ class SimpleSine: public JackCpp::AudioIO {
 
 private:
     int numWaves;
-    vector<Sine> * sines;
-    Sine *sin1;
+   std::vector <Sine*>  sines;
+    //Sine *sin1;
 
 public:
     /// Audio Callback Function:
@@ -43,8 +43,8 @@ public:
 
 
      lefty->updateHand();
-     sines[0]->setFrequency(blues(440.0, 2, whatNote(lefty->getMiddle())));
-
+    sines[0]->setFrequency(blues(440.0, 2, whatNote(lefty->getMiddle())));
+    //sin1->setFrequency(blues(440.0, 2, whatNote(lefty->getMiddle())));
 
 
         /// LOOP over all output buffers
@@ -65,13 +65,13 @@ public:
 
         reserveInPorts(2);
         reserveOutPorts(2);
-        numwaves = 1;
-        sines.pushback(new Sine(f1,0.3,48000));
-      //  sin2        = new Sine(f1,0.3,48000);
+        numWaves = 1;
+        sines.push_back(new Sine(f1,0.3,48000));
+      //sin1      = new Sine(f1,0.3,48000);
     }
     void addWaveForm(Sine * s)
     {
-      sines.pushback(s);
+     // sines.push_back(s);
       numWaves++;
     }
 };
@@ -102,10 +102,7 @@ lefty = new Hand("/dev/ttyACM0",9600);
         cout << "\t" << t->getOutputPortName(i) << endl;
 
     /// run for EVER
-    while(1){
-
-
-    }
+    sleep(-1);
 
     /// never reached:!=
     t->disconnectInPort(0);	// Disconnecting ports.
