@@ -31,6 +31,7 @@ public:
     
     void setFrequency(double f);
 
+    void setAmplitude(double a);
   
 };
    

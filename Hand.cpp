@@ -26,12 +26,26 @@ Hand::Hand(const char * dev, int baud)
 //once rest of sensors are coded and added we will get all the other data. 
 void Hand::updateHand()
 {
-	if (serialDataAvail(serialObj)>0){
-	int middleBend_temp = (serialGetchar(serialObj) - '0') * 100 +(serialGetchar(serialObj) - '0') * 10 + (serialGetchar(serialObj)- '0');
-	serialFlush(serialObj);
-	middleBend = middleBend_temp > 0 ? middleBend_temp : middleBend;
-	//hacky error checking
-}
+	if (serialDataAvail(serialObj)>0)
+	{
+		while (1)
+		{
+			if(serialGetchar(serialObj) == 'S')
+			{
+				indexBend = (serialGetchar(serialObj) - '0') * 100 +(serialGetchar(serialObj) - '0') * 10 + (serialGetchar(serialObj)- '0');
+		        serialGetchar(serialObj);
+		        middleBend = (serialGetchar(serialObj) - '0') * 100 +(serialGetchar(serialObj) - '0') * 10 + (serialGetchar(serialObj)- '0');
+				serialFlush(serialObj);
+				return;
+			}
+		}
+	
+		
+		//middleBend = middleBend_temp > 0 ? middleBend_temp : middleBend;//hacky error checking
+	}
+	return;
+	
+
 }
 
 int Hand::getThumb()

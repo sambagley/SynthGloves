@@ -4,6 +4,7 @@
 //#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <chrono>
 using namespace std;
 
 int main(){
@@ -15,6 +16,8 @@ int main(){
 	{
 		handy.updateHand();
 		cout << handy.getMiddle() << endl;
+		cout << handy.getIndex() << endl;
+		//sleep_for(milliseconds(10));
 	}
 	
 	

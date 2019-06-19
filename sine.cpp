@@ -45,3 +45,8 @@ void Sine::setFrequency(double f)
 {
 	this->frequency = f;
 }
+
+void Sine::setAmplitude(double a)
+{
+	this->amplitude = a;
+}
