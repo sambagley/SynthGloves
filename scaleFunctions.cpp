@@ -1,5 +1,5 @@
 //
-//  ScaleFunctions.cpp
+//  scaleFunctions.cpp
 //
 //
 //  Created by Sam Bagley on 6/14/19.
