@@ -52,9 +52,9 @@ int main(int argc, char *argv[]){
         cout << "\t" << t->getOutputPortName(i) << endl;
     //from here to the end of the while loop is where all the code can now go
 
-    
-   
-     
+
+
+
     t->addWaveForm(new Sine(880.0, 0.25, 48000));
     t->addWaveForm(new Sine(1320.0, 0.125, 48000));
     t->addWaveForm(new Sine(1760.0, 0.1, 48000));
@@ -63,15 +63,15 @@ int main(int argc, char *argv[]){
 
 
 
-    
-    
+
+
     /// run for EVER
     while(1){
-        
-      
-        
-        
-        
+
+
+
+
+
         lefty.updateHand();
       //t->setWaveFrequency(1, blues(440.0, -3, whatNote(lefty.getIndex())));
         t->setWaveFrequency(0, blues(440.0, 1, whatNote(lefty.getMiddle())));
@@ -92,23 +92,3 @@ int main(int argc, char *argv[]){
     delete t;	// always clean up after yourself.
     exit(0);
 }
-
-
-
-/*
-void serialComms()
-{
-/*
-	if((fd=serialOpen("/dev/ttyACM0",9600))<0){
-    fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
-    return;
-  }
-		//for (;;){
-    bendvalue = (double) (serialGetchar(fd));
-    //putchar(bendvalue);
-    //sleep(1);
-  //}
-  return;
-}
-
-*/

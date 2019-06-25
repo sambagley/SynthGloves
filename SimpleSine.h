@@ -9,7 +9,7 @@
 #include <string.h>
 #include <errno.h>
 
-class SimpleSine: public JackCpp::AudioIO {
+class SoundWaveOut: public JackCpp::AudioIO {
 
 private:
     int numWaves;
@@ -33,10 +33,10 @@ public:
                               audioBufVector inBufs,
                               // A vector of pointers to each output port.
                               audioBufVector outBufs){
-                                  
+
         //sines[0]->setFrequency(440.0);
          //setWaveFrequency(0, (double) lefty->getMiddle());
-        
+
         /// LOOP over all output buffers
         for(unsigned int i = 0; i < 1; i++)
         {
@@ -73,14 +73,14 @@ public:
       sines[index]->setAmplitude(a);
     }
     void setGlobalAmp(double a)
-    {  
- 
+    {
+
         for(int i = 0; i < numWaves; i++)
         {
           sines[i]->setAmplitude(a);
         }
         return;
-        
+
     }
 
 };

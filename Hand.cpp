@@ -21,30 +21,50 @@ Hand::Hand(const char * dev, int baud)
     //fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
     throw "OH NO, it didn't work, try opening with sudo";
 	}
-		
+
 }
-//once rest of sensors are coded and added we will get all the other data. 
+/*This is how getChar works
+getChar(const int fd)
+{
+	uint8_t x;
+
+	if (read (fd, &x, 1) != 1)
+		return -1;
+
+		return ((int)x) & 0xFF;
+};
+*/
+//once rest of sensors are coded and added we will get all the other data.
 void Hand::updateHand()
 {
+ int16_t tempInt = 0;
 	if (serialDataAvail(serialObj)>0)
 	{
 		while (1)
 		{
-			if(serialGetchar(serialObj) == 'S')
+			if(serialGetchar(serialObj) == '$')
 			{
-				indexBend = (serialGetchar(serialObj) - '0') * 100 +(serialGetchar(serialObj) - '0') * 10 + (serialGetchar(serialObj)- '0');
-		        serialGetchar(serialObj);
-		        middleBend = (serialGetchar(serialObj) - '0') * 100 +(serialGetchar(serialObj) - '0') * 10 + (serialGetchar(serialObj)- '0');
+					read(serialObj, &tempInt, 2);
+					thumbBend = tempInt;
+					read(serialObj, &tempInt, 2);
+					indexBend = tempInt;
+					read(serialObj, &tempInt, 2);
+					middleBend = tempInt;
+					read(serialObj, &tempInt, 2);
+					ringBend = tempInt;
+					read(serialObj, &tempInt, 2);
+					pinkyBend = tempInt;
+
+
 				serialFlush(serialObj);
 				return;
 			}
 		}
-	
-		
+
 		//middleBend = middleBend_temp > 0 ? middleBend_temp : middleBend;//hacky error checking
 	}
 	return;
-	
+
 
 }
 
