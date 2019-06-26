@@ -1,5 +1,5 @@
 #include "Hand.h"
-
+#include <stdio.h>
 Hand::Hand(const char * dev, int baud)
 {
 	serialDevice = dev;
@@ -37,27 +37,42 @@ getChar(const int fd)
 //once rest of sensors are coded and added we will get all the other data.
 void Hand::updateHand()
 {
- int16_t tempInt = 0;
+ char buf[2];
+ int x;
 	if (serialDataAvail(serialObj)>0)
 	{
 		while (1)
 		{
 			if(serialGetchar(serialObj) == '$')
 			{
-					read(serialObj, &tempInt, 2);
-					thumbBend = tempInt;
-					read(serialObj, &tempInt, 2);
-					indexBend = tempInt;
-					read(serialObj, &tempInt, 2);
-					middleBend = tempInt;
-					read(serialObj, &tempInt, 2);
-					ringBend = tempInt;
-					read(serialObj, &tempInt, 2);
-					pinkyBend = tempInt;
 
-
-				serialFlush(serialObj);
-				return;
+					buf[0] = serialGetchar(serialObj);
+					buf[1] = serialGetchar(serialObj);
+					sscanf(str, "%d", &x);
+					thumbBend = x;
+					serialGetchar(serialObj);
+					buf[0] = serialGetchar(serialObj);
+					buf[1] = serialGetchar(serialObj);
+					sscanf(str, "%d", &x);
+					indexBend = x;
+					serialGetchar(serialObj);
+					buf[0] = serialGetchar(serialObj);
+					buf[1] = serialGetchar(serialObj);
+					sscanf(str, "%d", &x);
+					middleBend = x;
+					serialGetchar(serialObj);
+					buf[0] = serialGetchar(serialObj);
+					buf[1] = serialGetchar(serialObj);
+					sscanf(str, "%d", &x);
+					ringBend = x;
+					serialGetchar(serialObj);
+					buf[0] = serialGetchar(serialObj);
+					buf[1] = serialGetchar(serialObj);
+					sscanf(str, "%d", &x);
+					pinkyBend = x;
+					serialGetchar(serialObj);
+					serialFlush(serialObj);
+					return;
 			}
 		}
 
