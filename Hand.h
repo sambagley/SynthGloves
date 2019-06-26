@@ -4,7 +4,7 @@
 #include <errno.h>
 class Hand {
 	private:
-		
+
 		const char * serialDevice;
 		int serialBaud;
 		int serialObj;
@@ -16,14 +16,14 @@ class Hand {
 		int xPos;
 		int yPos;
 		int zPos;
-		int yaw;
-		int roll;
-		int pitch;
+		int xAng;
+		int yAng;
+		int zAng;
 		int gForce;
 		int buttonPress;
-	
+
 	public:
-		
+
 		Hand(const char *, int);
 		void updateHand();
 		int getThumb();
@@ -34,12 +34,12 @@ class Hand {
 		int getX();
 		int getY();
 		int getZ();
-		int getYaw();
-		int getRoll();
-		int getPitch();
+		int getXAng();
+		int getYAng();
+		int getZAng();
 		int getGs();
-	
-	
+
+
 };
 
 #endif

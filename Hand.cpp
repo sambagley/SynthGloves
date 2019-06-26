@@ -13,9 +13,9 @@ Hand::Hand(const char * dev, int baud)
 	xPos = 0;
 	yPos = 0;
 	zPos = 0;
-	yaw = 0;
-	roll= 0;
-	pitch = 0;
+	xAng = 0;
+	yAng= 0;
+	zAng = 0;
 	gForce = 0;
 	buttonPress = 0;
 	if((serialObj=serialOpen(dev,baud))<0){
@@ -63,13 +63,23 @@ void Hand::updateHand()
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
-				ring
 				ringBend = x;
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
 				pinkyBend = x;
-
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				xAng = x;
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				yAng = x;
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				zAng = x;
 					serialFlush(serialObj);
 					return;
 			}
@@ -116,17 +126,17 @@ int Hand::getZ()
 {
 	return zPos;
 }
-int Hand::getYaw()
+int Hand::getXAng()
 {
-	return yaw;
+	return xAng;
 }
-int Hand::getRoll()
+int Hand::getYAng()
 {
-	return roll;
+	return yAng;
 }
-int Hand::getPitch()
+int Hand::getZAng()
 {
-	return pitch;
+	return zAng;
 }
 int Hand::getGs()
 {
