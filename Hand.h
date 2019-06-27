@@ -4,7 +4,7 @@
 #include <errno.h>
 class Hand {
 	private:
-
+//my own comment
 		const char * serialDevice;
 		int serialBaud;
 		int serialObj;
