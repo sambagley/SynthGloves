@@ -11,28 +11,28 @@ private:
 	double frequency;
 	double amplitude;
 	double phase;
-		
+
     int nframes;
-  
+
 
     double *t;
-	
+
 public:
 
-    Sine(double frequency, double amplitude, int sampleRate);   
-    
+    Sine(double frequency, double amplitude, int sampleRate);
+
     double go();
-   
+
     double getFrequency();
-   
+
     double getAmplitude();
-   
+
     int getSampleRate();
-    
+
     void setFrequency(double f);
 
     void setAmplitude(double a);
-  
+
 };
-   
+
 #endif // SINE_H

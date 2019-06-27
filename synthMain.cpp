@@ -13,6 +13,7 @@
 #include <vector>
 #include <climits>
 #include "SimpleSine.h"
+#include "Instrument_01.h"
 using std::cout;
 using std::endl;
 
@@ -54,13 +55,9 @@ int main(int argc, char *argv[]){
 
 
 
+    FingerKeys lefthandkey(lefty);
 
-    t->addWaveForm(new Sine(880.0, 0.25, 48000));
-    t->addWaveForm(new Sine(1320.0, 0.125, 48000));
-    t->addWaveForm(new Sine(1760.0, 0.1, 48000));
-    //t->addWaveForm(new Sine(440.0, 0.3, 48000));
-
-
+    t->addWaveForm(getSineWaveToLink());
 
 
 
@@ -68,17 +65,7 @@ int main(int argc, char *argv[]){
     /// run for EVER
     while(1){
 
-
-
-
-
-        lefty.updateHand();
-      //t->setWaveFrequency(1, blues(440.0, -3, whatNote(lefty.getIndex())));
-        t->setWaveFrequency(0, blues(440.0, 1, whatNote(lefty.getMiddle())));
-        t->setWaveFrequency(1, blues(1320.0, 1, whatNote(lefty.getMiddle())));
-        t->setWaveFrequency(2, blues(1320.0, 1, whatNote(lefty.getMiddle())));
-        t->setWaveFrequency(3, blues(1760.0, 1, whatNote(lefty.getMiddle())));
-        t->setGlobalAmp(0.3 *((double)  abs(lefty.getIndex()- 500) / 400.0));
+        lefthandkey.computeNextSample();
     }
 
 

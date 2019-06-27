@@ -36,7 +36,7 @@ getChar(const int fd)
 };
 */
 //once rest of sensors are coded and added we will get all the other data.
-void Hand::updateHand()
+void Hand::update()
 {
 	char temp;
  char buf[2];
@@ -108,7 +108,6 @@ int Hand::getMiddle()
 int Hand::getRing()
 {
 	return ringBend;
-
 }
 int Hand::getPinky()
 {
