@@ -8,13 +8,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-
+#include "Instrument_01.h"
 class SimpleSine: public JackCpp::AudioIO {
 
 private:
     int numWaves;
    std::vector <Sine*>  sines;
-    //Sine *sin1;
+   
     double sumWaveOut()
     {
         double val = 0.0;
@@ -25,7 +25,7 @@ private:
         return val;
     }
 public:
-
+     FingerKeys *testThing;
     /// Audio Callback Function:
     /// - the output buffers are filled here
     virtual int audioCallback(jack_nframes_t nframes,
@@ -42,7 +42,7 @@ public:
         {
             for(int frameCNT = 0; frameCNT  < nframes; frameCNT++)
             {
-                outBufs[0][frameCNT] = sumWaveOut();
+                outBufs[0][frameCNT] = testThing->computeNextSample() ;
             }
         }
         ///return 0 on success
@@ -57,7 +57,17 @@ public:
 
           numWaves = 0;
           //sines.push_back(new Sine(f1,0.5,48000));
+            
+    }
+    SimpleSine(Hand * h) :
+        JackCpp::AudioIO("sineVectorTest", 0,1){
 
+          reserveInPorts(2);
+          reserveOutPorts(2);
+
+          numWaves = 0;
+          //sines.push_back(new Sine(f1,0.5,48000));
+            testThing = new FingerKeys(h);
     }
     void addWaveForm(Sine * s)
     {

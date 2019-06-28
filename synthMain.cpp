@@ -25,8 +25,8 @@ int main(int argc, char *argv[]){
     double f1 = 0.0;
 
     /// initial ports from constructor created here.
-    SimpleSine * t = new SimpleSine(f1);
-
+    //SimpleSine * t = new SimpleSine(f1);
+    SimpleSine * t = new SimpleSine(lefty);
 
     /// activate the client
     t->start();
@@ -43,17 +43,18 @@ int main(int argc, char *argv[]){
 
 
 
-    FingerKeys * lefthandkey = new FingerKeys(lefty);
+    //FingerKeys * lefthandkey = new FingerKeys(lefty);
 
-    t->addWaveForm(lefthandkey->getSineWaveToLink());
+    //t->addWaveForm(lefthandkey->getSineWaveToLink());
     //t->addWaveForm(new Sine(440,0.5,48000));
-        
+     // t->testThing  
 
 
     /// run for EVER
     while(1){
-        lefty->update();
-        lefthandkey->computeNextSample();
+        //lefty->update();
+       // lefthandkey->computeNextSample();
+       
         //t->setWaveFrequency(0, (double) lefty->getThumb());
     }
 

@@ -24,7 +24,7 @@ public:
 
 
   FingerKeys(Hand * h);
-  void computeNextSample();
+  double computeNextSample();
   void updateOnly();//actually not that useful when I think about it
   void setKey(int key);//build key thingy
   void setOctave(int i);
