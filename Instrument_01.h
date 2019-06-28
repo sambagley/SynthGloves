@@ -17,7 +17,7 @@ private:
   Sine * basicSine; // will make into a more dynamic sound later
   double frequency;
   double volume;
-  int theCurrentScaleSetting;
+  const int theCurrentScaleSetting = 0;
   double outSignal;
 
 public:
@@ -25,7 +25,7 @@ public:
 
   FingerKeys(Hand * h);
   void computeNextSample();
-  void updateOnly();
+  void updateOnly();//actually not that useful when I think about it
   void setKey(int key);//build key thingy
   void setOctave(int i);
   void setScale(int s);

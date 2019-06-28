@@ -10,31 +10,37 @@ FingerKeys::FingerKeys(Hand * h)
 }
 void FingerKeys::computeNextSample()
 {
+  int i = 0;
   //update Hand
   hand->update();
   //find out our pose
-  //if(hand.->getThumb() == 0)
-  {
-    basicSine->setFrequency((double) hand->getThumb());
-  }
-  /*else*/ if (hand->getIndex() == 0)
-  {
-    basicSine->setFrequency(440.0);
-  }
-  else if (hand->getMiddle() == 0)
-  {
+  basicSine->setAmplitude(0.5);
 
-  }
-  else if (hand->getRing() == 0)
+  if(hand.->getThumb() < 1500)
   {
-
+    i = 0;
   }
-  else if (hand->getPinky() == 0)
+  else if (hand->getIndex() < 1500)
   {
-
+    i = 1;
   }
-  //play the right sounds
-
+  else if (hand->getMiddle() < 1500)
+  {
+    i = 2;
+  }
+  else if (hand->getRing() < 1500)
+  {
+    i = 3;
+  }
+  else if (hand->getPinky() < 400)
+  {
+    i = 4 ;
+  }
+  else
+  {
+    basicSine->setAmplitude(0.0);
+  }
+  basicSine->setFrequency(double chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, i));
 
 }
 void FingerKeys::updateOnly()
