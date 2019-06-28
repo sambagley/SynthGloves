@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include "ScaleFunctions.hpp"
+#include "scaleFunctions.hpp"
 #include "Hand.h"
 #include <wiringSerial.h>
 #include <vector>
@@ -17,22 +17,10 @@
 using std::cout;
 using std::endl;
 
-//simple funtion to map flex value to note
-int whatNote(int flexValue)
-{
-    return flexValue/10 - 50;
-};
 
-
-
-
-
-///
-///
-///
 int main(int argc, char *argv[]){
 
-    Hand lefty("/dev/ttyACM0",9600);
+    Hand * lefty = new Hand("/dev/ttyACM0",9600);
 
     double f1 = 0.0;
 
@@ -55,17 +43,18 @@ int main(int argc, char *argv[]){
 
 
 
-    FingerKeys lefthandkey(lefty);
+    FingerKeys * lefthandkey = new FingerKeys(lefty);
 
-    t->addWaveForm(getSineWaveToLink());
-
-
+    t->addWaveForm(lefthandkey->getSineWaveToLink());
+    //t->addWaveForm(new Sine(440,0.5,48000));
+        
 
 
     /// run for EVER
     while(1){
-
-        lefthandkey.computeNextSample();
+        lefty->update();
+        lefthandkey->computeNextSample();
+        //t->setWaveFrequency(0, (double) lefty->getThumb());
     }
 
 

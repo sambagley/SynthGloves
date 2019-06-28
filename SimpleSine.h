@@ -9,7 +9,7 @@
 #include <string.h>
 #include <errno.h>
 
-class SoundWaveOut: public JackCpp::AudioIO {
+class SimpleSine: public JackCpp::AudioIO {
 
 private:
     int numWaves;
@@ -55,8 +55,8 @@ public:
           reserveInPorts(2);
           reserveOutPorts(2);
 
-          numWaves = 1;
-          sines.push_back(new Sine(f1,0.5,48000));
+          numWaves = 0;
+          //sines.push_back(new Sine(f1,0.5,48000));
 
     }
     void addWaveForm(Sine * s)

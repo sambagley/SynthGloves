@@ -24,7 +24,6 @@ public:
 
 
   FingerKeys(Hand * h);
-  FingerKeys();
   void computeNextSample();
   void updateOnly();
   void setKey(int key);//build key thingy
