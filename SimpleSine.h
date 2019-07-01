@@ -14,7 +14,10 @@ class SimpleSine: public JackCpp::AudioIO {
 private:
     int numWaves;
    std::vector <Sine*>  sines;
+
    
+   double * (soundOutFuntionPointer()):
+
     double sumWaveOut()
     {
         double val = 0.0;
@@ -25,7 +28,7 @@ private:
         return val;
     }
 public:
-     FingerKeys *testThing;
+    // FingerKeys *testThing;
     /// Audio Callback Function:
     /// - the output buffers are filled here
     virtual int audioCallback(jack_nframes_t nframes,
@@ -42,7 +45,8 @@ public:
         {
             for(int frameCNT = 0; frameCNT  < nframes; frameCNT++)
             {
-                outBufs[0][frameCNT] = testThing->computeNextSample() ;
+                //outBufs[0][frameCNT] = testThing->computeNextSample() ;
+                outBufs[0][frameCNT] = * soundOutFuntionPointer();
             }
         }
         ///return 0 on success
@@ -57,7 +61,7 @@ public:
 
           numWaves = 0;
           //sines.push_back(new Sine(f1,0.5,48000));
-            
+
     }
     SimpleSine(Hand * h) :
         JackCpp::AudioIO("sineVectorTest", 0,1){
@@ -82,6 +86,7 @@ public:
     {
       sines[index]->setAmplitude(a);
     }
+    //sets global volume
     void setGlobalAmp(double a)
     {
 
@@ -91,6 +96,12 @@ public:
         }
         return;
 
+    }
+    //This function will take a function pointer and then
+    //use it to buffer the sound.
+    void addSoundFunction(double (*f)())
+    {
+      soundOutFuntionPointer = f;
     }
 
 };
