@@ -15,7 +15,7 @@ private:
     int numWaves;
    std::vector <Sine*>  sines;
 
-   
+
    double * (soundOutFuntionPointer()):
 
     double sumWaveOut()
@@ -53,7 +53,7 @@ public:
         return 0;
     }
     /// Constructor
-    SimpleSine(double f1) :
+    SimpleSine() :
         JackCpp::AudioIO("sineVectorTest", 0,1){
 
           reserveInPorts(2);
