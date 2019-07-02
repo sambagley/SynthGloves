@@ -61,20 +61,6 @@ class Hand {
 
 		Hand(const char *, int);
 
-		void update();
-		int getThumb();
-		int getIndex();
-		int getMiddle();
-		int getRing();
-		int getPinky();
-		int getX();
-		int getY();
-		int getZ();
-		int getXAng();
-		int getYAng();
-		int getZAng();
-		int getGs();
-		void setThumb();
 		void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand

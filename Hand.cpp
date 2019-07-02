@@ -36,11 +36,11 @@ getChar(const int fd)
 };
 */
 //once rest of sensors are coded and added we will get all the other data.
-void Hand::update()
+void Hand::updateHand()
 {
 	char temp;
- char buf[2];
- int x;
+ 	char buf[2];
+ 	int x;
 	if (serialDataAvail(serialObj)>0)
 	{
 		while (1)
@@ -80,8 +80,21 @@ void Hand::update()
 				i = 0;
 				sscanf(buf, "%d", &x);
 				zAng = x;
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				xAcc = x;
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				yAcc = x;
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				zAcc = x;
 					serialFlush(serialObj);
 					return;
+
 			}
 		}
 
@@ -115,19 +128,19 @@ int Hand::getPinky()
 	return pinkyBend;
 }
 
-int Hand::getXVel()
+int Hand::getXAcc()
 {
-	return xVel;
+	return xAcc;
 }
 
-int Hand::getYVel()
+int Hand::getYAcc()
 {
-	return yVel;
+	return yAcc;
 }
 
-int Hand::getZVel()
+int Hand::getZAcc()
 {
-	return ZVel;
+	return ZAcc;
 }
 
 int Hand::getXAng()
