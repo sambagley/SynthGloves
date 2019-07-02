@@ -60,7 +60,10 @@ class Hand {
 	public:
 
 		Hand(const char *, int);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0833fe72ff6e1b32c315f2ec332cbf8dacb4db93
 		void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand

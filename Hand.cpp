@@ -140,7 +140,11 @@ int Hand::getYAcc()
 
 int Hand::getZAcc()
 {
+<<<<<<< HEAD
 	return ZAcc;
+=======
+	return zVel;
+>>>>>>> 0833fe72ff6e1b32c315f2ec332cbf8dacb4db93
 }
 
 int Hand::getXAng()
@@ -195,7 +199,7 @@ void Hand::updatePercents()						// Shows percent/ratio that hand is closed
 	updateHand();
 	thumbPercent = ((thumbBend - thumbOpen)*100) / thumbRange;
 	indexPercent = ((indexBend - indexOpen)*100) / indexRange;
-	middlePercent = ()(middleBend - middleOpen)*100) / middleRange;
+	middlePercent = ((middleBend - middleOpen)*100) / middleRange;
 	ringPercent = ((ringBend - ringOpen)*100) / ringRange;
 	pinkyPercent = ((pinkyBend - pinkyOpen)*100) / pinkyRange;
 	return;
@@ -234,8 +238,9 @@ bool Hand::getIfDevilHorns(){
 }
 
 bool Hand::getIfStopSign(){
-	if ((overallPercent() > 85) && ( yAng > 70){
-		return true
+	if ((getOverallPercent() > 85) && ( yAng > 70))
+	{
+		return true;
 	}
-	return false
+	return false;
 }

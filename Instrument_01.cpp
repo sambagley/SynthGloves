@@ -9,9 +9,11 @@ FingerKeys::FingerKeys(Hand * h)
 }
 double FingerKeys::computeNextSample()
 {
+  
+  double frequency = 0;
   int i = 0;
   //update Hand
-  hand->update();
+  hand->updateHand();
   //find out our pose
   
 
@@ -46,8 +48,17 @@ double FingerKeys::computeNextSample()
     basicSine->setFrequency(basicSine->getFrequency()/1.00005);
     return basicSine->go();
   }
-  basicSine->setFrequency((double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, i));
+  frequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, i);
+  double temp = ((double) hand->getYAng() )* 0.1;
+  frequency *= pow(2, (temp/12.0)); //compute relative pitch
+  
+  basicSine->setFrequency(frequency);
   return basicSine->go();
+  
+  
+  
+  
+  
 }
 void FingerKeys::updateOnly()
 {
