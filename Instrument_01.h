@@ -8,7 +8,9 @@
 class FingerKeys: public Instrument{
 
 private:
-
+  double volume;
+  double attackRate;
+  double fadeRate;
   //Sine * basicSine; // will make into a more dynamic sound later
 
 public:
