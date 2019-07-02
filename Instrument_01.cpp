@@ -3,10 +3,9 @@
 
 
 FingerKeys::FingerKeys(Hand * h)
+  : Instrument(h)
 {
-  this->hand = h;
-  basicSine = new Sine(440.0,  0.5, 48000);
-
+  basicSine = new Sine(440.0, 0.5, 48000);
 }
 double FingerKeys::computeNextSample()
 {
@@ -53,23 +52,4 @@ double FingerKeys::computeNextSample()
 void FingerKeys::updateOnly()
 {
 
-}
-void FingerKeys::setKey(int key)
-{
-
-
-}
-void FingerKeys::setOctave(int o)
-{
-
-
-}
-void FingerKeys::setScale(int s)
-{
-
-
-}
-Sine * FingerKeys::getSineWaveToLink()
-{
-  return basicSine;
 }

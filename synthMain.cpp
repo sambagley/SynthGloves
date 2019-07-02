@@ -14,6 +14,7 @@
 #include <climits>
 #include "SimpleSine.h"
 #include "Instrument_01.h"
+
 using std::cout;
 using std::endl;
 
@@ -21,13 +22,13 @@ using std::endl;
 int main(int argc, char *argv[]){
 
     Hand * lefty = new Hand("/dev/ttyACM0",9600);
+    
+ 
 
-    double f1 = 0.0;
-
-    /// initial ports from constructor created here.
-    //SimpleSine * t = new SimpleSine(f1);
+ 
     SimpleSine * t = new SimpleSine();
-    t->addSoundFunction(lefty->computeNextSample);
+    FingerKeys * lefthandkey = new FingerKeys(lefty);
+    t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
     /// activate the client
     t->start();
 
@@ -39,23 +40,12 @@ int main(int argc, char *argv[]){
     cout << "outport names:" << endl;
     for(unsigned int i = 0; i < t->outPorts(); i++)
         cout << "\t" << t->getOutputPortName(i) << endl;
-    //from here to the end of the while loop is where all the code can now go
 
-
-
-    //FingerKeys * lefthandkey = new FingerKeys(lefty);
-
-    //t->addWaveForm(lefthandkey->getSineWaveToLink());
-    //t->addWaveForm(new Sine(440,0.5,48000));
-     // t->testThing
 
 
     /// run for EVER
     while(1){
-        //lefty->update();
-       // lefthandkey->computeNextSample();
-
-        //t->setWaveFrequency(0, (double) lefty->getThumb());
+      
     }
 
 
