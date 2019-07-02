@@ -9,11 +9,7 @@
 #include <errno.h>
 class Hand {
 	private:
-<<<<<<< HEAD
-// variables for hand
-=======
 		// variables for hand
->>>>>>> 45a779a0ed6482501ac80c1d3f14a04ffe368b0f
 		const char * serialDevice;
 		int serialBaud;
 		int serialObj;
@@ -64,7 +60,7 @@ class Hand {
 	public:
 
 		Hand(const char *, int);
-<<<<<<< HEAD
+
 		void update();
 		int getThumb();
 		int getIndex();
@@ -79,7 +75,6 @@ class Hand {
 		int getZAng();
 		int getGs();
 		void setThumb();
-=======
 		void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand
@@ -102,8 +97,6 @@ class Hand {
 		int getZAng();										// Returns z angle
 		int getGs();											// Returns Gs value
 		int getOverallPercent();					// Returns average of each fingers percent
->>>>>>> 45a779a0ed6482501ac80c1d3f14a04ffe368b0f
-
 };
 
 #endif
