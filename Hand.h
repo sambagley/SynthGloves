@@ -63,8 +63,7 @@ class Hand {
 	public:
 
 		Hand(const char *, int);
-
-		void updateHand();								// Gets data from arduino sensors
+    void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand
 		void updatePercents();						// Updates percents for each finger
@@ -83,7 +82,10 @@ class Hand {
 		int getZVel();										// Returns z velocity
 		int getXAng();										// Returns X angle
 		int getYAng();										// Returns y angle
-		int getZAng();										// Returns z angle
+		int getZAng();
+    int getXAcc();										// Returns X acc
+    int getYAcc();										// Returns y acc
+    int getZAcc();										// Returns z acc
 		int getGs();											// Returns Gs value
 		int getOverallPercent();					// Returns average of each fingers percent
 };
