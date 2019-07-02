@@ -36,7 +36,7 @@ getChar(const int fd)
 };
 */
 //once rest of sensors are coded and added we will get all the other data.
-void Hand::update()
+void Hand::updateHand()
 {
 	char temp;
  char buf[2];
@@ -127,7 +127,7 @@ int Hand::getYVel()
 
 int Hand::getZVel()
 {
-	return ZVel;
+	return zVel;
 }
 
 int Hand::getXAng()
@@ -182,7 +182,7 @@ void Hand::updatePercents()						// Shows percent/ratio that hand is closed
 	updateHand();
 	thumbPercent = ((thumbBend - thumbOpen)*100) / thumbRange;
 	indexPercent = ((indexBend - indexOpen)*100) / indexRange;
-	middlePercent = ()(middleBend - middleOpen)*100) / middleRange;
+	middlePercent = ((middleBend - middleOpen)*100) / middleRange;
 	ringPercent = ((ringBend - ringOpen)*100) / ringRange;
 	pinkyPercent = ((pinkyBend - pinkyOpen)*100) / pinkyRange;
 	return;
@@ -221,8 +221,9 @@ bool Hand::getIfDevilHorns(){
 }
 
 bool Hand::getIfStopSign(){
-	if ((overallPercent() > 85) && ( yAng > 70){
-		return true
+	if ((getOverallPercent() > 85) && ( yAng > 70))
+	{
+		return true;
 	}
-	return false
+	return false;
 }
