@@ -42,7 +42,6 @@ class Hand {
 		int xVel;													// Readings from arduino
 		int yVel;
 		int zVel;
-
 		int xAng;													// Also readings straight from arduino
 		int yAng;
 		int zAng;
@@ -59,8 +58,12 @@ class Hand {
 		void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand
-		void updatePercents();						// Gets percents for each finger
-		bool getIsClosed();								// Tells if hand is closed
+		void updatePercents();						// Updates percents for each finger
+		bool getIsClosed();								// Returns true if hand is closed
+		bool getIfOpenUpwardPalm();				// Returns true if hand palm is open and upward facing
+		bool getIfStopSign();							// Returns true if hand is vertical stop sign
+		bool getIfDevilHorns();						// Returns true if devil horns
+		bool getNumbers();								// Returns sign language number
 		int getThumb();										// Returns thumb value
 		int getIndex();										// Returns index value
 		int getMiddle();									// Returns middle value

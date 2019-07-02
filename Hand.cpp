@@ -195,7 +195,7 @@ int Hand::getOverallPercent()
 	return overallPercent;
 }
 
-bool getIsClosed()
+bool Hand::getIsClosed()
 {
 	overallPercent = getOverallPercent();
 	if (overallPercent > 8){
@@ -204,4 +204,25 @@ bool getIsClosed()
 	else{
 		return false;
 	}
+}
+
+bool Hand::getIfDevilHorns(){
+	updatePercents();
+	if ((thumbPercent > 85) &&
+			(indexPercent < 20) &&
+			(middlePercent > 85) &&
+			(ringPercent > 85) &&
+			(pinkyPercent < 20)){
+				return true;
+			}
+	else{
+		return false;
+	}
+}
+
+bool Hand::getIfStopSign(){
+	if ((overallPercent() > 85) && ( yAng > 70){
+		return true
+	}
+	return false
 }
