@@ -8,24 +8,24 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include "Instrument_01.h"
 
-class SoundWaveOut: public JackCpp::AudioIO {
+//class Instrument;
+
+class SimpleSine: public JackCpp::AudioIO {
 
 private:
     int numWaves;
    std::vector <Sine*>  sines;
-    //Sine *sin1;
-    double sumWaveOut()
-    {
-        double val = 0.0;
-        for(int i = 0; i < numWaves; i++)
-        {
-          val += sines[i]->go();
-        }
-        return val;
-    }
-public:
 
+
+   Instrument * i1;
+   Instrument * i2;
+
+
+    
+public:
+    // FingerKeys *testThing;
     /// Audio Callback Function:
     /// - the output buffers are filled here
     virtual int audioCallback(jack_nframes_t nframes,
@@ -42,23 +42,25 @@ public:
         {
             for(int frameCNT = 0; frameCNT  < nframes; frameCNT++)
             {
-                outBufs[0][frameCNT] = sumWaveOut();
+                
+                outBufs[0][frameCNT] = i2 == NULL ? i1->computeNextSample() : i1->computeNextSample() + i2->computeNextSample();
             }
         }
         ///return 0 on success
         return 0;
     }
     /// Constructor
-    SimpleSine(double f1) :
+    SimpleSine() :
         JackCpp::AudioIO("sineVectorTest", 0,1){
 
           reserveInPorts(2);
           reserveOutPorts(2);
 
-          numWaves = 1;
-          sines.push_back(new Sine(f1,0.5,48000));
+          numWaves = 0;
+          //sines.push_back(new Sine(f1,0.5,48000));
 
     }
+  
     void addWaveForm(Sine * s)
     {
       sines.push_back(s);
@@ -72,6 +74,8 @@ public:
     {
       sines[index]->setAmplitude(a);
     }
+    
+    //sets global volume
     void setGlobalAmp(double a)
     {
 
@@ -81,6 +85,16 @@ public:
         }
         return;
 
+    }
+    //This function will take a function pointer and then
+    //use it to buffer the sound.
+    void addInstrumentOne(Instrument * b)
+    {
+      i1 = b;
+    }
+    void addInstrumentTwo(Instrument * b)
+    {
+      i2 = b;
     }
 
 };

@@ -7,7 +7,18 @@
 
 #include "scaleFunctions.hpp"
 
-
+double chooseFromAllScales(int index, double base_freq, int octave_offset, int note)
+{
+  switch (index) {
+    case 0: return pentatonic(base_freq, octave_offset, note);
+    case 1: return pentatonic_minor(base_freq, octave_offset, note);
+    case 2: return blues(base_freq, octave_offset, note);
+    case 3: return majorS(base_freq, octave_offset, note);
+    case 4: return chromatic(base_freq, octave_offset, note);
+    case 5: return wholeTone(base_freq, octave_offset, note);
+    default : return 0;
+  }
+}
 double pentatonic(double base_freq, int octave_offset, int note)
 {   int index;
     int offset;
