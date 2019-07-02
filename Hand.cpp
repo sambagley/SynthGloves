@@ -140,11 +140,7 @@ int Hand::getYAcc()
 
 int Hand::getZAcc()
 {
-<<<<<<< HEAD
-	return ZAcc;
-=======
-	return zVel;
->>>>>>> 0833fe72ff6e1b32c315f2ec332cbf8dacb4db93
+	return zAcc;
 }
 
 int Hand::getXAng()
