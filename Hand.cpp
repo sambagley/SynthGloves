@@ -10,9 +10,9 @@ Hand::Hand(const char * dev, int baud)
 	middleBend = 0;
 	ringBend = 0;
 	pinkyBend = 0;
-	xPos = 0;
-	yPos = 0;
-	zPos = 0;
+	xVel = 0;
+	yVel = 0;
+	zVel = 0;
 	xAng = 0;
 	yAng= 0;
 	zAng = 0;
@@ -88,8 +88,6 @@ void Hand::update()
 		//middleBend = middleBend_temp > 0 ? middleBend_temp : middleBend;//hacky error checking
 	}
 	return;
-
-
 }
 
 int Hand::getThumb()
@@ -101,43 +99,109 @@ int Hand::getIndex()
 {
 	return indexBend;
 }
+
 int Hand::getMiddle()
 {
 	return middleBend;
 }
+
 int Hand::getRing()
 {
 	return ringBend;
 }
+
 int Hand::getPinky()
 {
 	return pinkyBend;
 }
-int Hand::getX()
+
+int Hand::getXVel()
 {
-	return xPos;
+	return xVel;
 }
-int Hand::getY()
+
+int Hand::getYVel()
 {
-	return yPos;
+	return yVel;
 }
-int Hand::getZ()
+
+int Hand::getZVel()
 {
-	return zPos;
+	return ZVel;
 }
+
 int Hand::getXAng()
 {
 	return xAng;
 }
+
 int Hand::getYAng()
 {
 	return yAng;
 }
+
 int Hand::getZAng()
 {
 	return zAng;
 }
+
 int Hand::getGs()
 {
 	return gForce;
+}
+
+void Hand::calibrateOpen()											// Make sure to call calibrateOpen()
+{																								// before calling calibrateClosed()
+	updateHand();																	// or else the ranges will be incorrect
+	thumbOpen = thumbBend;												// and percents will be wrong.
+	ringOpen = ringBend;
+	middleOpen = middleBend;
+	ringOpen = ringBend;
+	pinkyOpen = pinkyBend;
+	return;
+}
+
+void Hand::calibrateClosed()										// Call calibrateOpen() first!
+{
+	updateHand();
+	thumbClosed = thumbBend;
+	ringClosed = ringBend;
+	middleClosed = middleBend;
+	ringClosed = ringBend;
+	pinkyClosed = pinkyBend;
+	thumbRange = thumbClosed - thumbOpen;					// Find ranges to be used
+	indexRange = indexClosed - indexOpen;					// later in getPercentages()
+	middleRange = middleClosed - middleOpen;
+	ringRange = ringClosed - ringOpen;
+	pinkyRange = pinkyClosed - pinkyOpen;
+	return;
+}
+
+void Hand::updatePercents()						// Shows percent/ratio that hand is closed
+{																		// Ex: Fist is 100, flat hand is 0.
+	updateHand();
+	thumbPercent = ((thumbBend - thumbOpen)*100) / thumbRange;
+	indexPercent = ((indexBend - indexOpen)*100) / indexRange;
+	middlePercent = ()(middleBend - middleOpen)*100) / middleRange;
+	ringPercent = ((ringBend - ringOpen)*100) / ringRange;
+	pinkyPercent = ((pinkyBend - pinkyOpen)*100) / pinkyRange;
+	return;
+}
+
+int Hand::getOverallPercent()
+{
+	updatePercents();
+	overallPercent = (thumbPercent + indexPercent + middlePercent + ringPercent + pinkyPercent) / 5;
+	return overallPercent;
+}
+
+bool getIsClosed()
+{
+	overallPercent = getOverallPercent();
+	if (overallPercent > 8){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
