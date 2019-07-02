@@ -50,6 +50,9 @@ class Hand {
 		int xAng;													// Also readings straight from arduino
 		int yAng;
 		int zAng;
+		int xAcc;
+		int yAcc;
+		int zAcc;
 		int gForce;
 
 		int buttonPress;
@@ -60,6 +63,7 @@ class Hand {
 	public:
 
 		Hand(const char *, int);
+
 		void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand
