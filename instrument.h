@@ -13,21 +13,23 @@ protected:
 
 
   Hand * hand;
-  Sine * basicSine; // will make into a more dynamic sound later
-  double frequency;
-  double volume;
+  
+  double rootFrequency;
   const int theCurrentScaleSetting = 0;
   double outSignal;
+  int octave;
+  int scaleVal; 
+  int key;
 
 public:
 
 
   Instrument(Hand * h);
   virtual double computeNextSample() = 0;
-  virtual void updateOnly() = 0;//actually not that useful when I think about it
   void setKey(int key);//build key thingy
   void setOctave(int i);
   void setScale(int s);
+  
 
 
 

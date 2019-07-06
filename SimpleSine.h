@@ -15,10 +15,6 @@
 class SimpleSine: public JackCpp::AudioIO {
 
 private:
-    int numWaves;
-   std::vector <Sine*>  sines;
-
-
    Instrument * i1;
    Instrument * i2;
 
@@ -42,7 +38,8 @@ public:
         {
             for(int frameCNT = 0; frameCNT  < nframes; frameCNT++)
             {
-                
+                //sines[0]->setAmplitude(sines[0]->getAmplitude()*0.9999);
+                //outBufs[0][frameCNT] = sines[0]->go();
                 outBufs[0][frameCNT] = i2 == NULL ? i1->computeNextSample() : i1->computeNextSample() + i2->computeNextSample();
             }
         }
@@ -56,37 +53,12 @@ public:
           reserveInPorts(2);
           reserveOutPorts(2);
 
-          numWaves = 0;
-          //sines.push_back(new Sine(f1,0.5,48000));
+    
 
     }
   
-    void addWaveForm(Sine * s)
-    {
-      sines.push_back(s);
-      numWaves++;
-    }
-    void setWaveFrequency(int index, double frequency)
-    {
-      sines[index]->setFrequency(frequency);
-    }
-    void setWaveAmp(int index, double a)
-    {
-      sines[index]->setAmplitude(a);
-    }
-    
-    //sets global volume
-    void setGlobalAmp(double a)
-    {
-
-        for(int i = 0; i < numWaves; i++)
-        {
-          sines[i]->setAmplitude(a);
-        }
-        return;
-
-    }
-    //This function will take a function pointer and then
+   
+    //This function will take a pointer and then
     //use it to buffer the sound.
     void addInstrumentOne(Instrument * b)
     {

@@ -21,6 +21,6 @@ double blues(double base_freq, int octave_offset, int note);
 double majorS(double base_freq, int octave_offset, int note);
 double chromatic(double base_freq, int octave_offset, int note);
 double wholeTone(double base_freq, int octave_offset, int note);
- 
+double twoNoteTransition(double startingFreq,double targetFreq,int millisToTravel,double lastOutputGenerated);   
 
 #endif /* scaleFunctions_hpp */

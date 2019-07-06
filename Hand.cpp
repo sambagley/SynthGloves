@@ -1,6 +1,7 @@
 #include "Hand.h"
 #include <stdio.h>
-
+#include <iostream>
+using namespace std;
 Hand::Hand(const char * dev, int baud)
 {
 	serialDevice = dev;
@@ -16,6 +17,9 @@ Hand::Hand(const char * dev, int baud)
 	xAng = 0;
 	yAng= 0;
 	zAng = 0;
+	xAcc = 0;
+	yAcc= 0;
+	zAcc = 0;
 	gForce = 0;
 	buttonPress = 0;
 	if((serialObj=serialOpen(dev,baud))<0){
@@ -38,15 +42,19 @@ getChar(const int fd)
 //once rest of sensors are coded and added we will get all the other data.
 void Hand::updateHand()
 {
+
 	char temp;
  	char buf[2];
  	int x;
-	if (serialDataAvail(serialObj)>0)
+	if (serialDataAvail(serialObj)>30)
 	{
+		
 		while (1)
 		{
+				
 			if(serialGetchar(serialObj) == '$')
 			{
+				
 				int i = 0;
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
@@ -80,7 +88,7 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%d", &x);
 				zAng = x;
-				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
 				xAcc = x;
@@ -91,7 +99,7 @@ void Hand::updateHand()
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
-				zAcc = x;
+				zAcc = x;*/
 					serialFlush(serialObj);
 					return;
 

@@ -142,3 +142,15 @@ double wholeTone(double base_freq, int octave_offset, int note)
   adjusted_freq *= pow(pow( 2.0, ((double) mapping[index])), (1.0/12.0)); //compute relative pitch
   return adjusted_freq * pow( 2.0, ((double) offset)); //adjust octave
 }
+double twoNoteTransition(double startingFreq ,double targetFreq,int millisToTravel,double lastOutputGenerated)
+{
+    const int SAMPLERATE = 48000;
+    double steps =  (double) SAMPLERATE ;
+    
+    if (fabs(lastOutputGenerated - targetFreq) < 0.5)
+        return targetFreq;
+    else
+        return lastOutputGenerated * pow(2.0, ((1.0/steps)/(log2(targetFreq/startingFreq))));
+       
+}
+

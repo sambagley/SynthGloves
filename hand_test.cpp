@@ -13,7 +13,7 @@ int main(){
 	
 	
 	
-	Hand handy("/dev/ttyACM0",9600);
+	Hand handy("/dev/ttyACM0",115200);
 	
 		int a = 0;
 		int b = 0;

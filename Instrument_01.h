@@ -8,19 +8,24 @@
 class FingerKeys: public Instrument{
 
 private:
-  double volume;
   double attackRate;
   double fadeRate;
-  //Sine * basicSine; // will make into a more dynamic sound later
-
+  std::vector <Sine*>  waves;
+  int numWaves;
+  double oldFrequency;
+  double currentFrequency;
+  double targetFrequency;
+  double volume;
 public:
 
 
   FingerKeys(Hand * h);
   double computeNextSample();
-  void updateOnly();//actually not that useful when I think about it
-
-
+  void setVolume(double v);
+  double getVolume();
+  void   createHarmonicWaves(int numHarmonics);//don't create more than 5 harmonics
+  double changeAllFrequencies(double baseF);
+  double runAllWaves();
 
 };
 #endif
