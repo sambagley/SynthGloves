@@ -19,7 +19,7 @@ double FingerKeys::computeNextSample()
 {
 
   currentFrequency = waves[0]->getFrequency();
- 
+
   int i = 0;
 
   hand->updateHand();
@@ -29,11 +29,11 @@ double FingerKeys::computeNextSample()
       volume = 0.0001;
       setVolume(volume);
   }
-  
+
   //check each finger for triggering
 
   if(200 < hand->getThumb() && hand->getThumb() < 1500)  { i = 0; }
- 
+
   else if (200 < hand->getIndex() && hand->getIndex() < 1500)  { i = 1; }
 
   else if (200 < hand->getMiddle() && hand->getMiddle()< 1500)  { i = 2; }
@@ -42,38 +42,41 @@ double FingerKeys::computeNextSample()
 
   else if (200 < hand->getPinky() && hand->getPinky() < 400)   { i = 4 ; }
 
-  else //turn the volume reaaal low 
+  else //turn the volume reaaal low
   {
     volume = 0.00001;
+    if (volume > 0.0001)
+      volume -= 0.00001;
+    setVolume(volume);
    // setVolume(waves[0]->getAmplitude() * 0.9999);
     return runAllWaves();
   }
 
-    if(volume < 0.5) {volume *= 1.0001; setVolume(volume);}
-  
-  //logic for sliding from note to note 
-  
+    if(volume < 0.5) {volume += 0.00001; setVolume(volume);}
+
+  //logic for sliding from note to note
+
   double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, i);
-  
+
   if (fabs(targetFrequency - newTargetFrequency) > 0.1)
   {
     oldFrequency = currentFrequency;
     targetFrequency = newTargetFrequency;
   }
- 
+
   currentFrequency = twoNoteTransition(oldFrequency, targetFrequency, 1000, currentFrequency);
-  
+
   if (fabs(currentFrequency - targetFrequency) < 0.2)
   {
     currentFrequency = targetFrequency;
   }
-  
-  
+
+
   //double vibrato = ((double) hand->getYAng() )* 0.01;
   changeAllFrequencies(currentFrequency);
 
-  
-  return runAllWaves() * volume;
+
+  return runAllWaves();
 
 
 }
@@ -83,14 +86,11 @@ double FingerKeys::getVolume()
 }
 void FingerKeys::setVolume(double v)
 {
-  
   for(int i = 0; i < numWaves; i++)
   {
-    double amp = v - (((double) i)/5.0) * 0.5;
-    waves[i]->setAmplitude(amp);
+    waves[i]->changeVolume(v);
   }
 }
-
 void FingerKeys::createHarmonicWaves(int numHarmonics)
 {
   for(int i = 0; i< numHarmonics; i++)
@@ -107,7 +107,7 @@ double FingerKeys::changeAllFrequencies(double baseF)
   {
     waves[i]->setFrequency(baseF + baseF * ((double) i));
   }
-    
+
 }
 double FingerKeys::runAllWaves()
 {

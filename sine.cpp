@@ -6,11 +6,11 @@ Sine::Sine(double frequency, double amplitude, int sampleRate)
 	this->amplitude = amplitude;
 	this->sampleRate = sampleRate;
 	this->phase = 1.0;
-	
-	
+
+
 }
 
-//make the sound 
+//make the sound
 double Sine::go()
 {
 	phase += 2.0 * 3.14159 * frequency * (1.0/ (double) sampleRate);
@@ -48,5 +48,18 @@ void Sine::setFrequency(double f)
 
 void Sine::setAmplitude(double a)
 {
+	if( a > maxAmp)
+	{
+		maxAmp = a;
+	}
 	this->amplitude = a;
+}
+void Sine::changeVolume(double percent)
+{
+	if (percent >= 100.0)
+	{
+		amplitude = maxAmp;
+		return;
+	}
+ 	amplitude = log10(percent) * 20 * maxAmp;
 }

@@ -11,11 +11,8 @@ private:
 	double frequency;
 	double amplitude;
 	double phase;
+	double maxAmp;
 
-    int nframes;
-
-
-    double *t;
 
 public:
 
@@ -32,6 +29,9 @@ public:
     void setFrequency(double f);
 
     void setAmplitude(double a);
+
+		void changeVolume(double percent);
+
 
 };
 

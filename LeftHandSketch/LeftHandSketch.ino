@@ -67,8 +67,7 @@ void setup(void)
 
 void loop(void) 
 {
-      el = micros();
-  Serial.println(el);
+
   get_flex_data();
    
   get_mpu_data();
