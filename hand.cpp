@@ -1,6 +1,7 @@
 #include "Hand.h"
 #include <stdio.h>
 #include <iostream>
+#include <unistd.h>
 using namespace std;
 
 Hand::Hand(const char * dev, int baud)
@@ -23,6 +24,7 @@ Hand::Hand(const char * dev, int baud)
 	zAcc = 0;
 	gForce = 0;
 	buttonPress = 0;
+	
 	if((serialObj=serialOpen(dev,baud))<0){
     //fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
     throw "OH NO, it didn't work, try opening with sudo";

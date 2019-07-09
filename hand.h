@@ -152,7 +152,7 @@ class Hand {
 		int getGs();											// Returns Gs value
 		int getOverallPercent();
 		int getGestures();
-		int calibrateGestures();					// Returns average of each fingers percent
+		void calibrateGestures();					
 		
 };
 

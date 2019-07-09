@@ -1,6 +1,5 @@
-#include "Instrument_01.h"
 #include "instrument_02.h"
-#include "/home/pi/SynthGloves/AudioFile/AudioFile.h"
+
 
 
 Looper::Looper(Hand * h)
@@ -47,6 +46,7 @@ double Looper::computeNextSample()
 	}
   }
   switch (currentLoop)
+  {
 	case(1):
 		if (sampleNumber < numSamplesLoop1)
 		{
@@ -55,7 +55,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop1.samples[0][sampleNumber]
+			nextSample = loop1.samples[0][sampleNumber];
 		}
 		
 	case(2):
@@ -66,7 +66,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop2.samples[0][sampleNumber]
+			nextSample = loop2.samples[0][sampleNumber];
 		}
 		
 	case(3):
@@ -77,7 +77,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop3.samples[0][sampleNumber]
+			nextSample = loop3.samples[0][sampleNumber];
 		}
 		
 	case(4):
@@ -88,7 +88,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop4.samples[0][sampleNumber]
+			nextSample = loop4.samples[0][sampleNumber];
 		}
 		
 	case(5):
@@ -99,7 +99,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop5.samples[0][sampleNumber]
+			nextSample = loop5.samples[0][sampleNumber];
 		}
 		
 	case(6):
@@ -110,7 +110,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop6.samples[0][sampleNumber]
+			nextSample = loop6.samples[0][sampleNumber];
 		}
 	case(7):
 		if (sampleNumber < numSamplesLoop7)
@@ -120,7 +120,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop7.samples[0][sampleNumber]
+			nextSample = loop7.samples[0][sampleNumber];
 		}
 		
 	case(8):
@@ -131,7 +131,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop8.samples[0][sampleNumber]
+			nextSample = loop8.samples[0][sampleNumber];
 		}
 		
 	case(9):
@@ -142,7 +142,7 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop9.samples[0][sampleNumber]
+			nextSample = loop9.samples[0][sampleNumber];
 		}
 		
 	case(10):
@@ -153,11 +153,12 @@ double Looper::computeNextSample()
 		else
 		{
 			sampleNumber = 0;
-			nextSample = loop10.samples[0][sampleNumber]
+			nextSample = loop10.samples[0][sampleNumber];
 		}
 		
 	default:
 		nextSample = 0;
+	}
 	
 	
 		
