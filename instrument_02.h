@@ -12,7 +12,6 @@ private:
   int nextSample;				// The current sample being played
   int sampleNumber;
   int currentLoop;
-  int deviation;
   
   int numSamplesLoop1;
   int numSamplesLoop2;

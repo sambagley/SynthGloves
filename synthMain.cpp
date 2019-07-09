@@ -14,6 +14,7 @@
 #include <climits>
 #include "SimpleSine.h"
 #include "Instrument_01.h"
+#include "instrument_02.h"
 
 using std::cout;
 using std::endl;

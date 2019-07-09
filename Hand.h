@@ -59,12 +59,74 @@ class Hand {
 		int buttonPress;
 		int overallPercent;								// Average of finger percentages, 100 if fist, zero if flat
 		bool isOpen;
+		
+		int thumb1;
+		int index1;
+		int middle1;
+		int ring1;
+		int pinky1;
+		  
+		int thumb2;
+		int index2;
+		int middle2;
+		int ring2;
+		int pinky2;
+		
+		int thumb3;
+		int index3;
+		int middle3;
+		int ring3;
+		int pinky3;
+		
+		int thumb4;
+		int index4;
+		int middle4;
+		int ring4;
+		int pinky4;
+		
+		int thumb5;
+		int index5;
+		int middle5;
+		int ring5;
+		int pinky5;
+		  
+		int thumb6;
+		int index6;
+		int middle6;
+		int ring6;
+		int pinky6;
+	  
+		int thumb7;
+		int index7;
+		int middle7;
+		int ring7;
+		int pinky7;
+		  
+		int thumb8;
+		int index8;
+		int middle8;
+		int ring8;
+		int pinky8;
+		  
+		int thumb9;
+		int index9;
+		int middle9;
+		int ring9;
+		int pinky9;
+		  
+		int thumb10;
+		int index10;
+		int middle10;
+		int ring10;
+		int pinky10;
+		
+		int deviation;
 
 
 	public:
 
 		Hand(const char *, int);
-    void updateHand();								// Gets data from arduino sensors
+		void updateHand();								// Gets data from arduino sensors
 		void calibrateOpen();							// Stores finger data for open Hand
 		void calibrateClosed();						// Stores finger data for closed hand
 		void updatePercents();						// Updates percents for each finger
@@ -91,6 +153,7 @@ class Hand {
 		int getOverallPercent();
 		int getGestures();
 		int calibrateGestures();					// Returns average of each fingers percent
+		
 };
 
 #endif

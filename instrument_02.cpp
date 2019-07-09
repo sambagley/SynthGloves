@@ -1,5 +1,5 @@
 #include "Instrument_01.h"
-#include "Instrument_02.h"
+#include "instrument_02.h"
 #include "/home/pi/SynthGloves/AudioFile/AudioFile.h"
 
 
