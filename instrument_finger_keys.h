@@ -1,7 +1,7 @@
 //
-#ifndef INSTRUMENT_H
-#define INSTRUMENT_H
-#include "Hand.h"
+#ifndef INSTRUMENT_FINGER_KEYS_H
+#define INSTRUMENT_FINGER_KEYS_H
+#include "hand.h"
 #include "sine.h"
 #include "scaleFunctions.hpp"
 #include "instrument.h"

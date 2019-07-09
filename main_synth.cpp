@@ -8,14 +8,14 @@
 #include <string.h>
 #include <errno.h>
 #include "scaleFunctions.hpp"
-#include "Hand.h"
+#include "hand.h"
 #include <wiringSerial.h>
 #include <vector>
 #include <climits>
-#include "SimpleSine.h"
-#include "Instrument_01.h"
-#include "instrument_02.h"
-#include "Instrument_03.h"
+#include "jack_wrapper.h"
+#include "instrument_finger_keys.h"
+#include "instrument_looper.h"
+#include "instrument_chords.h"
 
 using std::cout;
 using std::endl;

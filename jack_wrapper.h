@@ -8,8 +8,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include "Instrument_01.h"
-#include "Instrument_03.h"
+#include "instrument_finger_keys.h"
+#include "instrument_chords.h"
 
 //class Instrument;
 

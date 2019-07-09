@@ -1,10 +1,10 @@
 //
-#ifndef INSTRUMENT_03_H
-#define INSTRUMENT_03_H
-//#include "Hand.h"
+#ifndef INSTRUMENT_CHORDS_H
+#define INSTRUMENT_CHORDS_H
+//#include "hand.h"
 //#include "sine.h"
 //#include "scaleFunctions.hpp"
-#include "Instrument_01.h"
+#include "instrument_finger_keys.h"
 class Chords: public Instrument{
 
 
@@ -26,7 +26,7 @@ private:
   bool pinkyPressed;
   char oldState;
   int priorityF;
-  
+
 public:
 
 

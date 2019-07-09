@@ -6,12 +6,12 @@
  */
 
 #include <Adafruit_ADS1015.h>
-#include <MPU6050.h>
+//#include <MPU6050.h>
 #include <I2Cdev.h>
-
+#include <MPU6050_tockn.h>
 #include <Wire.h>
 
-#define dt 0.047
+#define dt 0.008764
 #define ADC 72
 #define MPU 68
 #define pinky_pin A0
@@ -45,8 +45,11 @@ int16_t thumb_flex, index_flex, middle_flex, ring_flex, pinky_flex;
 
 uint16_t index = 0;
 Adafruit_ADS1015 ads;     // Instantiate 12-bit version of ACD - ADS1015
-MPU6050 mpu;              // Instantiate the MPU-6050
+//MPU6050 mpu;              // Instantiate the MPU-6050
+MPU6050 mpu6050(Wire);
 unsigned long el;
+
+float aX, aY, aZ;
 
 void setup(void) 
 {
@@ -61,13 +64,15 @@ void setup(void)
   
   Serial.begin(115200);
   ads.setGain(GAIN_ONE);
-  mpu.initialize();
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets(true);
+  //mpu6050.end();
+  //mpu.initialize();
 
 }
 
 void loop(void) 
 {
-
   get_flex_data();
    
   get_mpu_data();
@@ -84,12 +89,12 @@ void loop(void)
 void get_flex_data(){
 
   Wire.begin(ADC); 
-  thumb_flex = ads.readADC_SingleEnded(0); 
-  index_flex = ads.readADC_SingleEnded(1);
-  middle_flex = ads.readADC_SingleEnded(2);
-  ring_flex = ads.readADC_SingleEnded(3);
+  pinky_flex = ads.readADC_SingleEnded(3); 
+  index_flex = ads.readADC_SingleEnded(0);
+  middle_flex = ads.readADC_SingleEnded(1);
+  ring_flex = ads.readADC_SingleEnded(2);
   Wire.end();
-  pinky_flex = analogRead(pinky_pin);
+  thumb_flex = analogRead(pinky_pin);
 
   }
 
@@ -98,8 +103,13 @@ void get_flex_data(){
  * Then get gyro data and use complementary filter with map function to clean up data
  */
 void get_mpu_data(){
-  
- Wire.begin(MPU);                                      // Begin communication with MPU-6050
+  //mpu6050.begin();
+  mpu6050.update();
+  aX = mpu6050.getAngleX();
+  aY = mpu6050.getAngleY();
+  aZ = mpu6050.getAngleZ();
+  //mpu6050.end();
+ /*Wire.begin(MPU);                                      // Begin communication with MPU-6050
 
 
  
@@ -119,6 +129,7 @@ void get_mpu_data(){
   acc_y = ay_sum / 4;
   acc_z = az_sum / 4;
   */
+  /*
   index = (index + 1) % 4;
                                                       
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);        // Get accelerations
@@ -135,17 +146,18 @@ void get_mpu_data(){
   acc_z = az_sum / 4;
 
 
-  ang_x = 0.97*(ang_x + gx*dt)+(0.03*ax);               // Now process the gyro data with complementry filter
+  ang_x = 0.95*(ang_x + gx*dt)+(0.05*ax);               // Now process the gyro data with complementry filter
   x_angle = map(ang_x,-15600,17200,-90,90);             // Map to -90 through 90 degrees
   
-  ang_y = 0.97*(ang_y + gy*dt) + (0.03*ay);             // Same as above but for Y data
+  ang_y = 0.95*(ang_y + gy*dt) + (0.05*ay);             // Same as above but for Y data
   y_angle = map(ang_y,-16600,16100,-90,90);
 
-  ang_z = 0.97*(ang_z + gz*dt) + (0.03*az);             // Same as above but for z data
+  ang_z = 0.95*(ang_z + gz*dt) + (0.05*az);             // Same as above but for z data
   z_angle = map(ang_z,-16600,16100,-90,90);
 
 
  Wire.end();                                           // End communication with the MPU
+ */
   }
 
   
@@ -192,7 +204,9 @@ void print_readable_data(){
  * Velocity data will be added soon...
  */ 
  void send_data(){
-  Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(x_angle)+ " " + String(y_angle) + " " + String(z_angle) + " "+ String(acc_x)+ " " + String(acc_y) + " " + String(acc_z) + " ");
+   Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(aX)+ " " + String(aY) + " " + String(aZ) + " "+ String(0)+ " " + String(0) + " " + String(0) + " ");
+
+ // Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(x_angle)+ " " + String(y_angle) + " " + String(z_angle) + " "+ String(acc_x)+ " " + String(acc_y) + " " + String(acc_z) + " ");
  }
 
 

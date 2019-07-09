@@ -1,4 +1,4 @@
-#include "Hand.h"
+#include "hand.h"
 #include <stdio.h>
 #include <iostream>
 #include <unistd.h>

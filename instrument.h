@@ -1,4 +1,4 @@
-#include "Hand.h"
+#include "hand.h"
 #include "sine.h"
 #include "scaleFunctions.hpp"
 
