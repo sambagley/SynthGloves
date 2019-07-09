@@ -24,7 +24,7 @@ using std::endl;
 int main(int argc, char *argv[]){
 
 
-    Hand * lefty = new Hand("/dev/ttyACM0",115200);
+    Hand * lefty = new Hand("/dev/ttyACM0",57600);
     //Hand * righty = new Hand("/dev/ttyACM1", 57600);
 
 

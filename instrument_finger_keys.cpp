@@ -130,7 +130,7 @@ double FingerKeys::computeNextSample()
   }
 
   
-  double vibrato = ((double) hand->getYAng() )* 0.01;
+  double vibrato = ( hand->getYAng() )* 0.01;
  
   changeAllFrequencies(currentFrequency *  pow(2.0, vibrato/12.0));
 

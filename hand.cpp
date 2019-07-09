@@ -47,8 +47,9 @@ void Hand::updateHand()
 {
 
 	char temp;
- 	char buf[2];
+ 	char buf[6];
  	int x;
+ 	float f;
 	if (serialDataAvail(serialObj)>30)
 	{
 		
@@ -81,16 +82,16 @@ void Hand::updateHand()
 				pinkyBend = x;
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
-				sscanf(buf, "%d", &x);
-				xAng = x;
+				sscanf(buf, "%f", &f);
+				xAng = f;
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
-				sscanf(buf, "%d", &x);
-				yAng = x;
+				sscanf(buf, "%f", &f);
+				yAng = f;
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
-				sscanf(buf, "%d", &x);
-				zAng = x;
+				sscanf(buf, "%f", &f);
+				zAng = f;
 				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
@@ -154,17 +155,17 @@ int Hand::getZAcc()
 	return zAcc;
 }
 
-int Hand::getXAng()
+float Hand::getXAng()
 {
 	return xAng;
 }
 
-int Hand::getYAng()
+float Hand::getYAng()
 {
 	return yAng;
 }
 
-int Hand::getZAng()
+float Hand::getZAng()
 {
 	return zAng;
 }

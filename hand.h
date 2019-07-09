@@ -48,9 +48,9 @@ class Hand {
 		int xVel;													// Readings from arduino
 		int yVel;
 		int zVel;
-		int xAng;													// Also readings straight from arduino
-		int yAng;
-		int zAng;
+		float xAng;													// Also readings straight from arduino
+		float yAng;
+		float zAng;
 		int xAcc;
 		int yAcc;
 		int zAcc;
@@ -143,9 +143,9 @@ class Hand {
 		int getXVel();										// Returns x velocity
 		int getYVel();										// Returns y velocity
 		int getZVel();										// Returns z velocity
-		int getXAng();										// Returns X angle
-		int getYAng();										// Returns y angle
-		int getZAng();
+		float getXAng();										// Returns X angle
+		float getYAng();										// Returns y angle
+		float getZAng();
 		int getXAcc();										// Returns X acc
 		int getYAcc();										// Returns y acc
 		int getZAcc();										// Returns z acc

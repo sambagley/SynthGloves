@@ -20,9 +20,9 @@ int main(){
 		int c = 0;
 		int d = 0;
 		int e = 0;
-		int f = 0;
-		int g = 0;
-		int h = 0;
+		float f = 0;
+		float g = 0;
+		float h = 0;
 	while(1)
 	{
 		handy.updateHand();

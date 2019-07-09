@@ -1,4 +1,3 @@
-//
 #ifndef INSTRUMENT_FINGER_KEYS_H
 #define INSTRUMENT_FINGER_KEYS_H
 #include "hand.h"
