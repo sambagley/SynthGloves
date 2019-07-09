@@ -9,6 +9,7 @@
 #include <string.h>
 #include <errno.h>
 #include "Instrument_01.h"
+#include "Instrument_03.h"
 
 //class Instrument;
 

@@ -9,7 +9,7 @@ class Looper: public Instrument{
 
 private:
   int updateHandCount;				// Keeps track if we need to update hand
-  int nextSample;				// The current sample being played
+  int nextSample;				      // The current sample being played
   int sampleNumber;
   int currentLoop;
   

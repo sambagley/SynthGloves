@@ -7,15 +7,15 @@ class Instrument{
 
 protected:
 
-
-  typedef double (*ScaleFunctions) (double base_freq, int octave_offset, int note);
-  enum scale {pentatonic, pentatonic_minor, blues, majorS, chromatic, wholeTone};
+  
+  //typedef double (*ScaleFunctions) (double base_freq, int octave_offset, int note);
+  //enum scale {pentatonic, pentatonic_minor, blues, majorS, chromatic, wholeTone};
 
 
   Hand * hand;
   
   double rootFrequency;
-  const int theCurrentScaleSetting = 0;
+  const int theCurrentScaleSetting = 5;
   double outSignal;
   int octave;
   int scaleVal; 

@@ -1,20 +1,20 @@
-#include "Instrument_01.h"
+#include "Instrument_03.h"
 
 
 
-FingerKeys::FingerKeys(Hand * h)
+Chords::Chords(Hand * h)
   : Instrument(h)
 {
+	//fill default values
   decibels = 0.0;
   baseWaveAmp = 0.5;
   attackRate = 0.0001;
   fadeRate = 1.00005;
-  waves.push_back(new Sine(440.0,0.5,48000));
   currentFrequency = 440.0;
   oldFrequency = 440.0;
   targetFrequency = 440.0;
-  numWaves = 1;
-  createHarmonicWaves(3);
+  numWaves = 5;
+  //createHarmonicWaves(3);
   oldState = 0b00000000;
   priorityF  = 0;
   thumbPressed = 0;
@@ -22,20 +22,31 @@ FingerKeys::FingerKeys(Hand * h)
   middlePressed = 2;
   ringPressed = 3;
   pinkyPressed = 4;
+  
+  
+  //create wave(s) for 1st 3rd 5th 7th and 8th
+  waves.push_back(new Sine(440.0,0.2,48000));
+  waves.push_back(new Sine(440.0,0.2,48000));
+  waves.push_back(new Sine(440.0,0.2,48000));
+  waves.push_back(new Sine(440.0,0.2,48000));
+  waves.push_back(new Sine(440.0,0.2,48000));	
 }
-double FingerKeys::computeNextSample()
+double Chords::computeNextSample()
 {
-
-  char newState = 0b00000000;
-
+ hand->updateHand();
  
-
-  hand->updateHand();
-
+ 
+ if (200 < hand->getThumb() && hand->getThumb() < 400)
+	findChordNotes(1,0);
+ else
+	findChordNotes(1,1);
+ return runAllWaves();
+ 
+ char newState = 0b00000000;
 
 
   //check each finger for triggering
-
+/*
   if (200 < hand->getThumb() && hand->getThumb() < 400)   
   { 
     if(thumbPressed == 0)
@@ -107,6 +118,7 @@ double FingerKeys::computeNextSample()
     }
     setVolume(decibels);
     return runAllWaves();
+   
   }
 
    
@@ -136,17 +148,17 @@ double FingerKeys::computeNextSample()
 
 
   return runAllWaves();
-
+*/
 
 }
-void FingerKeys::setVolume(double dB)
+void Chords::setVolume(double dB)
 {
   for(int i = 0; i < numWaves; i++)
   {
     waves[i]->changeVolume(dB);
   }
 }
-void FingerKeys::createHarmonicWaves(int numHarmonics)
+void Chords::createHarmonicWaves(int numHarmonics)
 {
   for(int i = 0; i< numHarmonics; i++)
   {
@@ -156,7 +168,7 @@ void FingerKeys::createHarmonicWaves(int numHarmonics)
     numWaves++;
   }
 }
-double FingerKeys::changeAllFrequencies(double baseF)
+double Chords::changeAllFrequencies(double baseF)
 {
   for(int i = 0; i < numWaves; i++)
   {
@@ -164,7 +176,7 @@ double FingerKeys::changeAllFrequencies(double baseF)
   }
 
 }
-double FingerKeys::runAllWaves()
+double Chords::runAllWaves()
 {
   double val = 0.0;
   for(int i = 0; i < numWaves; i++)
@@ -173,4 +185,68 @@ double FingerKeys::runAllWaves()
   }
     return val;
 }
-
+void Chords::findChordNotes(int chordIndex, int type)
+{
+	double t;
+	/*chordIndex is based off chord numbers
+	 * 0 = root, don't use
+	 * 1 = root
+	 * 2 = II
+	 * 3 = III
+	 * 4 = IV
+	 * 5 = V
+	 * 6 = VI
+	 * 7 = VII
+	 * 8 = root, don't use
+	 * 
+	 * Table for chord types:
+	 * 0 major
+	 * 1 minor
+	 * 2 dominant 7
+	 */
+	 switch (chordIndex){
+		case 1:
+			t = chromatic(220.0, octave, 0);
+			waves[0]->setFrequency(t);
+			t = chromatic(220.0, octave, 4);
+			waves[1]->setFrequency(t);
+			t = chromatic(220.0, octave, 7);
+			waves[2]->setFrequency(t);
+			t = chromatic(220.0, octave, 12);
+			waves[3]->setFrequency(t);
+			t = chromatic(220.0, octave-1, 0);
+			waves[4]->setFrequency(t);
+			
+		
+		break;
+		/*
+		case 2:
+		break;
+		case 3:
+		break;
+		case 4:
+		break;
+		case 5:
+		break;
+		case 6:
+		break;
+		case 7:
+		break;
+		case 8:
+		break;
+		* */
+		default:
+		break;
+	}
+	switch (type){
+		case 0:
+		break;
+		case 1:
+			t = chromatic(waves[1]->getFrequency(), octave, -1);
+			waves[1]->setFrequency(t);
+		break;
+		
+	}
+	 
+	 
+}
