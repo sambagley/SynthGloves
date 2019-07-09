@@ -7,6 +7,7 @@
          #include <wiringSerial.h>
 		#endif
 #include <errno.h>
+
 class Hand {
 	private:
 		// variables for hand
@@ -87,7 +88,9 @@ class Hand {
 		int getYAcc();										// Returns y acc
 		int getZAcc();										// Returns z acc
 		int getGs();											// Returns Gs value
-		int getOverallPercent();					// Returns average of each fingers percent
+		int getOverallPercent();
+		int getGestures();
+		int calibrateGestures();					// Returns average of each fingers percent
 };
 
 #endif

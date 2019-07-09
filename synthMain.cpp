@@ -14,16 +14,20 @@
 #include <climits>
 #include "SimpleSine.h"
 #include "Instrument_01.h"
+#include "Instrument_02.h"
 #include "Instrument_03.h"
-
 using std::cout;
 using std::endl;
 
 
 int main(int argc, char *argv[]){
 
+
     Hand * lefty = new Hand("/dev/ttyACM0",115200);
     //Hand * righty = new Hand("/dev/ttyACM1", 57600);
+
+    
+
  
 
  
