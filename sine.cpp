@@ -5,8 +5,8 @@ Sine::Sine(double frequency, double amplitude, int sampleRate)
 	this->frequency = frequency;
 	this->amplitude = amplitude;
 	this->sampleRate = sampleRate;
-	this->phase = 1.0;
-
+	this->phase = 0.0;
+	this->maxAmp = amplitude;
 
 }
 
@@ -54,12 +54,17 @@ void Sine::setAmplitude(double a)
 	}
 	this->amplitude = a;
 }
-void Sine::changeVolume(double percent)
+void Sine::changeVolume(double dB)
 {
-	if (percent >= 100.0)
+	if (dB >= -0.000001)
 	{
 		amplitude = maxAmp;
 		return;
 	}
- 	amplitude = log10(percent) * 20 * maxAmp;
+	if (dB < -99.99)
+	{
+		amplitude = 0.00001;
+		return;
+	}
+ 	amplitude = maxAmp * pow(10.0, dB/20.0);
 }

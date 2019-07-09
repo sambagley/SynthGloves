@@ -83,9 +83,9 @@ class Hand {
 		int getXAng();										// Returns X angle
 		int getYAng();										// Returns y angle
 		int getZAng();
-    int getXAcc();										// Returns X acc
-    int getYAcc();										// Returns y acc
-    int getZAcc();										// Returns z acc
+		int getXAcc();										// Returns X acc
+		int getYAcc();										// Returns y acc
+		int getZAcc();										// Returns z acc
 		int getGs();											// Returns Gs value
 		int getOverallPercent();					// Returns average of each fingers percent
 };

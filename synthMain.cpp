@@ -14,6 +14,7 @@
 #include <climits>
 #include "SimpleSine.h"
 #include "Instrument_01.h"
+#include "Instrument_03.h"
 
 using std::cout;
 using std::endl;
@@ -22,13 +23,16 @@ using std::endl;
 int main(int argc, char *argv[]){
 
     Hand * lefty = new Hand("/dev/ttyACM0",115200);
-    
+    //Hand * righty = new Hand("/dev/ttyACM1", 57600);
  
 
  
     SimpleSine * t = new SimpleSine();
+    //Chords * lefthandkey = new Chords(lefty);
     FingerKeys * lefthandkey = new FingerKeys(lefty);
+    
     t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
+    //t->addInstrumentTwo(righthandkey);
     /// activate the client
     t->start();
 
