@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 using namespace std;
+
 Hand::Hand(const char * dev, int baud)
 {
 	serialDevice = dev;
@@ -247,4 +248,208 @@ bool Hand::getIfStopSign(){
 		return true;
 	}
 	return false;
+}
+
+void Hand::calibrateGestures()
+{
+	 // Get first gesture data
+	 cout << "Make first loop gesture" << endl;
+	 sleep(2);
+	 thumb1 = getThumb();
+	 index1 = getIndex();
+	 middle1 = getMiddle();
+	 ring1 = getRing();
+	 pinky1 = getPinky();
+	 
+	 // Get second gesture data 
+	 cout << "Make second loop gesture" << endl;
+	 sleep(2);
+	 thumb2 = getThumb();
+	 index2 = getIndex();
+	 middle2 = getMiddle();
+	 ring2 = getRing();
+	 pinky2 = getPinky();
+	 
+	 // Get third gesture data
+	 cout << "Make third loop gesture" << endl;
+	 sleep(2);
+	 thumb3 = getThumb();
+	 index3 = getIndex();
+	 middle3 = getMiddle();
+	 ring3 = getRing();
+	 pinky3 = getPinky();
+	 
+	 // Get fourth gesture data
+	 cout << "Make fourth loop gesture" << endl;
+	 sleep(2);
+	 thumb4 = getThumb();
+	 index4 = getIndex();
+	 middle4 = getMiddle();
+	 ring4 = getRing();
+	 pinky4 = getPinky();
+	 
+	 // Get fifth gesture data
+	 cout << "Make fifth loop gesture" << endl;
+	 sleep(2);
+	 thumb5 = getThumb();
+	 index5 = getIndex();
+	 middle5 = getMiddle();
+	 ring5 = getRing();
+	 pinky5= getPinky();
+	 
+	 // Get sixth gesture data
+	 cout << "Make sixth loop gesture" << endl;
+	 sleep(2);
+	 thumb6 = getThumb();
+	 index6 = getIndex();
+	 middle6 = getMiddle();
+	 ring6 = getRing();
+	 pinky6 = getPinky();
+	 
+	 // Get seventh gesture data
+	 cout << "Make seventh loop gesture" << endl;
+	 sleep(2);
+	 thumb7 = getThumb();
+	 index7 = getIndex();
+	 middle7 = getMiddle();
+	 ring7 = getRing();
+	 pinky7 = getPinky();
+	 
+	 // Get eighth gesture data
+	 cout << "Make eighth loop gesture" << endl;
+	 sleep(2);
+	 thumb8 = getThumb();
+	 index8 = getIndex();
+	 middle8 = getMiddle();
+	 ring8 = getRing();
+	 pinky8 = getPinky();
+	 
+	 // Get ninth gesture data
+	 cout << "Make ninth loop gesture" << endl;
+	 sleep(2);
+	 thumb9 = getThumb();
+	 index9 = getIndex();
+	 middle9 = getMiddle();
+	 ring9 = getRing();
+	 pinky9 = getPinky();
+	 
+	 // Get tenth gesture data
+	 cout << "Make tenth loop gesture" << endl;
+	 sleep(2);
+	 thumb10 = getThumb();
+	 index10 = getIndex();
+	 middle1 = getMiddle();
+	 ring10 = getRing();
+	 pinky10 = getPinky(); 
+}
+
+int Hand::getGestures()
+{
+	updateHand();
+	
+	// Check for first gesture
+	if ((abs(getThumb() - thumb1) < deviation)&&
+		(abs(getIndex() - index1) < deviation)&&
+		(abs(getMiddle() - middle1) < deviation)&&
+		(abs(getRing() - ring1) < deviation)&&
+		(abs(getPinky() - pinky1) < deviation))
+	{
+		return 1;
+	}
+	
+	// Check for second gesture
+	else if ((abs(getThumb() - thumb2) < deviation)&&
+		(abs(getIndex() - index2) < deviation)&&
+		(abs(getMiddle() - middle2) < deviation)&&
+		(abs(getRing() - ring2) < deviation)&&
+		(abs(getPinky() - pinky2) < deviation))
+	{
+		return 2;
+	}
+	
+	// Check for third gesture
+	else if ((abs(getThumb() - thumb3) < deviation)&&
+		(abs(getIndex() - index3) < deviation)&&
+		(abs(getMiddle() - middle3) < deviation)&&
+		(abs(getRing() - ring3) < deviation)&&
+		(abs(getPinky() - pinky3) < deviation))
+	{
+		return 3;
+	}
+	
+	// Check for fourth gesture
+	else if ((abs(getThumb() - thumb4) < deviation)&&
+		(abs(getIndex() - index4) < deviation)&&
+		(abs(getMiddle() - middle4) < deviation)&&
+		(abs(getRing() - ring4) < deviation)&&
+		(abs(getPinky() - pinky4) < deviation))
+	{
+		return 4;
+	}
+	
+	// Check for fifth gesture
+	else if ((abs(getThumb() - thumb5) < deviation)&&
+		(abs(getIndex() - index5) < deviation)&&
+		(abs(getMiddle() - middle5) < deviation)&&
+		(abs(getRing() - ring5) < deviation)&&
+		(abs(getPinky() - pinky5) < deviation))
+	{
+		return 5;
+	}
+	
+	// Check for sixth gesture
+	else if ((abs(getThumb() - thumb6) < deviation)&&
+		(abs(getIndex() - index6) < deviation)&&
+		(abs(getMiddle() - middle6) < deviation)&&
+		(abs(getRing() - ring6) < deviation)&&
+		(abs(getPinky() - pinky6) < deviation))
+	{
+		return 6;
+	}
+	
+	// Check for seventh gesture
+	else if ((abs(getThumb() - thumb7) < deviation)&&
+		(abs(getIndex() - index7) < deviation)&&
+		(abs(getMiddle() - middle7) < deviation)&&
+		(abs(getRing() - ring7) < deviation)&&
+		(abs(getPinky() - pinky7) < deviation))
+	{
+		return 7;
+	}
+	
+	// Check for eighth gesture
+	else if ((abs(getThumb() - thumb8) < deviation)&&
+		(abs(getIndex() - index8) < deviation)&&
+		(abs(getMiddle() - middle8) < deviation)&&
+		(abs(getRing() - ring8) < deviation)&&
+		(abs(getPinky() - pinky8) < deviation))
+	{
+		return 8;
+	}
+	
+	// Check for ninth gesture
+	else if ((abs(getThumb() - thumb9) < deviation)&&
+		(abs(getIndex() - index9) < deviation)&&
+		(abs(getMiddle() - middle9) < deviation)&&
+		(abs(getRing() - ring9) < deviation)&&
+		(abs(getPinky() - pinky9) < deviation))
+	{
+		return 9;
+	}
+	
+	// Check for tenth gesture
+	else if ((abs(getThumb() - thumb10) < deviation)&&
+		(abs(getIndex() - index10) < deviation)&&
+		(abs(getMiddle() - middle10) < deviation)&&
+		(abs(getRing() - ring10) < deviation)&&
+		(abs(getPinky() - pinky10) < deviation))
+	{
+		return 10;
+	}
+	else
+	{
+		return 0;
+	}
+	
+	
 }
