@@ -4,15 +4,17 @@
  * Written by Nathan Jenson
  * 6/20/2019
  */
-#include <Wire.h>
-#include <Adafruit_ADS1015.h>
-#include <MPU6050.h>
-//#include <I2Cdev.h>
 
-#define dt 0.0065
+#include <Adafruit_ADS1015.h>
+//#include <MPU6050.h>
+#include <I2Cdev.h>
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+
+#define dt 0.008764
 #define ADC 72
 #define MPU 68
-#define pinky_pin A3
+#define pinky_pin A0
 
 // Declare variables to use
 int16_t ax, ay, az;
@@ -21,6 +23,10 @@ int16_t gx, gy, gz;
 int16_t acc_x = 0;
 int16_t acc_y = 0;
 int32_t acc_z = 0;
+
+int32_t ax_arr[] = {0,0,0,0};
+int32_t ay_arr[] = {0,0,0,0};
+int32_t az_arr[] = {0,0,0,0};
 
 int32_t ax_sum;
 int32_t ay_sum;
@@ -37,22 +43,43 @@ int16_t z_angle;
 
 int16_t thumb_flex, index_flex, middle_flex, ring_flex, pinky_flex;
 
-
+uint16_t index = 0;
 Adafruit_ADS1015 ads;     // Instantiate 12-bit version of ACD - ADS1015
-MPU6050 mpu;              // Instantiate the MPU-6050
+//MPU6050 mpu;              // Instantiate the MPU-6050
+MPU6050 mpu6050(Wire);
+unsigned long el;
+
+float aX, aY, aZ;
 
 void setup(void) 
 {
-  Serial.begin(2000000);
-  ads.setGain(GAIN_ONE);
-  mpu.initialize();
+      // join I2C bus (I2Cdev library doesn't do this automatically)
+    #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
+        Wire.begin();
+    #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
+        Fastwire::setup(400, true);
+    #endif
+
+
+  
+  Serial.begin(57600);
+  //ads.setGain(GAIN_ONE);
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets(true);
+  //mpu6050.end();
+  //mpu.initialize();
+
 }
 
 void loop(void) 
 {
-  get_flex_data();                                    // Get flex sensor data
-  get_mpu_data();                                     // Get accel and gyroscope data
-  send_data();                                        // Concatenate and send the data to the pi
+  get_flex_data();
+   
+  get_mpu_data();
+   
+  send_data(); 
+  
+ //print_readable_data();// Concatenate and send the data to the pi
 }
 
 
@@ -60,13 +87,20 @@ void loop(void)
 /*Get the flex sensor data from the ADS1015 and from the Analog input pin
  */
 void get_flex_data(){
-  Wire.begin(ADC);                                    // Begin communication with ADS1015
-  thumb_flex = ads.readADC_SingleEnded(0);            // Get flex sensor data for 4 fingers
-  index_flex = ads.readADC_SingleEnded(1);
-  middle_flex = ads.readADC_SingleEnded(2);
-  ring_flex = ads.readADC_SingleEnded(3);
-  Wire.end();                                         // End communication with ADS1015
-  pinky_flex = analogRead(pinky_pin);                       // Get the reading of the last flex sensor
+
+ /* Wire.begin(ADC); 
+  pinky_flex = ads.readADC_SingleEnded(3); 
+  index_flex = ads.readADC_SingleEnded(0);
+  middle_flex = ads.readADC_SingleEnded(1);
+  ring_flex = ads.readADC_SingleEnded(2);
+  Wire.end();
+  */
+  
+  thumb_flex = analogRead(A0);
+  index_flex = analogRead(A1)*2;
+  middle_flex = analogRead(A2)*2;
+  ring_flex = analogRead(A3)*2;
+  pinky_flex = analogRead(A6)*2;
   }
 
 /* Get data from the MPU-6050
@@ -74,9 +108,15 @@ void get_flex_data(){
  * Then get gyro data and use complementary filter with map function to clean up data
  */
 void get_mpu_data(){
-  
-  Wire.begin(MPU);                                      // Begin communication with MPU-6050
-
+  //mpu6050.begin();
+  mpu6050.update();
+  aX = mpu6050.getAngleX();
+  aY = mpu6050.getAngleY();
+  aZ = mpu6050.getAngleZ();
+  //mpu6050.end();
+ /*Wire.begin(MPU);                                      // Begin communication with MPU-6050
+ 
+  /*                                                    
   ax_sum = 0;                                           // Get the Acceleration data by averaging. Set Acc sums equal to zero before starting
   ay_sum = 0;
   az_sum = 0;
@@ -91,26 +131,37 @@ void get_mpu_data(){
   acc_x = ax_sum / 4;                                    // Take the average of the 4 data readings
   acc_y = ay_sum / 4;
   acc_z = az_sum / 4;
-
-
-  ang_x = 0.97*(ang_x + gx*dt)+(0.03*ax);               // Now process the gyro data with complementry filter
+  */
+  /*
+  index = (index + 1) % 4;
+                                                      
+  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);        // Get accelerations
+  ax_arr[index] = ax;
+  ay_arr[index] = ay;
+  az_arr[index] = az;
+  ax_sum = ax_arr[0] + ax_arr[1] + ax_arr[2] + ax_arr[3];
+  ay_sum = ay_arr[0] + ay_arr[1] + ay_arr[2] + ay_arr[3];
+  az_sum = az_arr[0] + az_arr[1] + az_arr[2] + az_arr[3];
+  
+  acc_x = ax_sum / 4;                                    // Take the average of the 4 data readings
+  acc_y = ay_sum / 4;
+  acc_z = az_sum / 4;
+  ang_x = 0.95*(ang_x + gx*dt)+(0.05*ax);               // Now process the gyro data with complementry filter
   x_angle = map(ang_x,-15600,17200,-90,90);             // Map to -90 through 90 degrees
   
-  ang_y = 0.97*(ang_y + gy*dt) + (0.03*ay);             // Same as above but for Y data
+  ang_y = 0.95*(ang_y + gy*dt) + (0.05*ay);             // Same as above but for Y data
   y_angle = map(ang_y,-16600,16100,-90,90);
-
-  ang_z = 0.97*(ang_z + gz*dt) + (0.03*az);             // Same as above but for z data
+  ang_z = 0.95*(ang_z + gz*dt) + (0.05*az);             // Same as above but for z data
   z_angle = map(ang_z,-16600,16100,-90,90);
-
-
-  Wire.end();                                           // End communication with the MPU
+ Wire.end();                                           // End communication with the MPU
+ */
   }
 
   
 /* Send data in easy to read format.
  *  Use this function instead of the send_data() function for debugging purposes
  */
-  
+ /* 
 void print_readable_data(){
   Serial.print("Thumb: "); Serial.println(thumb_flex);
   Serial.print("Index: "); Serial.println(index_flex);
@@ -132,7 +183,7 @@ void print_readable_data(){
   Serial.println(" ");
   Serial.println(" ");
  }
-
+*/
 
 /*Sends data ready to be parsed by Pi. 
  * New data set begins with "$" and ends with "&"
@@ -150,5 +201,15 @@ void print_readable_data(){
  * Velocity data will be added soon...
  */ 
  void send_data(){
-  Serial.println("$ " + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(x_angle)+ " " + String(y_angle) + " " + String(z_angle)+ String(micros()) + " &");
+   Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(aX)+ " " + String(aY) + " " + String(aZ) + " ");
+
+ // Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(x_angle)+ " " + String(y_angle) + " " + String(z_angle) + " "+ String(acc_x)+ " " + String(acc_y) + " " + String(acc_z) + " ");
  }
+
+
+
+
+
+ /*void send_data_bytes(){
+  Serial.write(
+    );*/

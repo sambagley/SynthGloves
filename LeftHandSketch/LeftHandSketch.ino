@@ -62,7 +62,7 @@ void setup(void)
 
 
   
-  Serial.begin(115200);
+  Serial.begin(57600);
   ads.setGain(GAIN_ONE);
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
@@ -204,7 +204,7 @@ void print_readable_data(){
  * Velocity data will be added soon...
  */ 
  void send_data(){
-   Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(aX)+ " " + String(aY) + " " + String(aZ) + " "+ String(0)+ " " + String(0) + " " + String(0) + " ");
+   Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(aX)+ " " + String(aY) + " " + String(aZ) + " ");
 
  // Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(x_angle)+ " " + String(y_angle) + " " + String(z_angle) + " "+ String(acc_x)+ " " + String(acc_y) + " " + String(acc_z) + " ");
  }
