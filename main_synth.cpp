@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
  
     SimpleSine * t = new SimpleSine();
     //Chords * lefthandkey = new Chords(lefty);
-    FingerKeys * lefthandkey = new FingerKeys(lefty);
+    Chords * lefthandkey = new Chords(lefty);
     
     t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
     //t->addInstrumentTwo(righthandkey);
