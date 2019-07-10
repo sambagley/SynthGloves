@@ -7,7 +7,7 @@ class Looper: public Instrument{
 
   private:
     int updateHandCount;				// Keeps track if we need to update hand
-    int nextSample;				      // The current sample being played
+    double nextSample;				      // The current sample being played
     int sampleNumber;
     int currentLoop;
 
@@ -22,17 +22,17 @@ class Looper: public Instrument{
     int numSamplesLoop9;
     int numSamplesLoop10;
 
-    AudioFile<double> loop1;
-    AudioFile<double> loop2;
-    AudioFile<double> loop3;
-    AudioFile<double> loop4;
+    AudioFile<double> * loop1;
+    AudioFile<double> * loop2;
+    AudioFile<double> * loop3;
+    AudioFile<double> * loop4;/*
     AudioFile<double> loop5;
     AudioFile<double> loop6;
     AudioFile<double> loop7;
     AudioFile<double> loop8;
     AudioFile<double> loop9;
-    AudioFile<double> loop10;
-
+    AudioFile<double> loop10;*/
+    Sine * sine;
 
   public:
     Looper(Hand * h);
