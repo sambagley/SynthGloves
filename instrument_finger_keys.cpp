@@ -122,7 +122,7 @@ double FingerKeys::computeNextSample()
     targetFrequency = newTargetFrequency;
   }
 
-  currentFrequency = twoNoteTransition(oldFrequency, targetFrequency, 1000, currentFrequency);
+  currentFrequency = twoNoteTransition(oldFrequency, targetFrequency, 2000, currentFrequency);
 
   if (fabs(currentFrequency - targetFrequency) < 0.2)
   {
@@ -130,9 +130,9 @@ double FingerKeys::computeNextSample()
   }
 
   
-  double vibrato = ( hand->getYAng() )* 0.01;
+  double vibrato = ( hand->getYAng() + 20.0 )* 0.01;//the + 20 is for default hand posture offset
  
-  changeAllFrequencies(currentFrequency *  pow(2.0, vibrato/12.0));
+  changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
 
 
   return runAllWaves();

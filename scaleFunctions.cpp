@@ -145,7 +145,7 @@ double wholeTone(double base_freq, int octave_offset, int note)
 double twoNoteTransition(double startingFreq ,double targetFreq,int millisToTravel,double lastOutputGenerated)
 {
     const int SAMPLERATE = 48000;
-    double steps =  (double) SAMPLERATE ;
+    double steps =  (double) (SAMPLERATE/ 4) ;
     
     if (fabs(lastOutputGenerated - targetFreq) < 0.5)
         return targetFreq;

@@ -15,7 +15,7 @@ protected:
   Hand * hand;
   
   double rootFrequency;
-  const int theCurrentScaleSetting = 5;
+  const int theCurrentScaleSetting = 0;
   double outSignal;
   int octave;
   int scaleVal; 
