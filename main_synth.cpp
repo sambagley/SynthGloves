@@ -29,12 +29,15 @@ int main(int argc, char *argv[]){
     //Hand * righty = new Hand("/dev/ttyACM1", 57600);
     
 
-    //Chords * lefthandkey = new Chords(righty);
+   
     Looper * righthandkey = new Looper(righty);
     //sleep(5);
+    
     SimpleSine * t = new SimpleSine();
+
     t->addInstrumentOne(righthandkey); // send instrument to sound hardware wrapper.
-    //t->addInstrumentTwo(righthandkey);
+    //t->addInstrumentTwo(lefthandkey); // send instrument to sound hardware wrapper.
+
     /// activate the client
     t->start();
 

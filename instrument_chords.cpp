@@ -22,7 +22,7 @@ Chords::Chords(Hand * h)
   middlePressed = 2;
   ringPressed = 3;
   pinkyPressed = 4;
-  
+  octave = -1;
   
   //create wave(s) for 1st 3rd 5th 7th and 8th
   waves.push_back(new Sine(440.0,0.2,48000));
@@ -35,18 +35,23 @@ double Chords::computeNextSample()
 {
  hand->updateHand();
  
- 
+ /*
  if (200 < hand->getThumb() && hand->getThumb() < 400)
 	findChordNotes(1,0);
  else
 	findChordNotes(1,1);
  return runAllWaves();
  
- char newState = 0b00000000;
-
+ 
+*/
+char newState = 0b00000000;
 
   //check each finger for triggering
-/*
+  
+  
+  
+//this block of code is really confusing but basically it checks if each finger is bent
+//then it will check if the it was already bent before, if not it will assign the note to that finger
   if (200 < hand->getThumb() && hand->getThumb() < 400)   
   { 
     if(thumbPressed == 0)
@@ -80,7 +85,7 @@ double Chords::computeNextSample()
    {
      middlePressed = 0;
    }
-   if (200 < hand->getRing() && hand->getRing() < 1500)  
+   if (200 < hand->getRing() && hand->getRing() < 1420)  
    { 
      if(ringPressed == 0)
       priorityF = 3;
@@ -108,9 +113,32 @@ double Chords::computeNextSample()
       //if the last button pressed was not pressed last time , make it the new one 
        
     }
-  if (newState == 0b00000000) //turn the volume real low
-  {
-    
+ 
+  int chordIndex = 0; 
+  
+  switch (newState){
+  case 0b00011101:
+  chordIndex = 1;
+  break;
+  case 0b00011001:
+  chordIndex = 2;
+  break;
+  case 0b00011000:
+  chordIndex = 3;
+  break;
+  case 0b00000001:
+  chordIndex = 4;
+  break;
+  case 0b00000000:
+  chordIndex = 5;
+  break;
+  case 0b00000011:
+  chordIndex = 6;
+  break;
+  case 0b00000101:
+  chordIndex = 7;
+  break;
+  default:
     if (decibels > -100.0)
     {
       decibels -= 0.01;
@@ -118,14 +146,13 @@ double Chords::computeNextSample()
     }
     setVolume(decibels);
     return runAllWaves();
-   
   }
 
    
     if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);}
 
   //logic for sliding from note to note
-
+/*
   double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, priorityF);
 
   if (fabs(targetFrequency - newTargetFrequency) > 0.1)
@@ -140,15 +167,18 @@ double Chords::computeNextSample()
   {
     currentFrequency = targetFrequency;
   }
-
+*/
+  int chordType = 0;
+  if ( hand->getYAng() < -60.0)
+  {
+    chordType = 1;
+  }
   
-  double vibrato = ((double) hand->getYAng() )* 0.01;
- 
-  changeAllFrequencies(currentFrequency *  pow(2.0, vibrato/12.0));
+  findChordNotes(chordIndex, chordType);
 
 
   return runAllWaves();
-*/
+
 
 }
 void Chords::setVolume(double dB)
@@ -178,16 +208,30 @@ double Chords::changeAllFrequencies(double baseF)
 }
 double Chords::runAllWaves()
 {
-  double val = 0.0;
+  double val = 0.00001;
   for(int i = 0; i < numWaves; i++)
   {
     val += waves[i]->go();
   }
     return val;
 }
+
+/***************************************************
+* findChordNotes is used to set all frequencies of the waves 
+* for a given chord. 
+* parameters are the chord number, and the type of chord, 
+* major, minor, etc. 	
+*
+*  
+********************************************************/
 void Chords::findChordNotes(int chordIndex, int type)
 {
-	double t;
+	double t; //variable for temporary
+	int voiceOne;
+	int voiceTwo;
+	int voiceThree;
+	int voiceFour;
+	int voiceFive;
 	/*chordIndex is based off chord numbers
 	 * 0 = root, don't use
 	 * 1 = root
@@ -206,47 +250,88 @@ void Chords::findChordNotes(int chordIndex, int type)
 	 */
 	 switch (chordIndex){
 		case 1:
-			t = chromatic(220.0, octave, 0);
-			waves[0]->setFrequency(t);
-			t = chromatic(220.0, octave, 4);
-			waves[1]->setFrequency(t);
-			t = chromatic(220.0, octave, 7);
-			waves[2]->setFrequency(t);
-			t = chromatic(220.0, octave, 12);
-			waves[3]->setFrequency(t);
-			t = chromatic(220.0, octave-1, 0);
-			waves[4]->setFrequency(t);
-			
-		
+		voiceOne = 0;
+		voiceTwo = 4;
+		voiceThree = 7;
+		voiceFour = 12;
+		voiceFive = -12;
 		break;
-		/*
 		case 2:
+		voiceOne = 2;
+		voiceTwo = 6;
+		voiceThree = 9;
+		voiceFour = 14;
+		voiceFive = -10;
 		break;
 		case 3:
+		voiceOne = 4;
+		voiceTwo = 8;
+		voiceThree = 11;
+		voiceFour = 16;
+		voiceFive = -8;
 		break;
 		case 4:
+		voiceOne = 5;
+		voiceTwo = 9;
+		voiceThree = 12;
+		voiceFour = 17;
+		voiceFive = -7;
 		break;
 		case 5:
+		voiceOne = 7;
+		voiceTwo = 11;
+		voiceThree = 14;
+		voiceFour = 19;
+		voiceFive = -5;
 		break;
 		case 6:
+		voiceOne = 9;
+		voiceTwo = 13;
+		voiceThree = 16;
+		voiceFour = 21;
+		voiceFive = -3;
 		break;
 		case 7:
+		voiceOne = 11;
+		voiceTwo = 15;
+		voiceThree = 18;
+		voiceFour = 23;
+		voiceFive = -1;
 		break;
-		case 8:
-		break;
-		* */
 		default:
+		voiceOne = 0;
+		voiceTwo = 4;
+		voiceThree = 7;
+		voiceFour = 12;
+		voiceFive = -12;
 		break;
 	}
+	
+	
+	
+	
+	
 	switch (type){
 		case 0:
 		break;
 		case 1:
-			t = chromatic(waves[1]->getFrequency(), octave, -1);
-			waves[1]->setFrequency(t);
+		voiceTwo = voiceTwo - 1;
 		break;
 		
 	}
+	
+
+	t = chromatic(rootFrequency, octave, voiceOne);
+	waves[0]->setFrequency(t);
+	t = chromatic(rootFrequency, octave, voiceTwo);
+	waves[1]->setFrequency(t);
+	t = chromatic(rootFrequency, octave, voiceThree);
+	waves[2]->setFrequency(t);
+	t = chromatic(rootFrequency, octave, voiceFour);
+	waves[3]->setFrequency(t);
+	t = chromatic(rootFrequency, octave, voiceFive);
+	waves[4]->setFrequency(t);
+	
 	 
 	 
 }
