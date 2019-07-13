@@ -2,7 +2,10 @@
 #include <iostream>
 
 
-Looper::Looper(Hand * h)
+using namespace std;
+
+
+Looper::Looper(Hand * h)			
   : Instrument(h)
 {
 	updateHandCount = 0;
@@ -45,24 +48,13 @@ Looper::Looper(Hand * h)
 	numSamplesLoop9 = loop9->getNumSamplesPerChannel();
 	numSamplesLoop10 = loop10->getNumSamplesPerChannel();
 	
-	
-	//loop1->printSummary();
-	//hand->calibrateGestures();
 }
 double Looper::computeNextSample()
 {
-  /*if ((updateHandCount % 8) == 0)
-  {
-	int tempLastLoop = currentLoop;
-	currentLoop = hand->getGestures();
-	if (currentLoop != tempLastLoop)
-	{
-		sampleNumber = 0;
-	}
-  }*/
 
  nextSample = loop1->samples[0][sampleNumber++]; 
  if (sampleNumber >= numSamplesLoop1)
 	sampleNumber = 0;
   return nextSample;
+
 }

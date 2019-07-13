@@ -4,6 +4,7 @@
 #include <unistd.h>
 using namespace std;
 
+
 Hand::Hand(const char * dev, int baud)
 {
 	serialDevice = dev;
@@ -176,9 +177,11 @@ int Hand::getGs()
 }
 
 void Hand::calibrateOpen()											// Make sure to call calibrateOpen()
-{																								// before calling calibrateClosed()
-	updateHand();																	// or else the ranges will be incorrect
-	thumbOpen = thumbBend;												// and percents will be wrong.
+{	
+	std::cerr << "Open Hand" << endl;
+	sleep(2);									// before calling calibrateClosed()
+	updateHand();													// or else the ranges will be incorrect
+	thumbOpen = thumbBend;											// and percents will be wrong.
 	ringOpen = ringBend;
 	middleOpen = middleBend;
 	ringOpen = ringBend;
@@ -188,6 +191,8 @@ void Hand::calibrateOpen()											// Make sure to call calibrateOpen()
 
 void Hand::calibrateClosed()										// Call calibrateOpen() first!
 {
+	std::cerr << "Close Hand" << endl;
+	sleep(2);
 	updateHand();
 	thumbClosed = thumbBend;
 	ringClosed = ringBend;
@@ -256,8 +261,10 @@ bool Hand::getIfStopSign(){
 void Hand::calibrateGestures()
 {
 	 // Get first gesture data
-	 cout << "Make first loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make first loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb1 = getThumb();
 	 index1 = getIndex();
 	 middle1 = getMiddle();
@@ -265,8 +272,10 @@ void Hand::calibrateGestures()
 	 pinky1 = getPinky();
 	 
 	 // Get second gesture data 
-	 cout << "Make second loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make second loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb2 = getThumb();
 	 index2 = getIndex();
 	 middle2 = getMiddle();
@@ -274,8 +283,10 @@ void Hand::calibrateGestures()
 	 pinky2 = getPinky();
 	 
 	 // Get third gesture data
-	 cout << "Make third loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make third loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb3 = getThumb();
 	 index3 = getIndex();
 	 middle3 = getMiddle();
@@ -283,8 +294,10 @@ void Hand::calibrateGestures()
 	 pinky3 = getPinky();
 	 
 	 // Get fourth gesture data
-	 cout << "Make fourth loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make fourth loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb4 = getThumb();
 	 index4 = getIndex();
 	 middle4 = getMiddle();
@@ -292,8 +305,10 @@ void Hand::calibrateGestures()
 	 pinky4 = getPinky();
 	 
 	 // Get fifth gesture data
-	 cout << "Make fifth loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make fifth loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb5 = getThumb();
 	 index5 = getIndex();
 	 middle5 = getMiddle();
@@ -301,8 +316,10 @@ void Hand::calibrateGestures()
 	 pinky5= getPinky();
 	 
 	 // Get sixth gesture data
-	 cout << "Make sixth loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make sixth loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb6 = getThumb();
 	 index6 = getIndex();
 	 middle6 = getMiddle();
@@ -310,8 +327,10 @@ void Hand::calibrateGestures()
 	 pinky6 = getPinky();
 	 
 	 // Get seventh gesture data
-	 cout << "Make seventh loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make seventh loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb7 = getThumb();
 	 index7 = getIndex();
 	 middle7 = getMiddle();
@@ -319,8 +338,10 @@ void Hand::calibrateGestures()
 	 pinky7 = getPinky();
 	 
 	 // Get eighth gesture data
-	 cout << "Make eighth loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make eighth loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb8 = getThumb();
 	 index8 = getIndex();
 	 middle8 = getMiddle();
@@ -328,8 +349,10 @@ void Hand::calibrateGestures()
 	 pinky8 = getPinky();
 	 
 	 // Get ninth gesture data
-	 cout << "Make ninth loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make ninth loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb9 = getThumb();
 	 index9 = getIndex();
 	 middle9 = getMiddle();
@@ -337,11 +360,13 @@ void Hand::calibrateGestures()
 	 pinky9 = getPinky();
 	 
 	 // Get tenth gesture data
-	 cout << "Make tenth loop gesture" << endl;
-	 sleep(2);
+	 std::cerr << "Make tenth loop gesture" << endl;
+	 sleep(1);
+	 updateHand();
+	 //updateHand();
 	 thumb10 = getThumb();
 	 index10 = getIndex();
-	 middle1 = getMiddle();
+	 middle10 = getMiddle();
 	 ring10 = getRing();
 	 pinky10 = getPinky(); 
 }

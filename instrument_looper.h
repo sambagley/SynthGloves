@@ -6,6 +6,7 @@
 class Looper: public Instrument{
 
   private:
+
     int updateHandCount;				// Keeps track if we need to update hand
     double nextSample;				      // The current sample being played
     uint32_t sampleNumber;
@@ -20,7 +21,8 @@ class Looper: public Instrument{
     int numSamplesLoop7;
     int numSamplesLoop8;
     int numSamplesLoop9;
-    int numSamplesLoop10;
+    int numSamplesLoop10;*/
+    
 
     AudioFile<double> * loop1;
     AudioFile<double> * loop2;
@@ -35,8 +37,8 @@ class Looper: public Instrument{
 
 
   public:
-    Looper(Hand * h);
-    double computeNextSample();
+    Looper(Hand * h);                       // Declare looper class that will be instantiated
+    double computeNextSample();             // Declare function that will compute next sample; to be called from jack_wrapper
 
 };
 #endif

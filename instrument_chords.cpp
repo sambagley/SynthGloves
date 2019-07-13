@@ -85,7 +85,7 @@ char newState = 0b00000000;
    {
      middlePressed = 0;
    }
-   if (200 < hand->getRing() && hand->getRing() < 1500)  
+   if (200 < hand->getRing() && hand->getRing() < 1420)  
    { 
      if(ringPressed == 0)
       priorityF = 3;

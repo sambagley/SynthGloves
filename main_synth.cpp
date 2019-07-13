@@ -17,6 +17,7 @@
 #include "instrument_looper.h"
 #include "instrument_chords.h"
 
+
 using std::cout;
 using std::endl;
 
@@ -24,8 +25,9 @@ using std::endl;
 int main(int argc, char *argv[]){
 
 
-    Hand * lefty = new Hand("/dev/ttyACM0",57600);
+    Hand * righty = new Hand("/dev/ttyACM0",57600);
     //Hand * righty = new Hand("/dev/ttyACM1", 57600);
+    
 
 
  
