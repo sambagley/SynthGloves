@@ -10,22 +10,11 @@ class Chords: public Instrument{
 
 
 private:
-  double attackRate;
-  double fadeRate;
   std::vector <Sine*>  waves;
   int numWaves;
-  double oldFrequency;
-  double currentFrequency;
-  double targetFrequency;
   double baseWaveAmp;
   double decibels;
-  bool thumbPressed;
-  bool indexPressed;
-  bool middlePressed;
-  bool ringPressed;
-  bool pinkyPressed;
-  char oldState;
-  int priorityF;
+  
 
 public:
 

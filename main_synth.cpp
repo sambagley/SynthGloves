@@ -24,18 +24,19 @@ using std::endl;
 
 int main(int argc, char *argv[]){
 
+    Hand lefty("/dev/ttyACM0",57600);
 
-    Hand * righty = new Hand("/dev/ttyACM0",57600);
+    //Hand * lefty = new Hand("/dev/ttyACM0",57600);
     //Hand * righty = new Hand("/dev/ttyACM1", 57600);
     
 
 
  
     SimpleSine * t = new SimpleSine();
-    //FingerKeys * lefthandkey = new FingerKeys(lefty);
+    FingerKeys lefthandkey(&lefty);
     //Chords * righthandkey = new Chords(righty);
-    Looper * lefthandkey = new Looper(lefty);
-    t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
+    //Looper * lefthandkey = new Looper(lefty);
+    t->addInstrumentOne(&lefthandkey); // send instrument to sound hardware wrapper.
     //t->addInstrumentTwo(righthandkey);
     /// activate the client
     t->start();

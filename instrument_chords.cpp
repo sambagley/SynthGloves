@@ -8,20 +8,8 @@ Chords::Chords(Hand * h)
 	//fill default values
   decibels = 0.0;
   baseWaveAmp = 0.5;
-  attackRate = 0.0001;
-  fadeRate = 1.00005;
-  currentFrequency = 440.0;
-  oldFrequency = 440.0;
-  targetFrequency = 440.0;
   numWaves = 5;
-  //createHarmonicWaves(3);
-  oldState = 0b00000000;
-  priorityF  = 0;
-  thumbPressed = 0;
-  indexPressed = 1;
-  middlePressed = 2;
-  ringPressed = 3;
-  pinkyPressed = 4;
+
   octave = -1;
   
   //create wave(s) for 1st 3rd 5th 7th and 8th
@@ -34,111 +22,13 @@ Chords::Chords(Hand * h)
 double Chords::computeNextSample()
 {
  hand->updateHand();
- 
- /*
- if (200 < hand->getThumb() && hand->getThumb() < 400)
-	findChordNotes(1,0);
- else
-	findChordNotes(1,1);
- return runAllWaves();
- 
- 
-*/
-char newState = 0b00000000;
+  int gesture = hand->getGestures();
 
-  //check each finger for triggering
   
   
-  
-//this block of code is really confusing but basically it checks if each finger is bent
-//then it will check if the it was already bent before, if not it will assign the note to that finger
-  if (200 < hand->getThumb() && hand->getThumb() < 400)   
-  { 
-    if(thumbPressed == 0)
-      priorityF = 0;
-    newState |= 0b00000001;
-    thumbPressed = 1;
-  }
-  else
-   {
-     thumbPressed = 0;
-   }
-   if (200 < hand->getIndex() && hand->getIndex() < 1500) 
-   { 
-     if(indexPressed == 0)
-      priorityF = 1;
-     newState |= 0b00000010;
-     indexPressed = 1;
-     }
-   else
-   {
-     indexPressed = 0;
-   }
-   if (200 < hand->getMiddle() && hand->getMiddle()< 1500) 
-   { 
-     if(middlePressed == 0)
-      priorityF = 2; 
-     newState |= 0b00000100;
-     middlePressed = 1;
-   }
-    else
-   {
-     middlePressed = 0;
-   }
-   if (200 < hand->getRing() && hand->getRing() < 1420)  
-   { 
-     if(ringPressed == 0)
-      priorityF = 3;
-     newState |= 0b00001000;
-     ringPressed = 1;
-   }
-    else 
-    {
-      ringPressed = 0 ;
-    }
-   if (200 < hand->getPinky() && hand->getPinky() < 1500) 
-   {
-      if(pinkyPressed == 0)
-        priorityF = 4;
-      newState |= 0b00010000;
-      pinkyPressed = 1;
-   }
-    else
-    {
-      pinkyPressed = 0;
-    }
-     if (newState > oldState)
-    {
-      oldState = newState;
-      //if the last button pressed was not pressed last time , make it the new one 
-       
-    }
- 
-  int chordIndex = 0; 
-  
-  switch (newState){
-  case 0b00011101:
-  chordIndex = 1;
-  break;
-  case 0b00011001:
-  chordIndex = 2;
-  break;
-  case 0b00011000:
-  chordIndex = 3;
-  break;
-  case 0b00000001:
-  chordIndex = 4;
-  break;
-  case 0b00000000:
-  chordIndex = 5;
-  break;
-  case 0b00000011:
-  chordIndex = 6;
-  break;
-  case 0b00000101:
-  chordIndex = 7;
-  break;
-  default:
+
+  if (gesture == 0)
+  {
     if (decibels > -100.0)
     {
       decibels -= 0.01;
@@ -147,27 +37,10 @@ char newState = 0b00000000;
     setVolume(decibels);
     return runAllWaves();
   }
-
+  int chordIndex = gesture;
    
-    if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);}
+  if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);}
 
-  //logic for sliding from note to note
-/*
-  double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, priorityF);
-
-  if (fabs(targetFrequency - newTargetFrequency) > 0.1)
-  {
-    oldFrequency = currentFrequency;
-    targetFrequency = newTargetFrequency;
-  }
-
-  currentFrequency = twoNoteTransition(oldFrequency, targetFrequency, 1000, currentFrequency);
-
-  if (fabs(currentFrequency - targetFrequency) < 0.2)
-  {
-    currentFrequency = targetFrequency;
-  }
-*/
   int chordType = 0;
   if ( hand->getXAng() < -10.0)
   {

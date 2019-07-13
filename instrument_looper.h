@@ -21,7 +21,7 @@ class Looper: public Instrument{
     int numSamplesLoop7;
     int numSamplesLoop8;
     int numSamplesLoop9;
-    int numSamplesLoop10;*/
+    int numSamplesLoop10;
     
 
     AudioFile<double> * loop1;

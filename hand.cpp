@@ -373,111 +373,77 @@ void Hand::calibrateGestures()
 
 int Hand::getGestures()
 {
-	updateHand();
+	char newState = 0b00000000;
 	
-	// Check for first gesture
-	if ((abs(getThumb() - thumb1) < deviation)&&
-		(abs(getIndex() - index1) < deviation)&&
-		(abs(getMiddle() - middle1) < deviation)&&
-		(abs(getRing() - ring1) < deviation)&&
-		(abs(getPinky() - pinky1) < deviation))
-	{
-		return 1;
-	}
+	 if (thumbBend > 200 && thumbBend < 400)   
+   { 
+    newState |= 0b00000001;
+
+   }
+
+   if (indexBend >  200 && indexBend  < 1500) 
+   { 
+
+     newState |= 0b00000010;
+
+   }
+
+   if (middleBend > 200 && middleBend < 1500) 
+   { 
+
+     newState |= 0b00000100;
+
+   }
+
+   if (ringBend > 200 && ringBend < 1420)  
+   { 
+
+     newState |= 0b00001000;
+
+   }
+
+   if (pinkyBend > 200 && pinkyBend < 1500) 
+   {
+      newState |= 0b00010000;
+
+   }
+
+int gesture;	
 	
-	// Check for second gesture
-	else if ((abs(getThumb() - thumb2) < deviation)&&
-		(abs(getIndex() - index2) < deviation)&&
-		(abs(getMiddle() - middle2) < deviation)&&
-		(abs(getRing() - ring2) < deviation)&&
-		(abs(getPinky() - pinky2) < deviation))
-	{
-		return 2;
-	}
-	
-	// Check for third gesture
-	else if ((abs(getThumb() - thumb3) < deviation)&&
-		(abs(getIndex() - index3) < deviation)&&
-		(abs(getMiddle() - middle3) < deviation)&&
-		(abs(getRing() - ring3) < deviation)&&
-		(abs(getPinky() - pinky3) < deviation))
-	{
-		return 3;
-	}
-	
-	// Check for fourth gesture
-	else if ((abs(getThumb() - thumb4) < deviation)&&
-		(abs(getIndex() - index4) < deviation)&&
-		(abs(getMiddle() - middle4) < deviation)&&
-		(abs(getRing() - ring4) < deviation)&&
-		(abs(getPinky() - pinky4) < deviation))
-	{
-		return 4;
-	}
-	
-	// Check for fifth gesture
-	else if ((abs(getThumb() - thumb5) < deviation)&&
-		(abs(getIndex() - index5) < deviation)&&
-		(abs(getMiddle() - middle5) < deviation)&&
-		(abs(getRing() - ring5) < deviation)&&
-		(abs(getPinky() - pinky5) < deviation))
-	{
-		return 5;
-	}
-	
-	// Check for sixth gesture
-	else if ((abs(getThumb() - thumb6) < deviation)&&
-		(abs(getIndex() - index6) < deviation)&&
-		(abs(getMiddle() - middle6) < deviation)&&
-		(abs(getRing() - ring6) < deviation)&&
-		(abs(getPinky() - pinky6) < deviation))
-	{
-		return 6;
-	}
-	
-	// Check for seventh gesture
-	else if ((abs(getThumb() - thumb7) < deviation)&&
-		(abs(getIndex() - index7) < deviation)&&
-		(abs(getMiddle() - middle7) < deviation)&&
-		(abs(getRing() - ring7) < deviation)&&
-		(abs(getPinky() - pinky7) < deviation))
-	{
-		return 7;
-	}
-	
-	// Check for eighth gesture
-	else if ((abs(getThumb() - thumb8) < deviation)&&
-		(abs(getIndex() - index8) < deviation)&&
-		(abs(getMiddle() - middle8) < deviation)&&
-		(abs(getRing() - ring8) < deviation)&&
-		(abs(getPinky() - pinky8) < deviation))
-	{
-		return 8;
-	}
-	
-	// Check for ninth gesture
-	else if ((abs(getThumb() - thumb9) < deviation)&&
-		(abs(getIndex() - index9) < deviation)&&
-		(abs(getMiddle() - middle9) < deviation)&&
-		(abs(getRing() - ring9) < deviation)&&
-		(abs(getPinky() - pinky9) < deviation))
-	{
-		return 9;
-	}
-	
-	// Check for tenth gesture
-	else if ((abs(getThumb() - thumb10) < deviation)&&
-		(abs(getIndex() - index10) < deviation)&&
-		(abs(getMiddle() - middle10) < deviation)&&
-		(abs(getRing() - ring10) < deviation)&&
-		(abs(getPinky() - pinky10) < deviation))
-	{
-		return 10;
-	}
-	else
-	{
-		return 0;
-	}
-	
-	
+switch (newState){
+  case 0b00011101:
+  gesture = 1;
+  break;
+  case 0b00011001:
+  gesture = 2;
+  break;
+  case 0b00011000:
+  gesture = 3;
+  break;
+  case 0b00000001:
+  gesture = 4;
+  break;
+  case 0b00000000:
+  gesture = 5;
+  break;
+  case 0b00010001:
+  gesture = 6;
+  break;
+  case 0b00001001:
+  gesture = 7;
+  break;
+  case 0b00000101:
+  gesture = 8;
+  break;
+  case 0b00000011:
+  gesture = 9;
+  break;
+  case 0b00011110:
+  gesture = 10;
+  break;
+  default:
+   gesture = 0;
+  }
+
+	return gesture;
 }

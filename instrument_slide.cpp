@@ -1,9 +1,9 @@
-#include "instrument_finger_keys.h"
+#include "instrument_slide.h"
 #define ATTACK_RATE 0.02
 #define FADE_RATE 0.002
 #define HAND_TILT_OFFSET 20.0
 #define PITCH_BEND_COEFFICIENT 0.0222
-FingerKeys::FingerKeys(Hand * h)
+Slide::Slide(Hand * h)
   : Instrument(h)
 {
   decibels = 0.0;
@@ -20,7 +20,7 @@ FingerKeys::FingerKeys(Hand * h)
   //add harmonics
   createHarmonicWaves(3);
 }
-double FingerKeys::computeNextSample()
+double Slide::computeNextSample()
 {
 
   hand->updateHand();
@@ -29,7 +29,7 @@ double FingerKeys::computeNextSample()
 
 
   //fade out if not playing a note
-  if (gesture == 0)
+  if (gesture != 5)
   {
     
     if (decibels > -100.0)
@@ -40,45 +40,32 @@ double FingerKeys::computeNextSample()
     setVolume(decibels);
     return runAllWaves();
   }
-  
+
    
   if(decibels < -0.00001) {decibels += ATTACK_RATE; setVolume(decibels);}
 
   //logic for sliding from note to note
 
-  double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, gesture-1);
-
-  if (fabs(targetFrequency - newTargetFrequency) > 0.5)
-  {
-    oldFrequency = currentFrequency;
-    targetFrequency = newTargetFrequency;
-  }
-
-  currentFrequency = twoNoteTransition(oldFrequency, targetFrequency, 2000, currentFrequency);
-
-  if (fabs(currentFrequency - targetFrequency) < 0.5)
-  {
-    currentFrequency = targetFrequency;
-  }
+  currentFrequency = (double) chooseFromAllScales(0, 440.0, 0, (int) (hand->getYAng()/10.0));
 
   
-  double vibrato = ( hand->getYAng() + HAND_TILT_OFFSET) * PITCH_BEND_COEFFICIENT;
+  //double vibrato = ( hand->getYAng() + HAND_TILT_OFFSET) * PITCH_BEND_COEFFICIENT;
  
-  changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
+  changeAllFrequencies(currentFrequency );
 
 
   return runAllWaves();
 
 
 }
-void FingerKeys::setVolume(double dB)
+void Slide::setVolume(double dB)
 {
   for(int i = 0; i < numWaves; i++)
   {
     waves[i]->changeVolume(dB);
   }
 }
-void FingerKeys::createHarmonicWaves(int numHarmonics)
+void Slide::createHarmonicWaves(int numHarmonics)
 {
   for(int i = 0; i< numHarmonics; i++)
   {
@@ -88,7 +75,7 @@ void FingerKeys::createHarmonicWaves(int numHarmonics)
     numWaves++;
   }
 }
-double FingerKeys::changeAllFrequencies(double baseF)
+double Slide::changeAllFrequencies(double baseF)
 {
   for(int i = 0; i < numWaves; i++)
   {
@@ -96,7 +83,7 @@ double FingerKeys::changeAllFrequencies(double baseF)
   }
 
 }
-double FingerKeys::runAllWaves()
+double Slide::runAllWaves()
 {
   double val = 0.0;
   for(int i = 0; i < numWaves; i++)

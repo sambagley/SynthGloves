@@ -1,10 +1,10 @@
-#ifndef INSTRUMENT_FINGER_KEYS_H
-#define INSTRUMENT_FINGER_KEYS_H
+#ifndef INSTRUMENT_SLIDE_H
+#define INSTRUMENT_SLIDE_H
 #include "hand.h"
 #include "sine.h"
 #include "scaleFunctions.hpp"
 #include "instrument.h"
-class FingerKeys: public Instrument{
+class Slide: public Instrument{
 
 private:
   std::vector <Sine*>  waves;
@@ -17,7 +17,7 @@ private:
 public:
 
 
-  FingerKeys(Hand * h);
+  Slide(Hand * h);
   double computeNextSample();
   void setVolume(double v);
   void   createHarmonicWaves(int numHarmonics);//don't create more than 5 harmonics
