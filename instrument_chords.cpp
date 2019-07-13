@@ -169,10 +169,13 @@ char newState = 0b00000000;
   }
 */
   int chordType = 0;
-  if ( hand->getYAng() < -60.0)
+  if ( hand->getXAng() < -10.0)
   {
     chordType = 1;
   }
+  double vibrato = ( hand->getYAng() + 20.0 )* 0.01;//the + 20 is for default hand posture offset
+
+  rootFrequency = 440.0 * pow(2.0, (-vibrato)/12.0);
   
   findChordNotes(chordIndex, chordType);
 

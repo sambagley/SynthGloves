@@ -4,7 +4,7 @@
 //#include "hand.h"
 //#include "sine.h"
 //#include "scaleFunctions.hpp"
-#include "instrument_finger_keys.h"
+#include "instrument.h"
 class Chords: public Instrument{
 
 

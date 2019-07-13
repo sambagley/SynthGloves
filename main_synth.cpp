@@ -30,9 +30,9 @@ int main(int argc, char *argv[]){
 
  
     SimpleSine * t = new SimpleSine();
-    FingerKeys * lefthandkey = new FingerKeys(lefty);
-    //Chords * lefthandkey = new Chords(lefty);
-    
+    //FingerKeys * lefthandkey = new FingerKeys(lefty);
+    //Chords * righthandkey = new Chords(righty);
+    Looper * lefthandkey = new Looper(lefty);
     t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
     //t->addInstrumentTwo(righthandkey);
     /// activate the client

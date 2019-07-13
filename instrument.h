@@ -1,3 +1,5 @@
+#ifndef INSTRUMENT_H
+#define INSTRUMENT_H
 #include "hand.h"
 #include "sine.h"
 #include "scaleFunctions.hpp"
@@ -29,8 +31,9 @@ public:
   void setKey(int key);//build key thingy
   void setOctave(int i);
   void setScale(int s);
-  
+  //double quantize(int freq, )
 
 
 
 };
+#endif

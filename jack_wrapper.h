@@ -41,7 +41,7 @@ public:
             {
                 //sines[0]->setAmplitude(sines[0]->getAmplitude()*0.9999);
                 //outBufs[0][frameCNT] = sines[0]->go();
-                outBufs[0][frameCNT] = i2 == NULL ? i1->computeNextSample() : i1->computeNextSample() + i2->computeNextSample();
+                outBufs[0][frameCNT] = i2 == NULL ? i1->computeNextSample() : (i1->computeNextSample() + i2->computeNextSample()) / 2.0;
             }
         }
         ///return 0 on success
