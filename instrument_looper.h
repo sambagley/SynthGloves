@@ -7,10 +7,9 @@ class Looper: public Instrument{
 
   private:
 
-    int updateHandCount;				// Keeps track if we need to update hand
     double nextSample;				      // The current sample being played
     uint32_t sampleNumber;
-    int currentLoop;
+    int currentGesture;
 
     uint32_t numSamplesLoop1;
     int numSamplesLoop2;
