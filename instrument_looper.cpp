@@ -10,7 +10,6 @@ Looper::Looper(Hand * h)
 {
 	nextSample = 0.0;
 	sampleNumber = 0;
-	currentGesture = 0;
 	
 	// Instantiate new audio files
 	loop1 = new AudioFile<double>;
@@ -52,22 +51,23 @@ Looper::Looper(Hand * h)
 double Looper::computeNextSample()
 {
 	// Check to see if we have changed the loop that is playing
-	int lastGesture = currentGesture;	
+	lastGesture = gesture;	
 	hand->updateHand();
+	gesture = hand->getGestures();
 	
-	currentGesture = hand->getGestures();
+	computeNextBackgroundSample();
 	
 	// If the hand gesture has changed, reset the sample number to zero
-	if (lastGesture != currentGesture)
+	if (lastGesture != gesture)
 	{
 		sampleNumber = 0;
 	}
 	
 	// Depending on the hand gesture/loop, get the correct audio sample to play 
-	switch (currentGesture)
+	switch (gesture)
 	{
 	case(0):	
-		return 0.01;					// default case of no gesture
+		return 0.0001;					// default case of no gesture
 		
 	case (1):
 		// If we have reached the end of the loop, reset to the beginning
@@ -146,6 +146,6 @@ double Looper::computeNextSample()
 	}	
 	// Increment the sound sample and return the next sample value to the speakers
 	sampleNumber++;			
-	return nextSample;
+	return (nextSample + nextBackgroundSample);
 
 }

@@ -24,7 +24,7 @@ Hand::Hand(const char * dev, int baud)
 	yAcc= 0;
 	zAcc = 0;
 	gForce = 0;
-	buttonPress = 0;
+	button1 = 0;
 	
 	if((serialObj=serialOpen(dev,baud))<0){
     //fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
@@ -93,6 +93,10 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%f", &f);
 				zAng = f;
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				i = 0;
+				sscanf(buf, "%d", &x);
+				button1 = x;
 				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
@@ -174,6 +178,11 @@ float Hand::getZAng()
 int Hand::getGs()
 {
 	return gForce;
+}
+
+int Hand::getButton1()
+{
+	return button1;
 }
 
 void Hand::calibrateOpen()											// Make sure to call calibrateOpen()
@@ -375,13 +384,13 @@ int Hand::getGestures()
 {
 	char newState = 0b00000000;
 	
-	 if (thumbBend > 200 && thumbBend < 400)   
+	 if (thumbBend > 200 && thumbBend < 390)   
    { 
     newState |= 0b00000001;
 
    }
 
-   if (indexBend >  200 && indexBend  < 1500) 
+   if (indexBend >  200 && indexBend  < 1400) 
    { 
 
      newState |= 0b00000010;
@@ -395,14 +404,14 @@ int Hand::getGestures()
 
    }
 
-   if (ringBend > 200 && ringBend < 1420)  
+   if (ringBend > 200 && ringBend < 1450)  
    { 
 
      newState |= 0b00001000;
 
    }
 
-   if (pinkyBend > 200 && pinkyBend < 1500) 
+   if (pinkyBend > 200 && pinkyBend < 1400) 
    {
       newState |= 0b00010000;
 

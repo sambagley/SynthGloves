@@ -55,8 +55,8 @@ class Hand {
 		int yAcc;
 		int zAcc;
 		int gForce;
+		int button1;
 
-		int buttonPress;
 		int overallPercent;								// Average of finger percentages, 100 if fist, zero if flat
 		bool isOpen;
 		
@@ -149,7 +149,8 @@ class Hand {
 		int getXAcc();										// Returns X acc
 		int getYAcc();										// Returns y acc
 		int getZAcc();										// Returns z acc
-		int getGs();											// Returns Gs value
+		int getGs();	
+		int getButton1();									//returns 0 if button is pressed
 		int getOverallPercent();
 		int getGestures();
 		void calibrateGestures();					
