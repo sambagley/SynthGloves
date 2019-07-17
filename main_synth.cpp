@@ -36,7 +36,7 @@ int main(int argc, char *argv[]){
  
     SimpleSine * t = new SimpleSine();
 
-    FingerKeys  * lefthandkey = new FingerKeys(&lefty);
+    Chords  * lefthandkey = new Chords(&lefty);
     //lefthandkey->addSecondHand(&righty);
 
     //Chords * righthandkey = new Chords(righty);
