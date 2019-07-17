@@ -14,8 +14,8 @@ private:
   int numWaves;
   double baseWaveAmp;
   double decibels;
-  
-
+  double currentFrequency;
+  double offsetTilt;
 public:
 
 

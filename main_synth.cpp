@@ -24,25 +24,20 @@ using std::endl;
 
 
 int main(int argc, char *argv[]){
-
-
+   
     Hand lefty("/dev/ttyACM0",57600);
 
     //Hand * lefty = new Hand("/dev/ttyACM0",57600);
     //Hand righty("/dev/ttyACM1", 57600);
     LoopingTrack * track = new LoopingTrack(&lefty);
-
-
-
+    FingerKeys  * inst1 = new FingerKeys(&lefty);
+    Chords  * inst2 = new Chords(&lefty);
+    
     JackWrapper * t = new JackWrapper();
 
-    Chords  * lefthandkey = new Chords(&lefty);
-    //lefthandkey->addSecondHand(&righty);
+    
+    t->addInstrumentOne(inst1); // send instrument to sound hardware wrapper.
 
-    //Chords * righthandkey = new Chords(righty);
-    //Looper * lefthandkey = new Looper(lefty);
-    t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
-    //t->addInstrumentTwo(righthandkey);
     t->addLoopingTrack(track);
     /// activate the client
     t->start();
@@ -59,9 +54,25 @@ int main(int argc, char *argv[]){
 
 
     /// run for EVER
-    while(1){
-
+    while(1)
+    {
+        int p = lefty.getButton3Presses() % 2;
+      
+            if (p == 0)
+            {
+                t->addInstrumentOne(inst1);
+                //std::cerr << "case 1" << std ::endl;
+             }   
+              
+            else if (p == 1) 
+            {
+                t->addInstrumentOne(inst2);
+                //std::cerr << "case 2" << std ::endl;
+            }
+                
+     
     }
+    
 
 
 

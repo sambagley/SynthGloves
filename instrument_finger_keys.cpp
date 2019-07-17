@@ -8,11 +8,11 @@ FingerKeys::FingerKeys(Hand * h)
 {
   decibels = 0.0;
   baseWaveAmp = 0.5;
-  
+  offsetTilt = 0.0;
   //initialize all variables
-  currentFrequency = 440.0;
-  oldFrequency = 440.0;
-  targetFrequency = 440.0;
+  currentFrequency = STARTING_FREQUENCY;
+  oldFrequency = STARTING_FREQUENCY;
+  targetFrequency = STARTING_FREQUENCY;
   
   //create initial wave
   waves.push_back(new Sine(rootFrequency,baseWaveAmp,48000));
@@ -60,10 +60,11 @@ double FingerKeys::computeNextSample()
 
   //logic for sliding from note to note
 
-  double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0, gesture-1);
+  double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, rootFrequency, 0, gesture-1);
 
   if (fabs(targetFrequency - newTargetFrequency) > 0.5)
   {
+    offsetTilt = hand->getYAng();
     oldFrequency = currentFrequency;
     targetFrequency = newTargetFrequency;
   }
@@ -76,7 +77,7 @@ double FingerKeys::computeNextSample()
   }
 
   
-  double vibrato = ( hand->getYAng() + HAND_TILT_OFFSET) * PITCH_BEND_COEFFICIENT;
+  double vibrato = ( hand->getYAng() - offsetTilt) * PITCH_BEND_COEFFICIENT;
  
   changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
 

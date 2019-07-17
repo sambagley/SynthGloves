@@ -14,6 +14,7 @@ private:
   double targetFrequency;
   double baseWaveAmp;
   double decibels;
+  double offsetTilt;
 public:
 
 

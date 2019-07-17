@@ -11,7 +11,7 @@ Chords::Chords(Hand * h)
   numWaves = 5;
 
   octave = -1;
-
+  offsetTilt = 0.0;
   //create wave(s) for 1st 3rd 5th 7th and 8th
   waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
   waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
@@ -53,13 +53,19 @@ double Chords::computeNextSample()
   if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);} //raise volume back up
 
   int chordType = 0;
-  if ( hand->getXAng() < -10.0)  //make minor chord if hand is tilted
+  if ( hand->getXAng() < +20.0)  //make minor chord if hand is tilted
   {
     chordType = 1;
   }
-  double vibrato = ( hand->getYAng() + 20.0 )* 0.01;//the + 20 is for default hand posture offset
+  
+  if(lastGesture != gesture)
+  {
+     offsetTilt = hand->getYAng();
+  }		
+  
+  double vibrato = ( hand->getYAng() - offsetTilt)* 0.01;//the + 20 is for default hand posture offset
 
-  rootFrequency = 440.0 * pow(2.0, (-vibrato)/12.0);
+  currentFrequency = rootFrequency * pow(2.0, (-vibrato)/12.0);
 
   findChordNotes(chordIndex, chordType);
 
@@ -215,15 +221,15 @@ void Chords::findChordNotes(int chordIndex, int type)
 	}
 
 
-	t = chromatic(rootFrequency, octave, voiceOne);
+	t = chromatic(currentFrequency, octave, voiceOne);
 	waves[0]->setFrequency(t);
-	t = chromatic(rootFrequency, octave, voiceTwo);
+	t = chromatic(currentFrequency, octave, voiceTwo);
 	waves[1]->setFrequency(t);
-	t = chromatic(rootFrequency, octave, voiceThree);
+	t = chromatic(currentFrequency, octave, voiceThree);
 	waves[2]->setFrequency(t);
-	t = chromatic(rootFrequency, octave, voiceFour);
+	t = chromatic(currentFrequency, octave, voiceFour);
 	waves[3]->setFrequency(t);
-	t = chromatic(rootFrequency, octave, voiceFive);
+	t = chromatic(currentFrequency, octave, voiceFive);
 	waves[4]->setFrequency(t);
 
 

@@ -5,7 +5,8 @@
 #include "scaleFunctions.hpp"
 #include "/home/pi/SynthGloves/AudioFile/AudioFile.h"
 
-#define STARTING_FREQUENCY 220.0
+
+#define STARTING_FREQUENCY 349.23
 
 
 class Instrument{
