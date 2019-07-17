@@ -31,10 +31,11 @@ Chords::Chords(Hand * h)
 ********************************************************/
 double Chords::computeNextSample()
 {
- hand->updateHand();
-  int gesture = hand->getGestures();
+  lastGesture = gesture;
+  hand->updateHand();
+  gesture = hand->getGestures();
 
-  
+  computeNextBackgroundSample();
   
 
   if (gesture == 0) // quickly fade to silence if no gesture is detected
@@ -45,7 +46,7 @@ double Chords::computeNextSample()
       
     }
     setVolume(decibels);
-    return runAllWaves();
+    return ((runAllWaves() / 2) + nextBackgroundSample);
   }
   int chordIndex = gesture;
    
@@ -63,7 +64,8 @@ double Chords::computeNextSample()
   findChordNotes(chordIndex, chordType);
 
 
-  return runAllWaves();
+  return ((runAllWaves() / 2) + nextBackgroundSample);
+
 
 
 }
@@ -95,6 +97,7 @@ double Chords::runAllWaves()
   }
     return val;
 }
+
 
 /***************************************************
 * findChordNotes is used to set all frequencies of the waves 

@@ -1,18 +1,16 @@
 #ifndef INSTRUMENT_LOOPER_H
 #define INSTRUMENT_LOOPER_H
 #include "instrument.h"
-#include "/home/pi/SynthGloves/AudioFile/AudioFile.h"
+
 
 class Looper: public Instrument{
 
   private:
 
-    int updateHandCount;				// Keeps track if we need to update hand
     double nextSample;				      // The current sample being played
-    uint32_t sampleNumber;
-    int currentLoop;
+    int sampleNumber;
 
-    uint32_t numSamplesLoop1;
+    int numSamplesLoop1;
     int numSamplesLoop2;
     int numSamplesLoop3;
     int numSamplesLoop4;

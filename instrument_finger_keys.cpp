@@ -33,11 +33,11 @@ FingerKeys::FingerKeys(Hand * h)
 ********************************************************/
 double FingerKeys::computeNextSample()
 {
-
+  lastGesture = gesture;
   hand->updateHand();
+  gesture = hand->getGestures();
 
-  int gesture = hand->getGestures();
-
+  computeNextBackgroundSample();
 
   //fade out if not playing a note
   if (gesture == 0)
@@ -49,7 +49,7 @@ double FingerKeys::computeNextSample()
       
     }
     setVolume(decibels);
-    return runAllWaves();
+    return ((runAllWaves() / 2) + nextBackgroundSample);
   }
   
    
@@ -81,7 +81,7 @@ double FingerKeys::computeNextSample()
   changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
 
 
-  return runAllWaves();
+  return ((runAllWaves() / 2) + nextBackgroundSample);
 
 
 }
