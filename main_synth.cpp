@@ -16,6 +16,7 @@
 #include "instrument_finger_keys.h"
 #include "instrument_looper.h"
 #include "instrument_chords.h"
+#include "instrument_sax.h"
 
 
 using std::cout;
@@ -23,21 +24,24 @@ using std::endl;
 
 
 int main(int argc, char *argv[]){
-
+	
+	sleep(20);
     Hand lefty("/dev/ttyACM0",57600);
 
     //Hand * lefty = new Hand("/dev/ttyACM0",57600);
-    //Hand * righty = new Hand("/dev/ttyACM1", 57600);
-    
+    //Hand righty("/dev/ttyACM1", 57600);
+    LoopingTrack * track = new LoopingTrack(&lefty);
 
 
  
     SimpleSine * t = new SimpleSine();
-    FingerKeys lefthandkey(&lefty);
+    FingerKeys  * lefthandkey = new FingerKeys(&lefty);
+    //lefthandkey->addSecondHand(&righty);
     //Chords * righthandkey = new Chords(righty);
     //Looper * lefthandkey = new Looper(lefty);
-    t->addInstrumentOne(&lefthandkey); // send instrument to sound hardware wrapper.
+    t->addInstrumentOne(lefthandkey); // send instrument to sound hardware wrapper.
     //t->addInstrumentTwo(righthandkey);
+    t->addLoopingTrack(track);
     /// activate the client
     t->start();
 

@@ -8,7 +8,7 @@ Sax::Sax(Hand * h)
 {
   decibels = 0.0;
   baseWaveAmp = 0.5;
-
+  playingNote = 0;
   //initialize all variables
   currentFrequency = 440.0;
   oldFrequency = 440.0;
@@ -26,12 +26,13 @@ void Sax::addSecondHand(Hand * h)
 }
 double Sax::computeNextSample()
 {
-
-  hand->updateHand();
   rightHand->updateHand();
 
+  hand->updateHand();
+ 
   short newState = 0b00000000000;
   bool octaveKeyPressed = 0;
+  bool playKey = 0;
 	 if (hand->getThumb() > 200 && hand->getThumb() < 400)
       octaveKeyPressed = 1;
    if (hand->getIndex() >  200 && hand->getIndex()  < 1500)
@@ -40,10 +41,10 @@ double Sax::computeNextSample()
       newState |= 0b0000010000000;
    if (hand->getRing() > 200 && hand->getRing() < 1420)
       newState |= 0b0000001000000;
-   if (hand->getPinky() > 200 && hand->getPinky() < 1500)
-      newState |= 0b0000000100000;
+   //if (hand->getPinky() > 200 && hand->getPinky() < 1500)
+      //newState |= 0b0000000100000;
    if (rightHand->getThumb() > 200 && rightHand->getThumb() < 400)
-      newState |= 0b0000000010000;
+      playKey = 1;
    if (rightHand->getIndex() >  200 && rightHand->getIndex()  < 1500)
       newState |= 0b0000000001000;
    if (rightHand->getMiddle() > 200 && rightHand->getMiddle() < 1500)
@@ -56,20 +57,17 @@ double Sax::computeNextSample()
 int note;
 
 switch (newState){
-  case 0b0111101111:
+  case 0b0111001111:
   note = 1;
   break;
-  case 0b0111101110:
+  case 0b0111001110:
   note = 2;
   break;
-  case 0b0111101100:
+  case 0b0111001100:
   note = 3;
   break;
-  case 0b0111101000:
+  case 0b0111001000:
   note = 4;
-  break;
-  case 0b0111100000:
-  note = 5;
   break;
   case 0b0111000000:
   note = 5;
@@ -83,16 +81,22 @@ switch (newState){
   case 0b0010000000:
   note = 8;
   break;
+  //case 0b0010000000:
+  //note = 8;
+  //break;
   default:
    note = 0;
   }
 
-
-
+  
+  if (note != 0)
+  {
+    playingNote = note;
+  }
 
 
   //fade out if not playing a note
-  if (gesture == 0)
+  if (playKey == 0)
   {
 
     if (decibels > -100.0)
@@ -109,8 +113,8 @@ switch (newState){
 
   //logic for sliding from note to note
 
-double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, 0 +(int) octaveKeyPressed, note-1);
-
+currentFrequency = (double) chooseFromAllScales(theCurrentScaleSetting, 440.0, -1 +(int) octaveKeyPressed, playingNote-1);
+/*
   if (fabs(targetFrequency - newTargetFrequency) > 0.5)
   {
     oldFrequency = currentFrequency;
@@ -125,9 +129,10 @@ double newTargetFrequency = (double) chooseFromAllScales(theCurrentScaleSetting,
   }
 
 
-  double vibrato = ( hand->getYAng() + HAND_TILT_OFFSET) * PITCH_BEND_COEFFICIENT;
-
-  changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
+  //double vibrato = ( hand->getYAng() + HAND_TILT_OFFSET) * PITCH_BEND_COEFFICIENT;
+  //changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
+*/
+  changeAllFrequencies(currentFrequency );
 
 
   return runAllWaves();

@@ -10,7 +10,7 @@
 #include <errno.h>
 #include "instrument_finger_keys.h"
 #include "instrument_chords.h"
-
+#include "looping_track.hpp"
 //class Instrument;
 
 class SimpleSine: public JackCpp::AudioIO {
@@ -18,8 +18,8 @@ class SimpleSine: public JackCpp::AudioIO {
 private:
    Instrument * i1;
    Instrument * i2;
-
-
+   LoopingTrack * track;
+   double tempInstSum;
     
 public:
     // FingerKeys *testThing;
@@ -41,7 +41,8 @@ public:
             {
                 //sines[0]->setAmplitude(sines[0]->getAmplitude()*0.9999);
                 //outBufs[0][frameCNT] = sines[0]->go();
-                outBufs[0][frameCNT] = i2 == NULL ? i1->computeNextSample() : (i1->computeNextSample() + i2->computeNextSample()) / 2.0;
+                
+                outBufs[0][frameCNT] = track->playBack(i1->computeNextSample());
             }
         }
         ///return 0 on success
@@ -69,5 +70,8 @@ public:
     {
       i2 = b;
     }
-
+    void addLoopingTrack(LoopingTrack * l)
+    {
+        track = l;
+    }
 };

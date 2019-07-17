@@ -15,6 +15,7 @@ private:
   double baseWaveAmp;
   double decibels;
   Hand * rightHand;
+  int playingNote; 
 public:
 
 

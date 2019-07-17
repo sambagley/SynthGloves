@@ -19,6 +19,16 @@ Chords::Chords(Hand * h)
   waves.push_back(new Sine(440.0,0.2,48000));
   waves.push_back(new Sine(440.0,0.2,48000));	
 }
+/***************************************************
+* updates the hand, then computes frequency for chord that 
+* is mapped to the current hand gesture. 
+* 
+* 
+* 
+* Returns the next value to for the waveform. 
+* 
+*  
+********************************************************/
 double Chords::computeNextSample()
 {
  hand->updateHand();
@@ -27,7 +37,7 @@ double Chords::computeNextSample()
   
   
 
-  if (gesture == 0)
+  if (gesture == 0) // quickly fade to silence if no gesture is detected
   {
     if (decibels > -100.0)
     {
@@ -39,10 +49,10 @@ double Chords::computeNextSample()
   }
   int chordIndex = gesture;
    
-  if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);}
+  if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);} //raise volume back up 
 
   int chordType = 0;
-  if ( hand->getXAng() < -10.0)
+  if ( hand->getXAng() < -10.0)  //make minor chord if hand is tilted 
   {
     chordType = 1;
   }
@@ -57,6 +67,12 @@ double Chords::computeNextSample()
 
 
 }
+/***************************************************
+*Raise or lower the volume between -100 (off) and 0.0
+* (initial amplitude of the wave) dB. 
+*
+*  
+********************************************************/
 void Chords::setVolume(double dB)
 {
   for(int i = 0; i < numWaves; i++)
@@ -64,24 +80,12 @@ void Chords::setVolume(double dB)
     waves[i]->changeVolume(dB);
   }
 }
-void Chords::createHarmonicWaves(int numHarmonics)
-{
-  for(int i = 0; i< numHarmonics; i++)
-  {
-    double amp = 0.5 - (((double) i + 1.0)/5.0) * 0.5;
-    int harmonic = 2 + i;
-    waves.push_back(new Sine((waves[0]->getFrequency() * (double) harmonic ),amp, 48000));
-    numWaves++;
-  }
-}
-double Chords::changeAllFrequencies(double baseF)
-{
-  for(int i = 0; i < numWaves; i++)
-  {
-    waves[i]->setFrequency(baseF + baseF * ((double) i));
-  }
-
-}
+/***************************************************
+* Goes through each wave that we have put in the vector and 
+* sums them together	
+*
+*  
+********************************************************/
 double Chords::runAllWaves()
 {
   double val = 0.00001;
@@ -191,7 +195,11 @@ void Chords::findChordNotes(int chordIndex, int type)
 		case 0:
 		break;
 		case 1:
-		voiceTwo = voiceTwo - 1;
+		voiceTwo -= 1; //minor 
+		break;
+		case 2:
+		voiceFour -= 1; //dominant seventh
+		default:
 		break;
 		
 	}

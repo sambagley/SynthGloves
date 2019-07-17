@@ -20,6 +20,17 @@ FingerKeys::FingerKeys(Hand * h)
   //add harmonics
   createHarmonicWaves(3);
 }
+
+/***************************************************
+* updates the hand, then computes frequency for note that 
+* is mapped to the current hand gesture. 
+* 
+* 
+* 
+* Returns the next value to for the waveform. 
+* 
+*  
+********************************************************/
 double FingerKeys::computeNextSample()
 {
 
@@ -42,7 +53,10 @@ double FingerKeys::computeNextSample()
   }
   
    
-  if(decibels < -0.00001) {decibels += ATTACK_RATE; setVolume(decibels);}
+  if(decibels < -0.00001) 
+  {
+    decibels += ATTACK_RATE; setVolume(decibels);
+  }
 
   //logic for sliding from note to note
 
@@ -53,7 +67,7 @@ double FingerKeys::computeNextSample()
     oldFrequency = currentFrequency;
     targetFrequency = newTargetFrequency;
   }
-
+  //makes the currently playing frequency slide up from the old frequency. 
   currentFrequency = twoNoteTransition(oldFrequency, targetFrequency, 2000, currentFrequency);
 
   if (fabs(currentFrequency - targetFrequency) < 0.5)
@@ -71,6 +85,12 @@ double FingerKeys::computeNextSample()
 
 
 }
+/***************************************************
+*Raise or lower the volume between -100 (off) and 0.0
+* (initial amplitude of the wave) dB. 
+*
+*  
+********************************************************/
 void FingerKeys::setVolume(double dB)
 {
   for(int i = 0; i < numWaves; i++)
@@ -78,6 +98,16 @@ void FingerKeys::setVolume(double dB)
     waves[i]->changeVolume(dB);
   }
 }
+/***************************************************
+* Creates integer multiple harmonics of the first wave in
+* the vector. 
+* Each new wave has a lower amplitude. 
+* 
+* Don't create more than 4 harmonic waves otherwise
+* the amplitude will be negative
+*
+*  
+********************************************************/
 void FingerKeys::createHarmonicWaves(int numHarmonics)
 {
   for(int i = 0; i< numHarmonics; i++)
@@ -88,6 +118,12 @@ void FingerKeys::createHarmonicWaves(int numHarmonics)
     numWaves++;
   }
 }
+/***************************************************
+* Will change each wave's frequency to an integer muliple
+* of the base frequency given	
+*
+*  
+********************************************************/
 double FingerKeys::changeAllFrequencies(double baseF)
 {
   for(int i = 0; i < numWaves; i++)
@@ -96,6 +132,12 @@ double FingerKeys::changeAllFrequencies(double baseF)
   }
 
 }
+/***************************************************
+* Goes through each wave that we have put in the vector and 
+* sums them together	
+*
+*  
+********************************************************/
 double FingerKeys::runAllWaves()
 {
   double val = 0.0;

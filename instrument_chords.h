@@ -22,8 +22,6 @@ public:
   Chords(Hand * h);
   double computeNextSample();
   void setVolume(double v);
-  void   createHarmonicWaves(int numHarmonics);//don't create more than 5 harmonics
-  double changeAllFrequencies(double baseF);
   double runAllWaves();
   void findChordNotes(int chordIndex, int types);
 };
