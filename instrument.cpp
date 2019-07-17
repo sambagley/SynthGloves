@@ -1,4 +1,4 @@
-#include "instrument_finger_keys.h"
+
 
 using namespace std;
 
@@ -93,7 +93,7 @@ void Instrument::setKey(int k)
     rootFrequency = 415.30/2.0;
     break;
    case 0 :
-    rootFrequency = 440.0/2.0;
+    rootFrequency = 220.0;
     break;
    case 1 :
     rootFrequency = 466.16/2.0;

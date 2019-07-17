@@ -14,10 +14,10 @@ Chords::Chords(Hand * h)
 
   //create wave(s) for 1st 3rd 5th 7th and 8th
   waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
-  waves.push_back(new Sine(440.0,0.2,48000));
-  waves.push_back(new Sine(440.0,0.2,48000));
-  waves.push_back(new Sine(440.0,0.2,48000));
-  waves.push_back(new Sine(440.0,0.2,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
 }
 /***************************************************
 * updates the hand, then computes frequency for chord that
@@ -124,7 +124,7 @@ void Chords::findChordNotes(int chordIndex, int type)
 	 * 5 = V
 	 * 6 = VI
 	 * 7 = VII
-	 * 8 = root, don't use
+	 * 8 = root up one octave
 	 *
 	 * Table for chord types:
 	 * 0 major
@@ -180,6 +180,13 @@ void Chords::findChordNotes(int chordIndex, int type)
 		voiceThree = 18;
 		voiceFour = 23;
 		voiceFive = -1;
+		break;
+		case 8:
+		voiceOne = 12;
+		voiceTwo = 16;
+		voiceThree = 19;
+		voiceFour = 24;
+		voiceFive = 0;
 		break;
 		default:
 		voiceOne = 0;
