@@ -11,23 +11,23 @@ Chords::Chords(Hand * h)
   numWaves = 5;
 
   octave = -1;
-  
+
   //create wave(s) for 1st 3rd 5th 7th and 8th
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
   waves.push_back(new Sine(440.0,0.2,48000));
   waves.push_back(new Sine(440.0,0.2,48000));
   waves.push_back(new Sine(440.0,0.2,48000));
   waves.push_back(new Sine(440.0,0.2,48000));
-  waves.push_back(new Sine(440.0,0.2,48000));	
 }
 /***************************************************
-* updates the hand, then computes frequency for chord that 
-* is mapped to the current hand gesture. 
-* 
-* 
-* 
-* Returns the next value to for the waveform. 
-* 
-*  
+* updates the hand, then computes frequency for chord that
+* is mapped to the current hand gesture.
+*
+*
+*
+* Returns the next value to for the waveform.
+*
+*
 ********************************************************/
 double Chords::computeNextSample()
 {
@@ -36,31 +36,31 @@ double Chords::computeNextSample()
   gesture = hand->getGestures();
 
   computeNextBackgroundSample();
-  
+
 
   if (gesture == 0) // quickly fade to silence if no gesture is detected
   {
     if (decibels > -100.0)
     {
       decibels -= 0.01;
-      
+
     }
     setVolume(decibels);
     return ((runAllWaves() / 2) + nextBackgroundSample);
   }
   int chordIndex = gesture;
-   
-  if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);} //raise volume back up 
+
+  if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);} //raise volume back up
 
   int chordType = 0;
-  if ( hand->getXAng() < -10.0)  //make minor chord if hand is tilted 
+  if ( hand->getXAng() < -10.0)  //make minor chord if hand is tilted
   {
     chordType = 1;
   }
   double vibrato = ( hand->getYAng() + 20.0 )* 0.01;//the + 20 is for default hand posture offset
 
   rootFrequency = 440.0 * pow(2.0, (-vibrato)/12.0);
-  
+
   findChordNotes(chordIndex, chordType);
 
 
@@ -71,9 +71,9 @@ double Chords::computeNextSample()
 }
 /***************************************************
 *Raise or lower the volume between -100 (off) and 0.0
-* (initial amplitude of the wave) dB. 
+* (initial amplitude of the wave) dB.
 *
-*  
+*
 ********************************************************/
 void Chords::setVolume(double dB)
 {
@@ -83,10 +83,10 @@ void Chords::setVolume(double dB)
   }
 }
 /***************************************************
-* Goes through each wave that we have put in the vector and 
-* sums them together	
+* Goes through each wave that we have put in the vector and
+* sums them together
 *
-*  
+*
 ********************************************************/
 double Chords::runAllWaves()
 {
@@ -100,12 +100,12 @@ double Chords::runAllWaves()
 
 
 /***************************************************
-* findChordNotes is used to set all frequencies of the waves 
-* for a given chord. 
-* parameters are the chord number, and the type of chord, 
-* major, minor, etc. 	
+* findChordNotes is used to set all frequencies of the waves
+* for a given chord.
+* parameters are the chord number, and the type of chord,
+* major, minor, etc.
 *
-*  
+*
 ********************************************************/
 void Chords::findChordNotes(int chordIndex, int type)
 {
@@ -125,7 +125,7 @@ void Chords::findChordNotes(int chordIndex, int type)
 	 * 6 = VI
 	 * 7 = VII
 	 * 8 = root, don't use
-	 * 
+	 *
 	 * Table for chord types:
 	 * 0 major
 	 * 1 minor
@@ -189,24 +189,24 @@ void Chords::findChordNotes(int chordIndex, int type)
 		voiceFive = -12;
 		break;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	switch (type){
 		case 0:
 		break;
 		case 1:
-		voiceTwo -= 1; //minor 
+		voiceTwo -= 1; //minor
 		break;
 		case 2:
 		voiceFour -= 1; //dominant seventh
 		default:
 		break;
-		
+
 	}
-	
+
 
 	t = chromatic(rootFrequency, octave, voiceOne);
 	waves[0]->setFrequency(t);
@@ -218,7 +218,7 @@ void Chords::findChordNotes(int chordIndex, int type)
 	waves[3]->setFrequency(t);
 	t = chromatic(rootFrequency, octave, voiceFive);
 	waves[4]->setFrequency(t);
-	
-	 
-	 
+
+
+
 }

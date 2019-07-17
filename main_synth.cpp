@@ -24,8 +24,8 @@ using std::endl;
 
 
 int main(int argc, char *argv[]){
-	
-	
+
+
     Hand lefty("/dev/ttyACM0",57600);
 
     //Hand * lefty = new Hand("/dev/ttyACM0",57600);
@@ -33,8 +33,8 @@ int main(int argc, char *argv[]){
     LoopingTrack * track = new LoopingTrack(&lefty);
 
 
- 
-    SimpleSine * t = new SimpleSine();
+
+    JackWrapper * t = new JackWrapper();
 
     Chords  * lefthandkey = new Chords(&lefty);
     //lefthandkey->addSecondHand(&righty);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
 
     /// run for EVER
     while(1){
-      
+
     }
 
 

@@ -13,14 +13,14 @@
 #include "looping_track.hpp"
 //class Instrument;
 
-class SimpleSine: public JackCpp::AudioIO {
+class JackWrapper: public JackCpp::AudioIO {
 
 private:
    Instrument * i1;
    Instrument * i2;
    LoopingTrack * track;
    double tempInstSum;
-    
+
 public:
     // FingerKeys *testThing;
     /// Audio Callback Function:
@@ -41,7 +41,7 @@ public:
             {
                 //sines[0]->setAmplitude(sines[0]->getAmplitude()*0.9999);
                 //outBufs[0][frameCNT] = sines[0]->go();
-                
+
                 outBufs[0][frameCNT] = track->playBack(i1->computeNextSample());
             }
         }
@@ -49,17 +49,17 @@ public:
         return 0;
     }
     /// Constructor
-    SimpleSine() :
+    JackWrapper() :
         JackCpp::AudioIO("sineVectorTest", 0,1){
 
           reserveInPorts(2);
           reserveOutPorts(2);
 
-    
+
 
     }
-  
-   
+
+
     //This function will take a pointer and then
     //use it to buffer the sound.
     void addInstrumentOne(Instrument * b)
