@@ -10,9 +10,9 @@ Sax::Sax(Hand * h)
   baseWaveAmp = 0.5;
   playingNote = 0;
   //initialize all variables
-  currentFrequency = 440.0;
-  oldFrequency = 440.0;
-  targetFrequency = 440.0;
+  currentFrequency = STARTING_FREQUENCY;
+  oldFrequency = STARTING_FREQUENCY;
+  targetFrequency = STARTING_FREQUENCY;
 
   //create initial wave
   waves.push_back(new Sine(rootFrequency,baseWaveAmp,48000));
@@ -29,7 +29,7 @@ double Sax::computeNextSample()
   rightHand->updateHand();
 
   hand->updateHand();
- 
+
   short newState = 0b00000000000;
   bool octaveKeyPressed = 0;
   bool playKey = 0;
@@ -88,7 +88,7 @@ switch (newState){
    note = 0;
   }
 
-  
+
   if (note != 0)
   {
     playingNote = note;

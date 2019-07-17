@@ -5,6 +5,8 @@
 #include "scaleFunctions.hpp"
 #include "/home/pi/SynthGloves/AudioFile/AudioFile.h"
 
+#define STARTING_FREQUENCY 220.0
+
 
 class Instrument{
 
@@ -14,23 +16,23 @@ protected:
 
 
   Hand * hand;
-  
+
   double rootFrequency;
   const int theCurrentScaleSetting = 3;
   double outSignal;
   int octave;
-  int scaleVal; 
+  int scaleVal;
   int key;
   int gesture;
   int lastGesture;
-  
-  int backgroundLoop = 0;                     // The current loop being played
-  double nextBackgroundSample;				    // The next background sample to go to speakers 
-  int backgroundSampleNumber;        // The sample number that is being played from the wav file
-  
 
-  
-  
+  int backgroundLoop = 0;                     // The current loop being played
+  double nextBackgroundSample;				    // The next background sample to go to speakers
+  int backgroundSampleNumber;        // The sample number that is being played from the wav file
+
+
+
+
   int numBackgroundSamplesLoop1;
   int numBackgroundSamplesLoop2;
   int numBackgroundSamplesLoop3;
@@ -41,7 +43,7 @@ protected:
   int numBackgroundSamplesLoop8;
   int numBackgroundSamplesLoop9;
   int numBackgroundSamplesLoop10;
-  
+
 
   AudioFile<double> * loopBackground1;
   AudioFile<double> * loopBackground2;
@@ -64,7 +66,7 @@ public:
   void setScale(int s);
   //double quantize(int freq, )
   void computeNextBackgroundSample();
-  
+
 
 
 

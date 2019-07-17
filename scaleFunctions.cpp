@@ -146,11 +146,10 @@ double twoNoteTransition(double startingFreq ,double targetFreq,int millisToTrav
 {
     const int SAMPLERATE = 48000;
     double steps =  (double) (SAMPLERATE/ 2) ;
-    
+
     if (fabs(lastOutputGenerated - targetFreq) < 0.5)
         return targetFreq;
     else
-        return lastOutputGenerated * pow(2.0, ((1.0/steps)/(log2(targetFreq/startingFreq))));
-       
-}
+        return lastOutputGenerated * pow(2.0, ((1.0/steps)/(log2(targetFreq/lastOutputGenerated))));
 
+}

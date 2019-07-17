@@ -2,11 +2,7 @@
 #include <vector>
 
 
-		 /***************************************
-		 * TODO: figure out a way to play recorded stuff
-		 * and also output from the current instrument
-		 * without also recording that too
-		 ********************************************/
+		
 
 class LoopingTrack{
 	private:
@@ -111,7 +107,7 @@ class LoopingTrack{
 			else if (!hand->getButton2())
 			{
 				togglePlaying();
-				std::cerr << "toggled Recording" << std::endl;
+				std::cerr << "toggled playBack" << std::endl;
 				timeout = 0;
 			}
 			}
