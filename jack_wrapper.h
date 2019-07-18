@@ -11,6 +11,7 @@
 #include "instrument_finger_keys.h"
 #include "instrument_chords.h"
 #include "looping_track.hpp"
+#include "hand.h"
 //class Instrument;
 
 class JackWrapper: public JackCpp::AudioIO {
@@ -18,14 +19,21 @@ class JackWrapper: public JackCpp::AudioIO {
 private:
    Instrument * i1;
    Instrument * i2;
+   Instrument * i3;
+   Instrument * i1H2;
+   Instrument * i2H2;
+   Instrument * i3H2;
    LoopingTrack * track;
    double tempInstSum;
-   
-   
-
+   bool twoHands;
+ 
+   Hand * hand;
+   Hand * hand2;
+   Instrument * instrumentToPlay;
+   Instrument * instrumentToPlay2;
 
 public:
-    // FingerKeys *testThing;
+   
     /// Audio Callback Function:
     /// - the output buffers are filled here
     virtual int audioCallback(jack_nframes_t nframes,
@@ -33,19 +41,69 @@ public:
                               audioBufVector inBufs,
                               // A vector of pointers to each output port.
                               audioBufVector outBufs){
+                                  
+                                  
+                                  
+                                  
 
-        //sines[0]->setFrequency(440.0);
-         //setWaveFrequency(0, (double) lefty->getMiddle());
+            int instSelect = hand->getButton3Presses() % 3;
+        
+            if (instSelect == 0)
+            {
+                instrumentToPlay = i1;
+                //std::cerr << "case 1" << std ::endl;
+             }   
+              
+            else if (instSelect == 1) 
+            {
+                instrumentToPlay = i2;
+                //std::cerr << "case 2" << std ::endl;
+            }
+            
+            else
+            {
+                instrumentToPlay = i3;
+                //std::cerr << "case 3" << std ::endl;
+            }
+            
+            if (i1H2)
+            {  
+                instSelect = hand2->getButton3Presses() % 3;
+        
+                if (instSelect == 0)
+                {
+                    instrumentToPlay2 = i1H2;
+                    //std::cerr << "case 1" << std ::endl;
+                }   
+              
+                else if (instSelect == 1) 
+                {
+                    instrumentToPlay2 = i2H2;
+                    //std::cerr << "case 2" << std ::endl;
+                }
+                
+                else
+                {
+                    instrumentToPlay2 = i3H2;
+                    //std::cerr << "case 3" << std ::endl;
+                }
+            }
+
 
         /// LOOP over all output buffers
         for(unsigned int i = 0; i < 1; i++)
         {
             for(int frameCNT = 0; frameCNT  < nframes; frameCNT++)
             {
-                //sines[0]->setAmplitude(sines[0]->getAmplitude()*0.9999);
-                //outBufs[0][frameCNT] = sines[0]->go();
-
-                outBufs[0][frameCNT] = track->playBack(i1->computeNextSample());
+                if (i1H2)
+                {
+                    outBufs[0][frameCNT] = track->playBack((instrumentToPlay->computeNextSample() + instrumentToPlay2->computeNextSample()) / 2.0) ;
+                }
+                else
+                {
+                    outBufs[0][frameCNT] = track->playBack(instrumentToPlay->computeNextSample());
+      
+                } 
             }
         }
         ///return 0 on success
@@ -79,8 +137,44 @@ public:
             i2 = b;
         }
     }
+        void addInstrumentThree(Instrument * b)
+    {
+        if (b != NULL)
+        {
+            i3 = b;
+        }
+    }
+    void addInstrumentOneHandTwo(Instrument * b)
+    {
+        if (b != NULL)
+        {
+            i1H2 = b;
+        }
+    }
+    void addInstrumentTwoHandTwo(Instrument * b)
+    {
+        if (b != NULL)
+        {
+            i2H2 = b;
+        }
+    }
+    void addInstrumentThreeHandTwo(Instrument * b)
+    {
+        if (b != NULL)
+        {
+            i3H2 = b;
+        }
+    }
     void addLoopingTrack(LoopingTrack * l)
     {
         track = l;
+    }
+    void addHand(Hand * h)
+    {
+        hand = h;
+    }
+    void addHand2(Hand * h)
+    {
+        hand2 = h;
     }
 };

@@ -38,11 +38,12 @@ int main(int argc, char *argv[]){
         std::cout << "Second hand not detected. Running in single-handed mode." << std::endl;
         haveTwoHands = false;
     }
-    LoopingTrack  track(&lefty);
     
+    LoopingTrack  track(&lefty);
     Looper   leftHandInst1(&lefty);
     Chords   leftHandInst2(&lefty);
     FingerKeys  leftHandInst3(&lefty);
+    
     Looper  * rightHandInst1; 
     Chords  * rightHandInst2;
     FingerKeys * rightHandInst3;
@@ -60,11 +61,17 @@ int main(int argc, char *argv[]){
     JackWrapper * t = new JackWrapper();  //create the jack class
 
     
-    t->addInstrumentOne(&leftHandInst1); // send instrument to sound hardware wrapper.
-   
-    if (haveTwoHands)
+    t->addInstrumentOne(&leftHandInst2); // send instrument to sound hardware wrapper.
+    t->addInstrumentTwo(&leftHandInst3); // send instrument to sound hardware wrapper.
+    t->addInstrumentThree(&leftHandInst1); // send instrument to sound hardware wrapper.
+    t->addHand(&lefty);
+    
+    if (haveTwoHands == true)
     {
-        t->addInstrumentTwo(rightHandInst1);
+        t->addInstrumentOneHandTwo(rightHandInst1); // send instrument to sound hardware wrapper.
+        t->addInstrumentTwoHandTwo(rightHandInst2); // send instrument to sound hardware wrapper.
+        t->addInstrumentThreeHandTwo(rightHandInst3); // send instrument to sound hardware wrapper.
+        t->addHand2(righty);
     }
     
     t->addLoopingTrack(&track);
@@ -85,25 +92,6 @@ int main(int argc, char *argv[]){
     /// run for EVER
     while(1)
     {
-        int p = lefty.getButton3Presses() % 3;
-      
-            if (p == 0)
-            {
-                t->addInstrumentOne(&leftHandInst1);
-                //std::cerr << "case 1" << std ::endl;
-             }   
-              
-            else if (p == 1) 
-            {
-                t->addInstrumentOne(&leftHandInst2);
-                //std::cerr << "case 2" << std ::endl;
-            }
-            
-            else if (p == 2) 
-            {
-                t->addInstrumentOne(&leftHandInst3);
-                //std::cerr << "case 3" << std ::endl;
-            }
     }
     
     /// never reached:!=
