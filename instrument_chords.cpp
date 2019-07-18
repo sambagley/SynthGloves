@@ -13,11 +13,11 @@ Chords::Chords(Hand * h)
   octave = -1;
   offsetTilt = 0.0;
   //create wave(s) for 1st 3rd 5th 7th and 8th
-  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
-  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
-  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
-  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
-  waves.push_back(new Sine(STARTING_FREQUENCY,0.2,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.25,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.25,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.25,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.25,48000));
+  waves.push_back(new Sine(STARTING_FREQUENCY,0.25,48000));
 }
 /***************************************************
 * updates the hand, then computes frequency for chord that
@@ -35,7 +35,6 @@ double Chords::computeNextSample()
   hand->updateHand();
   gesture = hand->getGestures();
 
-  computeNextBackgroundSample();
 
 
   if (gesture == 0) // quickly fade to silence if no gesture is detected
@@ -46,7 +45,7 @@ double Chords::computeNextSample()
 
     }
     setVolume(decibels);
-    return ((runAllWaves() / 2) + nextBackgroundSample);
+    return ((runAllWaves() / 2.0) );
   }
   int chordIndex = gesture;
 

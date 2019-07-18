@@ -49,7 +49,7 @@ double FingerKeys::computeNextSample()
       
     }
     setVolume(decibels);
-    return ((runAllWaves() / 2) + nextBackgroundSample);
+    return ((runAllWaves() / 2.0));
   }
   
    
@@ -82,7 +82,7 @@ double FingerKeys::computeNextSample()
   changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
 
 
-  return ((runAllWaves() / 2));
+  return ((runAllWaves() / 2.0));
 
 
 }

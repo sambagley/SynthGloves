@@ -20,6 +20,9 @@ private:
    Instrument * i2;
    LoopingTrack * track;
    double tempInstSum;
+   
+   
+
 
 public:
     // FingerKeys *testThing;

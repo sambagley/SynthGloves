@@ -53,7 +53,7 @@ void Hand::updateHand()
  	char buf[6];
  	int x;
  	float f;
-	if (serialDataAvail(serialObj)>75)
+	if (serialDataAvail(serialObj)>45)
 	{
 		
 		while (1)
@@ -91,10 +91,10 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%f", &f);
 				yAng = f;
-				while((buf[i++] = serialGetchar(serialObj)) != ' ');
-				i = 0;
-				sscanf(buf, "%f", &f);
-				zAng = f;
+				//while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				//i = 0;
+				//sscanf(buf, "%f", &f);
+				//zAng = f;
 				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
@@ -122,7 +122,7 @@ void Hand::updateHand()
 				button3 = x;
 				
 				
-					serialFlush(serialObj);
+					//serialFlush(serialObj);
 					return;
 
 			}
