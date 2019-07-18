@@ -37,7 +37,7 @@ double FingerKeys::computeNextSample()
   hand->updateHand();
   gesture = hand->getGestures();
 
-  computeNextBackgroundSample();
+
 
   //fade out if not playing a note
   if (gesture == 0)
@@ -82,7 +82,7 @@ double FingerKeys::computeNextSample()
   changeAllFrequencies(currentFrequency *  pow(2.0, (-vibrato)/12.0));
 
 
-  return ((runAllWaves() / 2) + nextBackgroundSample);
+  return ((runAllWaves() / 2));
 
 
 }
@@ -113,7 +113,7 @@ void FingerKeys::createHarmonicWaves(int numHarmonics)
 {
   for(int i = 0; i< numHarmonics; i++)
   {
-    double amp = 0.5 - (((double) i + 1.0)/5.0) * 0.5;
+    double amp = 0.5/((((double) i) + 1) * 2);
     int harmonic = 2 + i;
     waves.push_back(new Sine((waves[0]->getFrequency() * (double) harmonic ),amp, 48000));
     numWaves++;

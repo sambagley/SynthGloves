@@ -148,15 +148,13 @@ void Instrument::setScale(int s)
 }
 
 void Instrument::computeNextBackgroundSample()
-{ /*
-    if (hand->getButton1() == 1)
-    {
-        if (gesture != backgroundLoop)
+{ 
+       if (gesture != backgroundLoop)
         {
             backgroundLoop = gesture;
             backgroundSampleNumber = 0;
         }
-    }
+    
     else
     {
         switch (backgroundLoop)
@@ -242,5 +240,5 @@ void Instrument::computeNextBackgroundSample()
         }
     }
     backgroundSampleNumber++;
-    */
+    
 }

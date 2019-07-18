@@ -26,18 +26,47 @@ using std::endl;
 int main(int argc, char *argv[]){
    
     Hand lefty("/dev/ttyACM0",57600);
-
-    //Hand * lefty = new Hand("/dev/ttyACM0",57600);
-    //Hand righty("/dev/ttyACM1", 57600);
+    Hand * righty;
+    bool haveTwoHands = true;
+    try 
+    {
+        righty = new Hand("/dev/ttyACM1", 57600);
+        
+    }
+    catch (...) 
+    {
+        std::cout << "Second hand not detected. Running in single-handed mode." << std::endl;
+        haveTwoHands = false;
+    }
     LoopingTrack * track = new LoopingTrack(&lefty);
-    FingerKeys  * inst1 = new FingerKeys(&lefty);
-    Chords  * inst2 = new Chords(&lefty);
     
-    JackWrapper * t = new JackWrapper();
+    FingerKeys  * leftHandInst1 = new FingerKeys(&lefty);
+    Chords  * leftHandInst2 = new Chords(&lefty);
+    Looper * leftHandInst3 = new Looper(&lefty);
+    FingerKeys  * rightHandInst1; 
+    Chords  * rightHandInst2;
+    Looper * rightHandInst3;
+    
+    if (haveTwoHands)
+    {
+        rightHandInst1 = new FingerKeys(righty);
+        rightHandInst2 = new Chords(righty);
+        rightHandInst3 = new Looper(righty);
+    }
+    
+   
+    
+    
+    JackWrapper * t = new JackWrapper();  //create the jack class
 
     
-    t->addInstrumentOne(inst1); // send instrument to sound hardware wrapper.
-
+    t->addInstrumentOne(leftHandInst1); // send instrument to sound hardware wrapper.
+   
+    if (haveTwoHands)
+    {
+        t->addInstrumentTwo(rightHandInst1);
+    }
+    
     t->addLoopingTrack(track);
     /// activate the client
     t->start();
@@ -56,18 +85,24 @@ int main(int argc, char *argv[]){
     /// run for EVER
     while(1)
     {
-        int p = lefty.getButton3Presses() % 2;
+        int p = lefty.getButton3Presses() % 3;
       
             if (p == 0)
             {
-                t->addInstrumentOne(inst1);
+                t->addInstrumentOne(leftHandInst1);
                 //std::cerr << "case 1" << std ::endl;
              }   
               
             else if (p == 1) 
             {
-                t->addInstrumentOne(inst2);
+                t->addInstrumentOne(leftHandInst2);
                 //std::cerr << "case 2" << std ::endl;
+            }
+            
+            else if (p == 2) 
+            {
+                t->addInstrumentOne(leftHandInst3);
+                //std::cerr << "case 3" << std ::endl;
             }
                 
      

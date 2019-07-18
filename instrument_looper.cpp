@@ -8,6 +8,7 @@ using namespace std;
 Looper::Looper(Hand * h)			
   : Instrument(h)
 {
+	/*
 	nextSample = 0.0;
 	sampleNumber = 0;
 	
@@ -46,7 +47,7 @@ Looper::Looper(Hand * h)
 	numSamplesLoop8 = loop8->getNumSamplesPerChannel();
 	numSamplesLoop9 = loop9->getNumSamplesPerChannel();
 	numSamplesLoop10 = loop10->getNumSamplesPerChannel();
-	
+	*/
 }
 double Looper::computeNextSample()
 {
@@ -56,96 +57,6 @@ double Looper::computeNextSample()
 	gesture = hand->getGestures();
 	
 	computeNextBackgroundSample();
-	
-	// If the hand gesture has changed, reset the sample number to zero
-	if (lastGesture != gesture)
-	{
-		sampleNumber = 0;
-	}
-	
-	// Depending on the hand gesture/loop, get the correct audio sample to play 
-	switch (gesture)
-	{
-	case(0):	
-		return 0.0001;					// default case of no gesture
-		
-	case (1):
-		// If we have reached the end of the loop, reset to the beginning
-		if (sampleNumber >= numSamplesLoop1)
-		{
-			sampleNumber = 0;
-		}
 
-		// Otherwise, set the next sound sample as it should be
-		nextSample = loop1->samples[0][sampleNumber];
-		break;
-		
-	case (2):
-		if (sampleNumber >= numSamplesLoop2)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop2->samples[0][sampleNumber];
-		break;
-	case (3):
-		if (sampleNumber >= numSamplesLoop3)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop3->samples[0][sampleNumber];
-		break;
-	case (4):
-		if (sampleNumber >= numSamplesLoop4)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop4->samples[0][sampleNumber];
-		break;
-	case (5):
-		if (sampleNumber >= numSamplesLoop5)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop5->samples[0][sampleNumber];
-		break;
-	case (6):
-		if (sampleNumber >= numSamplesLoop6)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop6->samples[0][sampleNumber];
-		break;
-	case (7):
-		if (sampleNumber >= numSamplesLoop7)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop7->samples[0][sampleNumber];
-		break;
-	case (8):
-		if (sampleNumber >= numSamplesLoop8)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop8->samples[0][sampleNumber];
-		break;
-	case (9):
-		if (sampleNumber >= numSamplesLoop9)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop9->samples[0][sampleNumber];
-		break;
-	case (10):
-		if (sampleNumber >= numSamplesLoop10)
-		{
-			sampleNumber = 0;
-		}
-		nextSample = loop10->samples[0][sampleNumber];
-		break;
-	}	
-	// Increment the sound sample and return the next sample value to the speakers
-	sampleNumber++;			
-	return (nextSample + nextBackgroundSample);
 
 }

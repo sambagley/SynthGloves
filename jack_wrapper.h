@@ -50,7 +50,7 @@ public:
     }
     /// Constructor
     JackWrapper() :
-        JackCpp::AudioIO("sineVectorTest", 0,1){
+        JackCpp::AudioIO("SynthGlove", 0,1){
 
           reserveInPorts(2);
           reserveOutPorts(2);

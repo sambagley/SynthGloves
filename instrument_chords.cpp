@@ -53,7 +53,7 @@ double Chords::computeNextSample()
   if(decibels < -0.00001) {decibels += 0.01; setVolume(decibels);} //raise volume back up
 
   int chordType = 0;
-  if ( hand->getXAng() < +20.0)  //make minor chord if hand is tilted
+  if ( hand->getXAng() < -40.0)  //make minor chord if hand is tilted
   {
     chordType = 1;
   }
@@ -70,7 +70,7 @@ double Chords::computeNextSample()
   findChordNotes(chordIndex, chordType);
 
 
-  return ((runAllWaves() / 2) + nextBackgroundSample);
+  return ((runAllWaves() / 2.0) );
 
 
 

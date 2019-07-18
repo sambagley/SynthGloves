@@ -53,7 +53,7 @@ void Hand::updateHand()
  	char buf[6];
  	int x;
  	float f;
-	if (serialDataAvail(serialObj)>30)
+	if (serialDataAvail(serialObj)>75)
 	{
 		
 		while (1)
@@ -95,7 +95,7 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%f", &f);
 				zAng = f;
-				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
 				xAcc = f;
@@ -106,7 +106,7 @@ void Hand::updateHand()
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
-				zAcc = f;
+				zAcc = f;*/
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
@@ -411,7 +411,7 @@ int Hand::getGestures()
 {
 	char newState = 0b00000000;
 	
-	 if (thumbBend > 200 && thumbBend < 390)   
+	 if (thumbBend > 200 && thumbBend < 380)   
    { 
     newState |= 0b00000001;
 
@@ -431,14 +431,14 @@ int Hand::getGestures()
 
    }
 
-   if (ringBend > 200 && ringBend < 1450)  
+   if (ringBend > 200 && ringBend < 1500)  
    { 
 
      newState |= 0b00001000;
 
    }
 
-   if (pinkyBend > 200 && pinkyBend < 1400) 
+   if (pinkyBend > 200 && pinkyBend < 1450) 
    {
       newState |= 0b00010000;
 
