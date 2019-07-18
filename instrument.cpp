@@ -8,46 +8,11 @@ Instrument::Instrument(Hand * h)
     key = 0;
     rootFrequency = STARTING_FREQUENCY;
     octave = 0;
+  gesture = 0;
+	lastGesture = 0;
+	
 
-    nextBackgroundSample = 0.0001;
-    backgroundSampleNumber = 0;
 
-
-    // Instantiate new audio files
-    loopBackground1 = new AudioFile<double>;
-    loopBackground2 = new AudioFile<double>;
-    loopBackground3 = new AudioFile<double>;
-    loopBackground4 = new AudioFile<double>;
-    loopBackground5 = new AudioFile<double>;
-    loopBackground6 = new AudioFile<double>;
-    loopBackground7 = new AudioFile<double>;
-    loopBackground8 = new AudioFile<double>;
-    loopBackground9 = new AudioFile<double>;
-    loopBackground10 = new AudioFile<double>;
-
-    // Load the wav files
-    loopBackground1->load("/home/pi/SynthGloves/WavFiles/Tabla.wav");
-    loopBackground2->load("/home/pi/SynthGloves/WavFiles/StringChords.wav");
-    loopBackground3->load("/home/pi/SynthGloves/WavFiles/PianoChords.wav");
-    loopBackground4->load("/home/pi/SynthGloves/WavFiles/DigerydooSlaps.wav");
-    loopBackground5->load("/home/pi/SynthGloves/WavFiles/AiryGuitar.wav");
-    loopBackground6->load("/home/pi/SynthGloves/WavFiles/sample5.wav");
-    loopBackground7->load("/home/pi/SynthGloves/WavFiles/sample4.wav");
-    loopBackground8->load("/home/pi/SynthGloves/WavFiles/sample3.wav");
-    loopBackground9->load("/home/pi/SynthGloves/WavFiles/sample2.wav");
-    loopBackground10->load("/home/pi/SynthGloves/WavFiles/sample1.wav");
-
-    // Find out how long each wav file is
-    numBackgroundSamplesLoop1 = loopBackground1->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop2 = loopBackground2->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop3 = loopBackground3->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop4 = loopBackground4->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop5 = loopBackground5->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop6 = loopBackground6->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop7 = loopBackground7->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop8 = loopBackground8->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop9 = loopBackground9->getNumSamplesPerChannel();
-    numBackgroundSamplesLoop10 = loopBackground10->getNumSamplesPerChannel();
 
 }
 
@@ -149,7 +114,7 @@ void Instrument::setScale(int s)
 
 void Instrument::computeNextBackgroundSample()
 { 
-       if (gesture != backgroundLoop)
+   /*    if (gesture != backgroundLoop)
         {
             backgroundLoop = gesture;
             backgroundSampleNumber = 0;
@@ -240,5 +205,5 @@ void Instrument::computeNextBackgroundSample()
         }
     }
     backgroundSampleNumber++;
-    
+    */
 }

@@ -6,32 +6,33 @@
 class Looper: public Instrument{
 
   private:
+   int backgroundLoop;                     // The current loop being played
+  double nextBackgroundSample;				    // The next background sample to go to speakers
+  int backgroundSampleNumber;        // The sample number that is being played from the wav file
 
-    double nextSample;				      // The current sample being played
-    int sampleNumber;
 
-    int numSamplesLoop1;
-    int numSamplesLoop2;
-    int numSamplesLoop3;
-    int numSamplesLoop4;
-    int numSamplesLoop5;
-    int numSamplesLoop6;
-    int numSamplesLoop7;
-    int numSamplesLoop8;
-    int numSamplesLoop9;
-    int numSamplesLoop10;
-    
+   int numBackgroundSamplesLoop1;
+  int numBackgroundSamplesLoop2;
+  int numBackgroundSamplesLoop3;
+  int numBackgroundSamplesLoop4;
+  int numBackgroundSamplesLoop5;
+  int numBackgroundSamplesLoop6;
+  int numBackgroundSamplesLoop7;
+  int numBackgroundSamplesLoop8;
+  int numBackgroundSamplesLoop9;
+  int numBackgroundSamplesLoop10;
 
-    AudioFile<double> * loop1;
-    AudioFile<double> * loop2;
-    AudioFile<double> * loop3;
-    AudioFile<double> * loop4;
-    AudioFile<double> * loop5;
-    AudioFile<double> * loop6;
-    AudioFile<double> * loop7;
-    AudioFile<double> * loop8;
-    AudioFile<double> * loop9;
-    AudioFile<double> * loop10;
+
+  AudioFile<double> * loopBackground1;
+  AudioFile<double> * loopBackground2;
+  AudioFile<double> * loopBackground3;
+  AudioFile<double> * loopBackground4;
+  AudioFile<double> * loopBackground5;
+  AudioFile<double> * loopBackground6;
+  AudioFile<double> * loopBackground7;
+  AudioFile<double> * loopBackground8;
+  AudioFile<double> * loopBackground9;
+  AudioFile<double> * loopBackground10;
 
 
   public:

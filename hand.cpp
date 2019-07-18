@@ -91,11 +91,17 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%f", &f);
 				yAng = f;
+
 				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
 				zAng = f;
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				//while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				//i = 0;
+				//sscanf(buf, "%f", &f);
+				//zAng = f;
+				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
 				xAcc = f;
@@ -107,6 +113,7 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%f", &f);
 				zAcc = f;*/
+				
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
@@ -119,9 +126,10 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%d", &x);
 				button3 = x;
-				
-					serialFlush(serialObj);
-					return;
+
+				serialFlush(serialObj);
+
+				return;
 
 			}
 		}
