@@ -8,7 +8,7 @@ Instrument::Instrument(Hand * h)
     key = 0;
     rootFrequency = STARTING_FREQUENCY;
     octave = 0;
-  gesture = 0;
+    gesture = 0;
 	lastGesture = 0;
 	
 
