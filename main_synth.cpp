@@ -38,11 +38,11 @@ int main(int argc, char *argv[]){
         std::cout << "Second hand not detected. Running in single-handed mode." << std::endl;
         haveTwoHands = false;
     }
-    LoopingTrack * track = new LoopingTrack(&lefty);
+    LoopingTrack  track(&lefty);
     
-    FingerKeys  * leftHandInst1 = new FingerKeys(&lefty);
-    Chords  * leftHandInst2 = new Chords(&lefty);
-    Looper * leftHandInst3 = new Looper(&lefty);
+    FingerKeys   leftHandInst1(&lefty);
+    Chords   leftHandInst2(&lefty);
+    Looper  leftHandInst3(&lefty);
     FingerKeys  * rightHandInst1; 
     Chords  * rightHandInst2;
     Looper * rightHandInst3;
@@ -60,14 +60,14 @@ int main(int argc, char *argv[]){
     JackWrapper * t = new JackWrapper();  //create the jack class
 
     
-    t->addInstrumentOne(leftHandInst1); // send instrument to sound hardware wrapper.
+    t->addInstrumentOne(&leftHandInst1); // send instrument to sound hardware wrapper.
    
     if (haveTwoHands)
     {
         t->addInstrumentTwo(rightHandInst1);
     }
     
-    t->addLoopingTrack(track);
+    t->addLoopingTrack(&track);
     /// activate the client
     t->start();
 
@@ -89,30 +89,23 @@ int main(int argc, char *argv[]){
       
             if (p == 0)
             {
-                t->addInstrumentOne(leftHandInst1);
+                t->addInstrumentOne(&leftHandInst1);
                 //std::cerr << "case 1" << std ::endl;
              }   
               
             else if (p == 1) 
             {
-                t->addInstrumentOne(leftHandInst2);
+                t->addInstrumentOne(&leftHandInst2);
                 //std::cerr << "case 2" << std ::endl;
             }
             
             else if (p == 2) 
             {
-                t->addInstrumentOne(leftHandInst3);
+                t->addInstrumentOne(&leftHandInst3);
                 //std::cerr << "case 3" << std ::endl;
             }
-                
-     
     }
     
-
-
-
-
-
     /// never reached:!=
     t->disconnectInPort(0);	// Disconnecting ports.
     t->disconnectOutPort(1);

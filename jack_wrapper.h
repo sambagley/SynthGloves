@@ -67,11 +67,17 @@ public:
     //use it to buffer the sound.
     void addInstrumentOne(Instrument * b)
     {
-      i1 = b;
+        if (b != NULL)
+        {
+            i1 = b;
+        }
     }
     void addInstrumentTwo(Instrument * b)
     {
-      i2 = b;
+        if (b != NULL)
+        {
+            i2 = b;
+        }
     }
     void addLoopingTrack(LoopingTrack * l)
     {
