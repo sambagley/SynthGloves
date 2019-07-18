@@ -27,7 +27,7 @@ Hand::Hand(const char * dev, int baud)
 	button1 = 1; //buttons are active low, so default state is 1
 	button2 = 1;
 	button3 = 1;
-	
+	button3Presses = 0;
 	if((serialObj=serialOpen(dev,baud))<0){
     //fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
     throw "OH NO, it didn't work, try opening with sudo";
@@ -125,6 +125,7 @@ void Hand::updateHand()
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
+				button3Presses = button3 && !x ? button3Presses + 1 : button3Presses;
 				button3 = x;
 
 				serialFlush(serialObj);
@@ -212,6 +213,11 @@ int Hand::getButton2()
 int Hand::getButton3()
 {
 	return button3;
+}
+
+int Hand::getButton3Presses()
+{
+	return button3Presses;	
 }
 
 void Hand::calibrateOpen()											// Make sure to call calibrateOpen()

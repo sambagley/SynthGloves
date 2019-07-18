@@ -27,16 +27,16 @@ Looper::Looper(Hand * h)
     loopBackground10 = new AudioFile<double>;
 
     // Load the wav files
-    loopBackground1->load("/home/pi/SynthGloves/WavFiles/Tabla.wav");
-    loopBackground2->load("/home/pi/SynthGloves/WavFiles/StringChords.wav");
-    loopBackground3->load("/home/pi/SynthGloves/WavFiles/PianoChords.wav");
-    loopBackground4->load("/home/pi/SynthGloves/WavFiles/DigerydooSlaps.wav");
-    loopBackground5->load("/home/pi/SynthGloves/WavFiles/AiryGuitar.wav");
-    loopBackground6->load("/home/pi/SynthGloves/WavFiles/sample5.wav");
-    loopBackground7->load("/home/pi/SynthGloves/WavFiles/sample4.wav");
-    loopBackground8->load("/home/pi/SynthGloves/WavFiles/sample3.wav");
-    loopBackground9->load("/home/pi/SynthGloves/WavFiles/sample2.wav");
-    loopBackground10->load("/home/pi/SynthGloves/WavFiles/sample1.wav");
+    loopBackground1->load("/home/pi/SynthGloves/WavFiles/sample1.wav");
+    loopBackground2->load("/home/pi/SynthGloves/WavFiles/sample2.wav");
+    loopBackground3->load("/home/pi/SynthGloves/WavFiles/sample3.wav");
+    loopBackground4->load("/home/pi/SynthGloves/WavFiles/sample4.wav");
+    loopBackground5->load("/home/pi/SynthGloves/WavFiles/sample5.wav");
+    loopBackground6->load("/home/pi/SynthGloves/WavFiles/sample6.wav");
+    loopBackground7->load("/home/pi/SynthGloves/WavFiles/sample7.wav");
+    loopBackground8->load("/home/pi/SynthGloves/WavFiles/sample8.wav");
+    loopBackground9->load("/home/pi/SynthGloves/WavFiles/sample9.wav");
+    loopBackground10->load("/home/pi/SynthGloves/WavFiles/Tabla.wav");
 
     // Find out how long each wav file is
     numBackgroundSamplesLoop1 = loopBackground1->getNumSamplesPerChannel();

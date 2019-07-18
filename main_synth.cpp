@@ -40,18 +40,18 @@ int main(int argc, char *argv[]){
     }
     LoopingTrack  track(&lefty);
     
-    FingerKeys   leftHandInst1(&lefty);
+    Looper   leftHandInst1(&lefty);
     Chords   leftHandInst2(&lefty);
-    Looper  leftHandInst3(&lefty);
-    FingerKeys  * rightHandInst1; 
+    FingerKeys  leftHandInst3(&lefty);
+    Looper  * rightHandInst1; 
     Chords  * rightHandInst2;
-    Looper * rightHandInst3;
+    FingerKeys * rightHandInst3;
     
     if (haveTwoHands)
     {
-        rightHandInst1 = new FingerKeys(righty);
+        rightHandInst1 = new Looper(righty);
         rightHandInst2 = new Chords(righty);
-        rightHandInst3 = new Looper(righty);
+        rightHandInst3 = new FingerKeys(righty);
     }
     
    
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
     /// run for EVER
     while(1)
     {
-        int p = lefty.getButton3() % 3;
+        int p = lefty.getButton3Presses() % 3;
       
             if (p == 0)
             {
