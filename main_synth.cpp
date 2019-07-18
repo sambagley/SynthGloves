@@ -104,15 +104,8 @@ int main(int argc, char *argv[]){
                 t->addInstrumentOne(&leftHandInst3);
                 //std::cerr << "case 3" << std ::endl;
             }
-                
-     
     }
     
-
-
-
-
-
     /// never reached:!=
     t->disconnectInPort(0);	// Disconnecting ports.
     t->disconnectOutPort(1);
