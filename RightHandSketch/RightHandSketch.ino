@@ -1,6 +1,6 @@
-/*Gets sensor inputs from flex sensors and mpu-6050 accel/gyro. 
- * Prints data to bluetooth module to be sent to Rpi. 
- * 
+/*Gets sensor inputs from flex sensors and mpu-6050 accel/gyro.
+ * Prints data to bluetooth module to be sent to Rpi.
+ *
  * Written by Nathan Jenson
  * 6/20/2019
  */
@@ -22,15 +22,10 @@ int16_t gx, gy, gz;
 
 int16_t acc_x = 0;
 int16_t acc_y = 0;
-int32_t acc_z = 0;
+int16_t acc_z = 0;
 
-int32_t ax_arr[] = {0,0,0,0};
-int32_t ay_arr[] = {0,0,0,0};
-int32_t az_arr[] = {0,0,0,0};
 
-int32_t ax_sum;
-int32_t ay_sum;
-int32_t az_sum;
+
 
 int16_t ang_x = 0;
 int16_t ang_y = 0;
@@ -39,6 +34,8 @@ int16_t ang_z = 0;
 int16_t x_angle;
 int16_t y_angle;
 int16_t z_angle;
+
+int16_t temp;
 
 
 int16_t thumb_flex, index_flex, middle_flex, ring_flex, pinky_flex;
@@ -49,10 +46,30 @@ Adafruit_ADS1015 ads;     // Instantiate 12-bit version of ACD - ADS1015
 MPU6050 mpu6050(Wire);
 unsigned long el;
 
-float aX, aY, aZ;
+int buttonState1;
+int buttonState2;
+int buttonState3;
+int lastButtonState1 = HIGH;
+int lastButtonState2 = HIGH;
+int lastButtonState3 = HIGH;
 
-void setup(void) 
+unsigned long lastDebounceTime1 = 0;  // the last time the output pin was toggled
+unsigned long lastDebounceTime2 = 0;  // the last time the output pin was toggled
+unsigned long lastDebounceTime3 = 0;  // the last time the output pin was toggled
+unsigned long debounceDelay = 10;    // the debounce time; increase if the output flickers
+
+
+const int buttonPin1 = 6;    // the number of the pushbutton pin
+const int buttonPin2 = 5;    // the number of the pushbutton pin
+const int buttonPin3 = 4;    // the number of the pushbutton pin
+
+float aX, aY, aZ;
+float accX, accY, accZ;
+void setup(void)
 {
+  pinMode(buttonPin1, INPUT_PULLUP);
+  pinMode(buttonPin2, INPUT_PULLUP);
+  pinMode(buttonPin3, INPUT_PULLUP);
       // join I2C bus (I2Cdev library doesn't do this automatically)
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
         Wire.begin();
@@ -61,9 +78,9 @@ void setup(void)
     #endif
 
 
-  
+
   Serial.begin(57600);
-  //ads.setGain(GAIN_ONE);
+  ads.setGain(GAIN_ONE);
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
   //mpu6050.end();
@@ -71,15 +88,19 @@ void setup(void)
 
 }
 
-void loop(void) 
+void loop(void)
 {
+
   get_flex_data();
-   
+
   get_mpu_data();
-   
-  send_data(); 
+
+  getButtons();
   
- //print_readable_data();// Concatenate and send the data to the pi
+  send_data();
+
+  Serial.println(micros());
+
 }
 
 
@@ -88,20 +109,76 @@ void loop(void)
  */
 void get_flex_data(){
 
- /* Wire.begin(ADC); 
-  pinky_flex = ads.readADC_SingleEnded(3); 
+  Wire.begin(ADC);
+  pinky_flex = ads.readADC_SingleEnded(3);
   index_flex = ads.readADC_SingleEnded(0);
   middle_flex = ads.readADC_SingleEnded(1);
   ring_flex = ads.readADC_SingleEnded(2);
   Wire.end();
-  */
-  
-  thumb_flex = analogRead(A0);
-  index_flex = analogRead(A1)*2;
-  middle_flex = analogRead(A2)*2;
-  ring_flex = analogRead(A3)*2;
-  pinky_flex = analogRead(A6)*2;
+  thumb_flex = analogRead(pinky_pin);
   }
+
+void getButtons(){
+   int reading1 = digitalRead(buttonPin1);
+   int reading2 = digitalRead(buttonPin2);
+   int reading3 = digitalRead(buttonPin3);
+  // check to see if you just pressed the button
+  // (i.e. the input went from LOW to HIGH), and you've waited long enough
+  // since the last press to ignore any noise:
+
+  // If the switch changed, due to noise or pressing:
+  if (reading1 != lastButtonState1) {
+    // reset the debouncing timer
+    lastDebounceTime1 = millis();
+  }
+  if (reading2 != lastButtonState2) {
+    // reset the debouncing timer
+    lastDebounceTime2 = millis();
+  }
+  if (reading3 != lastButtonState3) {
+    // reset the debouncing timer
+    lastDebounceTime3 = millis();
+  }
+
+  if ((millis() - lastDebounceTime1) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer than the debounce
+    // delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading1 != buttonState1) {
+      buttonState1 = reading1;
+
+    
+    }
+  }
+  if ((millis() - lastDebounceTime2) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer than the debounce
+    // delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading2 != buttonState2) {
+      buttonState2 = reading2;
+
+    
+    }
+  }if ((millis() - lastDebounceTime3) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer than the debounce
+    // delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (reading3 != buttonState3) {
+      buttonState3 = reading3;
+
+    }
+  }
+  // save the reading. Next time through the loop, it'll be the lastButtonState:
+  lastButtonState1 = reading1;
+  lastButtonState2 = reading2;
+  lastButtonState3 = reading3;
+}
+
+
+
 
 /* Get data from the MPU-6050
  * Start by getting acceleration data, filtered using an average of 4 readings
@@ -113,55 +190,27 @@ void get_mpu_data(){
   aX = mpu6050.getAngleX();
   aY = mpu6050.getAngleY();
   aZ = mpu6050.getAngleZ();
+  accX = mpu6050.getAccX();
+  accY = mpu6050.getAccY();
+  accZ = mpu6050.getAccZ();
   //mpu6050.end();
- /*Wire.begin(MPU);                                      // Begin communication with MPU-6050
- 
-  /*                                                    
-  ax_sum = 0;                                           // Get the Acceleration data by averaging. Set Acc sums equal to zero before starting
-  ay_sum = 0;
-  az_sum = 0;
-                                                      
-  for (int i=0; i<4; i++){                               // Filter data by taking average of multiple readings
-    mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);        // Get accelerations
-    ax_sum += ax;                                        // Sum 4 acceleration readings
-    ay_sum += ay;
-    az_sum += az;
-    }
-  
-  acc_x = ax_sum / 4;                                    // Take the average of the 4 data readings
-  acc_y = ay_sum / 4;
-  acc_z = az_sum / 4;
-  */
-  /*
-  index = (index + 1) % 4;
-                                                      
-  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);        // Get accelerations
-  ax_arr[index] = ax;
-  ay_arr[index] = ay;
-  az_arr[index] = az;
-  ax_sum = ax_arr[0] + ax_arr[1] + ax_arr[2] + ax_arr[3];
-  ay_sum = ay_arr[0] + ay_arr[1] + ay_arr[2] + ay_arr[3];
-  az_sum = az_arr[0] + az_arr[1] + az_arr[2] + az_arr[3];
-  
-  acc_x = ax_sum / 4;                                    // Take the average of the 4 data readings
-  acc_y = ay_sum / 4;
-  acc_z = az_sum / 4;
-  ang_x = 0.95*(ang_x + gx*dt)+(0.05*ax);               // Now process the gyro data with complementry filter
-  x_angle = map(ang_x,-15600,17200,-90,90);             // Map to -90 through 90 degrees
-  
-  ang_y = 0.95*(ang_y + gy*dt) + (0.05*ay);             // Same as above but for Y data
-  y_angle = map(ang_y,-16600,16100,-90,90);
-  ang_z = 0.95*(ang_z + gz*dt) + (0.05*az);             // Same as above but for z data
-  z_angle = map(ang_z,-16600,16100,-90,90);
- Wire.end();                                           // End communication with the MPU
- */
+
+/*
+acc_x = mpu6050.getRawAccX();
+acc_y = mpu6050.getRawAccY();
+acc_z = mpu6050.getRawAccZ();
+temp = mpu6050.getRawTemp();
+ang_x = mpu6050.getRawGyroX();
+ang_y = mpu6050.getRawGyroY();
+ang_z = mpu6050.getRawGyroZ();
+*/
   }
 
-  
+
 /* Send data in easy to read format.
  *  Use this function instead of the send_data() function for debugging purposes
  */
- /* 
+/*
 void print_readable_data(){
   Serial.print("Thumb: "); Serial.println(thumb_flex);
   Serial.print("Index: "); Serial.println(index_flex);
@@ -169,25 +218,25 @@ void print_readable_data(){
   Serial.print("Ring: "); Serial.println(ring_flex);
   Serial.print("Pinky: "); Serial.println(pinky_flex);
   Serial.println(" ");
-  
+
   Serial.print("X Accel: "); Serial.println(acc_x);
   Serial.print("Y Accel: "); Serial.println(acc_y);
   Serial.print("Z Accel: "); Serial.println(acc_z);
   Serial.println(" ");
-  
+
   Serial.print("X Angle: "); Serial.println(x_angle);
   Serial.print("Y Angle: "); Serial.println(y_angle);
-  Serial.print("Z Angle: "); Serial.println(z_angle);  
+  Serial.print("Z Angle: "); Serial.println(z_angle);
   Serial.print("Time: "); Serial.println(micros());
   Serial.println(" ");
   Serial.println(" ");
   Serial.println(" ");
- }
-*/
+ }*/
 
-/*Sends data ready to be parsed by Pi. 
+
+/*Sends data ready to be parsed by Pi.
  * New data set begins with "$" and ends with "&"
- * Data is sent as follows: 
+ * Data is sent as follows:
  * -----------------------
  * Thumb Flex
  * Index Flex
@@ -197,12 +246,16 @@ void print_readable_data(){
  * X gyro angle
  * Y gyro angle
  * Z gyro angle
- * 
+ *
  * Velocity data will be added soon...
- */ 
+ */
  void send_data(){
-   Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(aX)+ " " + String(aY) + " " + String(aZ) + " ");
-
+   Serial.print("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " );
+   Serial.print(String(aX)+ " " + String(aY) + " " + String(aZ) + " ");
+   Serial.print(String(aX)+ " " + String(aY) + " " + String(aZ) + " ");
+   //Serial.print(String(ang_x)+ " " + String(ang_y) + " " + String(ang_z) + " ");
+   //Serial.print(String(acc_x)+ " " + String(acc_y) + " " + String(acc_z) + " " + String(temp) + " ");
+   Serial.println(String(buttonState1)+ " " + String(buttonState2) + " " + String(buttonState3) + " ");
  // Serial.println("$" + String(thumb_flex) + " " + String(index_flex)+ " " + String(middle_flex) + " " + String(ring_flex)+ " " + String(pinky_flex) + " " + String(x_angle)+ " " + String(y_angle) + " " + String(z_angle) + " "+ String(acc_x)+ " " + String(acc_y) + " " + String(acc_z) + " ");
  }
 
@@ -212,4 +265,5 @@ void print_readable_data(){
 
  /*void send_data_bytes(){
   Serial.write(
-    );*/
+    );
+ }*/
