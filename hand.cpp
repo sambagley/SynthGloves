@@ -27,7 +27,7 @@ Hand::Hand(const char * dev, int baud)
 	button1 = 1; //buttons are active low, so default state is 1
 	button2 = 1;
 	button3 = 1;
-	button3Presses = 0;
+	
 	if((serialObj=serialOpen(dev,baud))<0){
     //fprintf(stderr,"Unable to open serial device: %s\n",strerror(errno));
     throw "OH NO, it didn't work, try opening with sudo";
@@ -53,7 +53,7 @@ void Hand::updateHand()
  	char buf[6];
  	int x;
  	float f;
-	if (serialDataAvail(serialObj)>75)
+	if (serialDataAvail(serialObj)>45)
 	{
 		
 		while (1)
@@ -91,11 +91,11 @@ void Hand::updateHand()
 				i = 0;
 				sscanf(buf, "%f", &f);
 				yAng = f;
-				while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
 				zAng = f;
-				/*while((buf[i++] = serialGetchar(serialObj)) != ' ');
+				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%f", &f);
 				xAcc = f;
@@ -118,9 +118,7 @@ void Hand::updateHand()
 				while((buf[i++] = serialGetchar(serialObj)) != ' ');
 				i = 0;
 				sscanf(buf, "%d", &x);
-				button3Presses = button3 && !x ? button3Presses + 1 : button3Presses;
 				button3 = x;
-				
 				
 					serialFlush(serialObj);
 					return;
@@ -206,10 +204,6 @@ int Hand::getButton2()
 int Hand::getButton3()
 {
 	return button3;
-}
-int Hand::getButton3Presses()
-{
-	return button3Presses;
 }
 
 void Hand::calibrateOpen()											// Make sure to call calibrateOpen()
@@ -411,13 +405,13 @@ int Hand::getGestures()
 {
 	char newState = 0b00000000;
 	
-	 if (thumbBend > 200 && thumbBend < 380)   
+	 if (thumbBend > 200 && thumbBend < 390)   
    { 
     newState |= 0b00000001;
 
    }
 
-   if (indexBend >  200 && indexBend  < 1400) 
+   if (indexBend >  200 && indexBend  < 1500) 
    { 
 
      newState |= 0b00000010;
@@ -431,14 +425,14 @@ int Hand::getGestures()
 
    }
 
-   if (ringBend > 200 && ringBend < 1500)  
+   if (ringBend > 200 && ringBend < 1600)  
    { 
 
      newState |= 0b00001000;
 
    }
 
-   if (pinkyBend > 200 && pinkyBend < 1450) 
+   if (pinkyBend > 200 && pinkyBend < 1500) 
    {
       newState |= 0b00010000;
 

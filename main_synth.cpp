@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
     /// run for EVER
     while(1)
     {
-        int p = lefty.getButton3Presses() % 3;
+        int p = lefty.getButton3() % 3;
       
             if (p == 0)
             {
